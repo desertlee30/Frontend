@@ -15,7 +15,7 @@ body {
     top: 0;
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     padding: 1rem 5%;
     z-index: 1000;
@@ -37,6 +37,13 @@ body {
     display: flex;
     gap: 2rem;
     list-style: none;
+    margin-left: auto;
+    order: 2;
+}
+
+.nav-buttons {
+    order: 3;
+    margin-left: 2rem;
 }
 
 .nav-menu li a {
@@ -131,13 +138,13 @@ body {
 
 /* About Section Styles */
 .about-section {
-    padding: 50px 0;
+    padding: 25px 0;
     background-color: #fff;
 }
 
 .container {
     width: 95%;
-    max-width: 1400px;
+    max-width: 1500px;
     margin: 0 auto;
     padding: 0;
 }
@@ -145,17 +152,19 @@ body {
 .about-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 50px;
+    gap: 40px;
     align-items: stretch;
 }
 
 .about-image {
     width: 100%;
-    aspect-ratio: 4 / 3; /* Maintains a square aspect ratio */
+    aspect-ratio: 16 / 9; /* Maintains a square aspect ratio */
     position: relative;
     overflow: hidden;
     box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
     border-radius: 20px;
+    transform-style: preserve-3d; /* Better performance for 3D transforms */
+    backface-visibility: hidden; /* Prevent flickering */
     background-image: url('../Picture 2.jpg'); /* Set the background image */
     background-size: cover; /* Cover the container */
     background-position: center 50%; /* Start centered vertically */
@@ -167,7 +176,7 @@ body {
 }
 
 .about-content {
-    padding: 40px;
+    padding: 20px;
     background-color: #4CAF50;
     color: white;
     display: flex;
@@ -205,24 +214,26 @@ body {
 
 /* Food Section Styles */
 .food-section {
-    padding: 5px 0;
+    padding: 20px 0;
     background-color: #ffffff;
 }
 
 .food-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 50px;
+    gap: 40px;
     align-items: stretch;
 }
 
 .food-image {
     width: 100%;
-    aspect-ratio: 4 / 3; /* Maintains a square aspect ratio */
+    aspect-ratio: 16 / 9; /* Maintains a square aspect ratio */
     position: relative;
     overflow: hidden;
     box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
     border-radius: 20px;
+    transform-style: preserve-3d; /* Better performance for 3D transforms */
+    backface-visibility: hidden; /* Prevent flickering */
     background-image: url('../Picture 3.jpg'); /* Set the background image */
     background-size: cover; /* Cover the container */
     background-position: center 50%; /* Start centered vertically */
@@ -272,24 +283,26 @@ body {
 
 /* Gym Section Styles */
 .gym-section {
-    padding: 50px 0;
+    padding: 20px 0;
     background-color: #fff;
 }
 
 .gym-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 50px;
+    gap: 40px;
     align-items: stretch;
 }
 
 .gym-image {
     width: 100%;
-    aspect-ratio: 4 / 3; /* Maintains a square aspect ratio */
+    aspect-ratio: 16 / 9; /* Maintains a square aspect ratio */
     position: relative;
     overflow: hidden;
     box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
     border-radius: 20px;
+    transform-style: preserve-3d; /* Better performance for 3D transforms */
+    backface-visibility: hidden; /* Prevent flickering */
     background-image: url('../Picture 4.jpg'); /* Set the background image */
     background-size: cover; /* Cover the container */
     background-position: center 50%; /* Start centered vertically */
@@ -301,8 +314,8 @@ body {
 }
 
 .gym-content {
-    padding: 40px;
-    background-color: #9C27B0; /* Purple color for the gym section */
+    padding: 20px;
+    background-color: #9C27B0; /* Purple color for the gym content */
     color: white;
     display: flex;
     flex-direction: column;
@@ -339,24 +352,26 @@ body {
 
 /* Tips Section Styles */
 .tips-section {
-    padding: 50px 0;
-    background-color: #ffffff;
+    padding: 20px 0;
+    background-color: #fff;
 }
 
 .tips-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 50px;
+    gap: 40px;
     align-items: stretch;
 }
 
 .tips-image {
     width: 100%;
-    aspect-ratio: 4 / 3; /* Maintains a square aspect ratio */
+    aspect-ratio: 16 / 9; /* Maintains a square aspect ratio */
     position: relative;
     overflow: hidden;
     box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
     border-radius: 20px;
+    transform-style: preserve-3d; /* Better performance for 3D transforms */
+    backface-visibility: hidden; /* Prevent flickering */
     background-image: url('../Picture 5.jpg'); /* Set the background image */
     background-size: cover; /* Cover the container */
     background-position: center 50%; /* Start centered vertically */
@@ -368,8 +383,8 @@ body {
 }
 
 .tips-content {
-    padding: 40px;
-    background-color: #FF5722; /* Orange color for the tips section */
+    padding: 20px;
+    background-color: #FF5722; /* Orange color for the tips content */
     color: white;
     display: flex;
     flex-direction: column;
@@ -450,12 +465,13 @@ body {
         gap: 30px;
     }
     .about-content h2, .food-content h2, .gym-content h2, .tips-content h2 {
-        font-size: 2.2rem;
+        font-size: 2rem;
     }
-    /* Reorder grid items to maintain image-content pattern on mobile */
-    .food-grid, .tips-grid {
-        display: flex;
-        flex-direction: column-reverse;
+    .food-grid {
+        direction: rtl;
+    }
+    .food-content {
+        direction: ltr;
     }
 }
 
@@ -464,12 +480,12 @@ body {
         display: none;
     }
     .hero h1 {
-        font-size: 2.3rem;
+        font-size: 2.5rem;
     }
     .about-content, .food-content, .gym-content, .tips-content {
-        padding: 30px;
+        padding: 25px;
     }
     .about-content h2, .food-content h2, .gym-content h2, .tips-content h2 {
-        font-size: 2rem;
+        font-size: 1.8rem;
     }
 } 

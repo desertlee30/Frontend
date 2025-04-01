@@ -1,86 +1,109 @@
 # WellnessWave Project Progress
 
-## April 14, 2023 - Tips Section Addition
+## April 9, 2023 - Fixed Background Parallax Implementation
 
 ### Task Description
-Add a new Tips section below the Gym section that follows the same design pattern as the Food section (content on left, image on right), using Picture 5.jpg.
+Fix the parallax effect for About and Food section images by implementing a CSS-based fixed background approach similar to the hero section.
 
 ### Plan
-[X] Check if Picture 5.jpg is available in the workspace
-[X] Add HTML markup for the new Tips section
-[X] Create CSS styles for the Tips section matching the Food section pattern
-[X] Choose a distinctive background color for visual variety
-[X] Update the JavaScript to include the tips-image in parallax effects
-[X] Ensure proper responsive behavior for all screen sizes
+[X] Analyze the hero section implementation to understand its approach
+[X] Convert images from img elements to CSS background images
+[X] Apply background-attachment: fixed for the parallax effect
+[X] Fix the image containment issue to prevent overflow
+[X] Remove JavaScript-based parallax logic
+[X] Test the effect across different screen sizes
 [X] Update documentation in ProjectStatus.md
 
 ### Implementation Notes
-- Used the same grid layout as the Food section with content on left, image on right
-- Applied an orange color scheme (#FF5722) for the content area to create visual variety
-- Used the same aspect-ratio (4/3) as other sections for consistent proportions
-- Included the Tips section in all responsive media queries
-- Added column-reverse behavior on mobile to maintain the correct content flow
-- Added parallax effect to match the other image sections
+- Discovered that using background-attachment: fixed is more reliable for parallax effects
+- Simplified the implementation by using pure CSS rather than JavaScript
+- Maintained aspect-ratio for proper sizing and responsiveness
+- Fixed the overflow issue by properly using background properties
+- Removed complex JavaScript calculations for a more efficient approach
 
 ### Next Steps
-- Consider adding a testimonials section
+- Add testimonials section with customer reviews
 - Implement contact form functionality
-- Create a footer section with contact information
+- Create a gallery of fitness activities
 - Add smooth scroll behavior for navigation links
 
-## April 13, 2023 - Gym Section Layout Update
+## April 8, 2023 - Revealing Parallax Effect
 
 ### Task Description
-Update the layout of the Gym section to match the About section pattern.
+Revise the parallax effect for the About and Food section images to create a "revealing" effect where images move from showing their bottom portion to their top portion as the user scrolls.
 
 ### Plan
-[X] Check if Picture 4.jpg is available in the workspace
-[X] Add HTML markup for the new Gym section
-[X] Create CSS styles for the Gym section matching the About section pattern
-[X] Choose a different background color for visual distinction
-[X] Update the JavaScript to include the gym-image in parallax effects
-[X] Ensure proper responsive behavior for all screen sizes
+[X] Analyze the reference images to understand the desired effect
+[X] Modify the CSS to make images taller than their containers
+[X] Position images at the bottom of containers initially
+[X] Implement JavaScript logic to translate images vertically as user scrolls
+[X] Remove transition delays for direct scroll following
+[X] Test the scroll effect at various speeds and viewport positions
 [X] Update documentation in ProjectStatus.md
 
 ### Implementation Notes
-- Used the same grid layout as the About section with image on left, content on right
-- Applied a purple color scheme (#9C27B0) for the content area to create visual variety
-- Used the same aspect-ratio (4/3) as other sections for consistent proportions
-- Included the gym section in all responsive media queries
-- Added parallax effect to match the other image sections
+- Made images 130% the height of their containers to allow for vertical movement
+- Used position: absolute and bottom: 0 to position images at container bottom initially
+- Calculated progress through viewport (0 to 1) as user scrolls
+- Applied vertical translation from 0% to -30% based on scroll progress
+- Used percentage values for translation to maintain proper scaling on different screen sizes
+- Removed transition duration to make movement directly follow scroll position
 
 ### Next Steps
-- Consider adding a testimonials section
+- Consider adding testimonials section
 - Implement contact form functionality
-- Create a footer section with contact information
+- Create a gallery of fitness activities
 - Add smooth scroll behavior for navigation links
 
-## April 12, 2023 - Gym Section Addition
+## April 7, 2023 - Enhanced Parallax Effect
 
 ### Task Description
-Add a new Gym section below the Food section that follows the same design pattern as the About section, using Picture 4.jpg as the image.
+Fix and enhance the parallax effect for the About and Food section images to create a more noticeable and smooth scrolling experience.
 
 ### Plan
-[X] Check if Picture 4.jpg is available in the workspace
-[X] Add HTML markup for the new Gym section
-[X] Create CSS styles for the Gym section matching the About section pattern
-[X] Choose a different background color for visual distinction
-[X] Update the JavaScript to include the gym-image in parallax effects
-[X] Ensure proper responsive behavior for all screen sizes
+[X] Analyze the current parallax implementation and identify issues
+[X] Redesign the calculation method for more effective image movement 
+[X] Enhance CSS transitions for smoother animations
+[X] Optimize performance with will-change property
+[X] Test across different scroll speeds and viewport positions
 [X] Update documentation in ProjectStatus.md
 
 ### Implementation Notes
-- Used the same grid layout as the About section with image on left, content on right
-- Applied a purple color scheme (#9C27B0) for the content area to create visual variety
-- Used the same aspect-ratio (4/3) as other sections for consistent proportions
-- Included the gym section in all responsive media queries
-- Added parallax effect to match the other image sections
+- Previous approach using visiblePercentage wasn't creating an effective parallax effect
+- New approach uses section's center position relative to viewport center
+- Extended detection zone (200px beyond viewport) ensures smoother transition in/out
+- Clamped the percentage between -0.5 and 0.5 for controlled movement
+- Added an initial call to handleParallaxEffects() to ensure correct positioning on page load
 
 ### Next Steps
-- Consider adding a testimonials section
+- Consider adding more sections to the website (possibly testimonials)
 - Implement contact form functionality
-- Create a footer section with contact information
+- Create a gallery of fitness activities
 - Add smooth scroll behavior for navigation links
+
+## April 6, 2023 - Flexible Sizing Implementation
+
+### Task Description
+Implement a more flexible sizing approach for the About and Food sections to address issues with fixed heights and improve responsiveness across different screen sizes.
+
+### Plan
+[X] Remove fixed height and minimum height constraints from About and Food sections
+[X] Implement aspect-ratio for images to maintain proper proportions
+[X] Adjust padding and spacing for better content flow
+[X] Update the parallax effect JavaScript to work with the new flexible layout
+[X] Update documentation in ProjectStatus.md
+
+### Implementation Notes
+- Using aspect-ratio instead of fixed heights provides better flexibility
+- Improved JavaScript parallax effect with getBoundingClientRect() for more accurate viewport detection
+- Added performance improvements with throttling and requestAnimationFrame
+- Created a reusable handleSectionParallax function to reduce code duplication
+
+### Next Steps
+- Consider adding more sections to the website
+- Implement contact form functionality
+- Add testimonials section
+- Create a gallery of fitness activities
 
 ## April 11, 2023 - Background Position Parallax Implementation
 
@@ -128,8 +151,58 @@ Refine the fixed background position parallax implementation to ensure smooth an
 - Add testimonials section
 - Implement contact form functionality
 - Create a gallery of fitness activities
-- Add smooth scroll behavior for navigation links
+- Add smooth scroll behavior for navigation links 
 
-## April 9, 2023 - Fixed Background Parallax Implementation
+## April 12, 2023 - Gym Section Addition
 
+### Task Description
+Add a new gym section with the same design as the about section, utilizing Picture 4 as the background image.
+
+### Plan
+[X] Analyze the about section structure and styling
+[X] Create HTML structure for the gym section following the same pattern
+[X] Implement CSS styling with a distinct color scheme (purple)
+[X] Add the image as a CSS background with Picture 4.jpg
+[X] Update JavaScript to apply the parallax effect to the new section
+[X] Ensure responsive design by updating media queries
+[X] Update documentation in ProjectStatus.md and Progress.md
+
+### Implementation Notes
+- Used the same grid layout as the about section (1fr 1fr)
+- Applied a purple color scheme (#9C27B0) to visually distinguish the section
+- Maintained consistent styling for headings, paragraphs, and buttons
+- Implemented the same parallax effect by extending the JavaScript functionality
+- Updated all responsive breakpoints to ensure proper display on all devices
+
+### Next Steps
+- Add testimonials section with customer reviews
+- Implement contact form functionality
+- Create a gallery of fitness activities
+- Add smooth scroll behavior for navigation links 
+
+## April 12, 2023 - Tips Section Addition
+
+### Task Description
+Add a new tips section with the same design as the food section, utilizing Picture 5 as the background image.
+
+### Plan
+[X] Analyze the food section structure and styling
+[X] Create HTML structure for the tips section following the same pattern
+[X] Implement CSS styling with a distinct color scheme (orange)
+[X] Add the image as a CSS background with Picture 5.jpg
+[X] Update JavaScript to apply the parallax effect to the new section
+[X] Ensure responsive design by updating media queries
+[X] Update documentation in ProjectStatus.md and Progress.md
+
+### Implementation Notes
+- Used the same grid layout as the food section (1fr 1fr)
+- Applied an orange color scheme (#FF5722) to visually distinguish the section
+- Maintained consistent styling for headings, paragraphs, and buttons
+- Implemented the same parallax effect by extending the JavaScript functionality
+- Updated all responsive breakpoints to ensure proper display on all devices
+
+### Next Steps
+- Add testimonials section with customer reviews
+- Implement contact form functionality
+- Create a gallery of fitness activities
 - Add smooth scroll behavior for navigation links 
