@@ -1,0 +1,345 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+/* Navigation Styles */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 5%;
+    z-index: 1000;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.navbar.hidden {
+    transform: translateY(-100%);
+    opacity: 0;
+}
+
+.logo {
+    height: 40px;
+}
+
+.nav-menu {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+}
+
+.nav-menu li a {
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-menu li a:hover {
+    color: #4CAF50;
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn {
+    padding: 0.7rem 1.5rem;
+    border-radius: 30px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    outline: none;
+}
+
+.btn-primary {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #8BC34A;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.btn-secondary {
+    background-color: #FF9800;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #FFA726;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Hero Section Styles */
+.hero {
+    height: 100vh;
+    width: 100%;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../Picture 1.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Keep background fixed when scrolling */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    color: white;
+    padding: 0 10%;
+    position: relative;
+    overflow: hidden; /* Prevent content from spilling out */
+}
+
+.hero-content {
+    max-width: 700px;
+    transition: transform 0.3s ease, opacity 0.3s ease; /* Smooth transition for scroll effect */
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.hero p {
+    font-size: 1.4rem;
+    margin-bottom: 2.5rem;
+    font-weight: 400;
+    opacity: 0.9;
+}
+
+.hero-btn {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+}
+
+/* About Section Styles */
+.about-section {
+    padding: 80px 0;
+    background-color: #fff;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: stretch;
+}
+
+.about-image {
+    width: 100%;
+    aspect-ratio: 1 / 1; /* Maintains a square aspect ratio */
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    transform-style: preserve-3d; /* Better performance for 3D transforms */
+    backface-visibility: hidden; /* Prevent flickering */
+    background-image: url('../Picture 2.jpg'); /* Set the background image */
+    background-size: cover; /* Cover the container */
+    background-position: center 50%; /* Start centered vertically */
+    background-attachment: fixed;
+}
+
+.about-image img {
+    display: none; /* Hide the img element since we're using background-image */
+}
+
+.about-content {
+    padding: 40px;
+    background-color: #4CAF50;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+}
+
+.about-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    font-weight: 700;
+    color: white;
+}
+
+.about-content p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.about-content .btn {
+    margin-top: 10px;
+    align-self: flex-start;
+    background-color: #FF9800;
+    color: white;
+    padding: 0.8rem 1.8rem;
+}
+
+.about-content .btn:hover {
+    background-color: #FFA726;
+}
+
+/* Food Section Styles */
+.food-section {
+    padding: 80px 0;
+    background-color: #ffffff;
+}
+
+.food-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: stretch;
+}
+
+.food-image {
+    width: 100%;
+    aspect-ratio: 1 / 1; /* Maintains a square aspect ratio */
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    transform-style: preserve-3d; /* Better performance for 3D transforms */
+    backface-visibility: hidden; /* Prevent flickering */
+    background-image: url('../Picture 3.jpg'); /* Set the background image */
+    background-size: cover; /* Cover the container */
+    background-position: center 50%; /* Start centered vertically */
+    background-attachment: fixed;
+}
+
+.food-image img {
+    display: none; /* Hide the img element since we're using background-image */
+}
+
+.food-content {
+    padding: 40px;
+    background-color: #42A5F5;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+}
+
+.food-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    font-weight: 700;
+    color: white;
+}
+
+.food-content p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.food-content .btn {
+    margin-top: 10px;
+    align-self: flex-start;
+    background-color: #FF9800;
+    color: white;
+    padding: 0.8rem 1.8rem;
+}
+
+.food-content .btn:hover {
+    background-color: #FFA726;
+}
+
+/* Side Button Styles */
+.side-button {
+    position: fixed;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #4CAF50;
+    color: white;
+    padding: 1.5rem 0.8rem;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    border-radius: 0 8px 8px 0;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+}
+
+.side-button:hover {
+    background-color: #8BC34A;
+}
+
+/* Responsive styles */
+@media (max-width: 1200px) {
+    .about-grid, .food-grid {
+        gap: 40px;
+    }
+}
+
+@media (max-width: 991px) {
+    .hero h1 {
+        font-size: 2.8rem;
+    }
+    .hero p {
+        font-size: 1.2rem;
+    }
+    .nav-menu {
+        gap: 1.5rem;
+    }
+    .about-grid, .food-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    .about-content h2, .food-content h2 {
+        font-size: 2.2rem;
+    }
+    /* Reorder grid items to maintain image-content pattern on mobile */
+    .food-grid {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-menu {
+        display: none;
+    }
+    .hero h1 {
+        font-size: 2.3rem;
+    }
+    .about-content, .food-content {
+        padding: 30px;
+    }
+    .about-content h2, .food-content h2 {
+        font-size: 2rem;
+    }
+} 
