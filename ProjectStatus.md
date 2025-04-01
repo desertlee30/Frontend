@@ -225,3 +225,55 @@
 - Images now display correctly and are properly contained.
 - Smooth parallax effect achieved by adjusting background position.
 - Code is more robust and provides the desired visual effect. 
+
+## April 12, 2023 - Gym Section Addition
+
+### Updates Implemented
+- Added a new Gym section below the Food section:
+  - Created a layout matching the About section (image on left, content on right)
+  - Used Picture 4.jpg for the gym image
+  - Applied the same styling principles for consistency
+  - Used a purple background color (#9C27B0) for the content area to provide visual distinction
+  - Added specific content about gym facilities
+  - Applied fixed background attachment for the parallax effect
+- Updated responsive styles:
+  - Added grid and spacing adjustments for the gym section
+  - Included gym-content in media queries for consistent mobile experience
+  - Maintained visual consistency across all content sections
+
+### Issues Addressed
+- Need for additional content section to showcase gym facilities
+- Creating visual variety while maintaining consistent design language
+- Ensuring proper parallax effects across all sections
+
+### Execution Status
+- Successfully added the Gym section with proper responsive behavior
+- Implemented parallax effect matching the other sections
+- Created visual distinction with a new purple color scheme
+- Maintained consistent design patterns across the site 
+
+## April 14, 2023 - Tips Section Addition
+
+### Updates Implemented
+- Added a new Tips section below the Gym section:
+  - Created a layout matching the Food section (content on left, image on right)
+  - Used Picture 5.jpg for the tips image
+  - Applied the same styling principles for consistency
+  - Used an orange background color (#FF5722) for the content area to provide visual distinction
+  - Added specific content about wellness tips and advice
+  - Applied fixed background attachment for the parallax effect
+- Updated responsive styles:
+  - Added grid and spacing adjustments for the tips section
+  - Included tips-content in media queries for consistent mobile experience
+  - Added column-reverse behavior on mobile to maintain logical content flow
+
+### Issues Addressed
+- Need for additional content section to showcase wellness tips and advice
+- Creating visual variety while maintaining consistent design language
+- Extending the alternating content pattern through the page
+
+### Execution Status
+- Successfully added the Tips section with proper responsive behavior
+- Implemented parallax effect matching the other sections
+- Created visual distinction with an orange color scheme
+- Maintained consistent design patterns across the site 

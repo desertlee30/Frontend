@@ -44,9 +44,11 @@ function handleParallaxEffects() {
         heroContent.style.opacity = 1 - (scrollY * 0.002);
     }
     
-    // Background position parallax for About and Food sections
+    // Background position parallax for About, Food, Gym, and Tips sections
     applyBackgroundParallax('.about-image');
     applyBackgroundParallax('.food-image');
+    applyBackgroundParallax('.gym-image');
+    applyBackgroundParallax('.tips-image');
 }
 
 // Helper function for background position parallax

@@ -270,6 +270,140 @@ body {
     background-color: #FFA726;
 }
 
+/* Gym Section Styles */
+.gym-section {
+    padding: 50px 0;
+    background-color: #fff;
+}
+
+.gym-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: stretch;
+}
+
+.gym-image {
+    width: 100%;
+    aspect-ratio: 4 / 3; /* Maintains a square aspect ratio */
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    background-image: url('../Picture 4.jpg'); /* Set the background image */
+    background-size: cover; /* Cover the container */
+    background-position: center 50%; /* Start centered vertically */
+    background-attachment: fixed;
+}
+
+.gym-image img {
+    display: none; /* Hide the img element since we're using background-image */
+}
+
+.gym-content {
+    padding: 40px;
+    background-color: #9C27B0; /* Purple color for the gym section */
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+}
+
+.gym-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    font-weight: 700;
+    color: white;
+}
+
+.gym-content p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.gym-content .btn {
+    margin-top: 10px;
+    align-self: flex-start;
+    background-color: #FF9800;
+    color: white;
+    padding: 0.8rem 1.8rem;
+}
+
+.gym-content .btn:hover {
+    background-color: #FFA726;
+}
+
+/* Tips Section Styles */
+.tips-section {
+    padding: 50px 0;
+    background-color: #ffffff;
+}
+
+.tips-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: stretch;
+}
+
+.tips-image {
+    width: 100%;
+    aspect-ratio: 4 / 3; /* Maintains a square aspect ratio */
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    background-image: url('../Picture 5.jpg'); /* Set the background image */
+    background-size: cover; /* Cover the container */
+    background-position: center 50%; /* Start centered vertically */
+    background-attachment: fixed;
+}
+
+.tips-image img {
+    display: none; /* Hide the img element since we're using background-image */
+}
+
+.tips-content {
+    padding: 40px;
+    background-color: #FF5722; /* Orange color for the tips section */
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+}
+
+.tips-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    font-weight: 700;
+    color: white;
+}
+
+.tips-content p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.tips-content .btn {
+    margin-top: 10px;
+    align-self: flex-start;
+    background-color: #FF9800;
+    color: white;
+    padding: 0.8rem 1.8rem;
+}
+
+.tips-content .btn:hover {
+    background-color: #FFA726;
+}
+
 /* Side Button Styles */
 .side-button {
     position: fixed;
@@ -296,7 +430,7 @@ body {
 
 /* Responsive styles */
 @media (max-width: 1200px) {
-    .about-grid, .food-grid {
+    .about-grid, .food-grid, .gym-grid, .tips-grid {
         gap: 40px;
     }
 }
@@ -311,15 +445,15 @@ body {
     .nav-menu {
         gap: 1.5rem;
     }
-    .about-grid, .food-grid {
+    .about-grid, .food-grid, .gym-grid, .tips-grid {
         grid-template-columns: 1fr;
         gap: 30px;
     }
-    .about-content h2, .food-content h2 {
+    .about-content h2, .food-content h2, .gym-content h2, .tips-content h2 {
         font-size: 2.2rem;
     }
     /* Reorder grid items to maintain image-content pattern on mobile */
-    .food-grid {
+    .food-grid, .tips-grid {
         display: flex;
         flex-direction: column-reverse;
     }
@@ -332,10 +466,10 @@ body {
     .hero h1 {
         font-size: 2.3rem;
     }
-    .about-content, .food-content {
+    .about-content, .food-content, .gym-content, .tips-content {
         padding: 30px;
     }
-    .about-content h2, .food-content h2 {
+    .about-content h2, .food-content h2, .gym-content h2, .tips-content h2 {
         font-size: 2rem;
     }
 } 
