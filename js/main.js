@@ -68,6 +68,21 @@ document.addEventListener('DOMContentLoaded', function() {
          console.error("Hero content element not found for parallax effect.");
     }
 
+    // --- Hero Scroll Down Arrow Fade --- 
+    const scrollArrow = document.querySelector('#scroll-down-arrow');
+    if (scrollArrow) {
+        gsap.to(scrollArrow, {
+            opacity: 0,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".hero",
+                start: "top top", // Start fading when top of hero hits top of viewport
+                end: "15% top", // Fully faded by the time 15% of hero is scrolled past top
+                scrub: true
+            }
+        });
+    }
+
     // --- Section Image Parallax (Reveal Effect) ---
     const parallaxContainers = gsap.utils.toArray('.image-parallax-container');
     if (parallaxContainers.length > 0) {
@@ -77,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Animate yPercent from -45% to 0% (relative to image height, assuming 180% CSS height)
                 // This slides the image downwards within the container
                 gsap.fromTo(image, 
-                    { yPercent: -45 }, // Start with image shifted up (bottom visible)
+                    { yPercent: -50 }, // Start with image shifted up (bottom visible)
                     {
                         yPercent: 0,   // End with image top aligned with container top (top visible)
                         ease: "none",
