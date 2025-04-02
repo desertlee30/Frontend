@@ -24,6 +24,10 @@ body {
     transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
+.navbar a {
+    text-decoration: none;
+}
+
 .navbar.hidden {
     transform: translateY(-100%);
     opacity: 0;
@@ -31,6 +35,11 @@ body {
 
 .logo {
     height: 40px;
+    transition: transform 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.05);
 }
 
 .nav-menu {
@@ -71,6 +80,8 @@ body {
     border: none;
     outline: none;
     color: white;
+    text-decoration: none;
+    display: inline-block;
 }
 
 .btn-primary {
@@ -410,6 +421,7 @@ body {
     cursor: pointer;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     z-index: 100;
+    text-decoration: none;
 }
 
 .side-button:hover {
