@@ -8,6 +8,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha512-onMTRKJBKz8M1TnqqDuGBlowlH0ohFzMXYRNebz+yOcc5TQr/zAKsthzhuv0hiyUKEiQEQXEynnXCvNTOk50dg==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -47,8 +49,8 @@
     <section class="about-section">
         <div class="container">
             <div class="about-grid">
-                <div class="about-image">
-                    <!-- Image handled by CSS background instead of img element -->
+                <div class="about-image image-parallax-container">
+                    <img src="Picture 2.jpg" alt="Person meditating">
                 </div>
                 <div class="about-content">
                     <h2>About Base Fit Studio</h2>
@@ -70,8 +72,8 @@
                     <p>Discover delicious, nutrient-rich recipes that fuel your body and satisfy your taste buds. We focus on sustainable eating habits that you can maintain for life.</p>
                     <button class="btn">Explore Recipes</button>
                 </div>
-                <div class="food-image">
-                    <!-- Image handled by CSS background instead of img element -->
+                <div class="food-image image-parallax-container">
+                    <img src="Picture 3.jpg" alt="Healthy food bowl">
                 </div>
             </div>
         </div>
@@ -81,8 +83,8 @@
     <section class="gym-section">
         <div class="container">
             <div class="gym-grid">
-                <div class="gym-image">
-                    <!-- Image handled by CSS background instead of img element -->
+                <div class="gym-image image-parallax-container">
+                    <img src="Picture 4.jpg" alt="Gym interior">
                 </div>
                 <div class="gym-content">
                     <h2>Our Professional Gym</h2>
@@ -104,14 +106,14 @@
                     <p>From workout techniques to stress management strategies, we provide practical advice that you can incorporate into your daily routine for lasting results.</p>
                     <button class="btn">View Tips</button>
                 </div>
-                <div class="tips-image">
-                    <!-- Image handled by CSS background instead of img element -->
+                <div class="tips-image image-parallax-container">
+                    <img src="Picture 5.jpg" alt="Person stretching">
                 </div>
             </div>
         </div>
     </section>
 
     <!-- JavaScript -->
-    <script src="js/main.js"></script>
+    <script src="js/main.js" defer></script>
 </body>
 </html> 

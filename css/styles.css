@@ -101,7 +101,7 @@ body {
     background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../Picture 1.jpg');
     background-size: cover;
     background-position: center;
-    background-attachment: fixed; /* Keep background fixed when scrolling */
+    background-attachment: fixed; /* Restored for hero section only */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -158,21 +158,11 @@ body {
 
 .about-image {
     width: 100%;
-    aspect-ratio: 16 / 9; /* Maintains a square aspect ratio */
+    aspect-ratio: 16 / 9;
     position: relative;
     overflow: hidden;
     box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
     border-radius: 20px;
-    transform-style: preserve-3d; /* Better performance for 3D transforms */
-    backface-visibility: hidden; /* Prevent flickering */
-    background-image: url('../Picture 2.jpg'); /* Set the background image */
-    background-size: cover; /* Cover the container */
-    background-position: center 50%; /* Start centered vertically */
-    background-attachment: fixed;
-}
-
-.about-image img {
-    display: none; /* Hide the img element since we're using background-image */
 }
 
 .about-content {
@@ -227,21 +217,11 @@ body {
 
 .food-image {
     width: 100%;
-    aspect-ratio: 16 / 9; /* Maintains a square aspect ratio */
+    aspect-ratio: 16 / 9;
     position: relative;
     overflow: hidden;
     box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
     border-radius: 20px;
-    transform-style: preserve-3d; /* Better performance for 3D transforms */
-    backface-visibility: hidden; /* Prevent flickering */
-    background-image: url('../Picture 3.jpg'); /* Set the background image */
-    background-size: cover; /* Cover the container */
-    background-position: center 50%; /* Start centered vertically */
-    background-attachment: fixed;
-}
-
-.food-image img {
-    display: none; /* Hide the img element since we're using background-image */
 }
 
 .food-content {
@@ -296,21 +276,11 @@ body {
 
 .gym-image {
     width: 100%;
-    aspect-ratio: 16 / 9; /* Maintains a square aspect ratio */
+    aspect-ratio: 16 / 9;
     position: relative;
     overflow: hidden;
     box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
     border-radius: 20px;
-    transform-style: preserve-3d; /* Better performance for 3D transforms */
-    backface-visibility: hidden; /* Prevent flickering */
-    background-image: url('../Picture 4.jpg'); /* Set the background image */
-    background-size: cover; /* Cover the container */
-    background-position: center 50%; /* Start centered vertically */
-    background-attachment: fixed;
-}
-
-.gym-image img {
-    display: none; /* Hide the img element since we're using background-image */
 }
 
 .gym-content {
@@ -365,21 +335,11 @@ body {
 
 .tips-image {
     width: 100%;
-    aspect-ratio: 16 / 9; /* Maintains a square aspect ratio */
+    aspect-ratio: 16 / 9;
     position: relative;
     overflow: hidden;
     box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
     border-radius: 20px;
-    transform-style: preserve-3d; /* Better performance for 3D transforms */
-    backface-visibility: hidden; /* Prevent flickering */
-    background-image: url('../Picture 5.jpg'); /* Set the background image */
-    background-size: cover; /* Cover the container */
-    background-position: center 50%; /* Start centered vertically */
-    background-attachment: fixed;
-}
-
-.tips-image img {
-    display: none; /* Hide the img element since we're using background-image */
 }
 
 .tips-content {
@@ -417,6 +377,18 @@ body {
 
 .tips-content .btn:hover {
     background-color: #FFA726;
+}
+
+/* Style for the parallax image element */
+.image-parallax-container img {
+    position: absolute;
+    left: 0;
+    top: 0; /* Start image aligned at the top of the container */
+    width: 100%;
+    height: 180%; /* Make image even taller for greater movement range */
+    object-fit: cover; /* Cover the container width */
+    object-position: center; /* Center the image horizontally */
+    will-change: transform; /* Optimize for transform animations */
 }
 
 /* Side Button Styles */

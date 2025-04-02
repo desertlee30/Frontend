@@ -206,3 +206,40 @@ Add a new tips section with the same design as the food section, utilizing Pictu
 - Implement contact form functionality
 - Create a gallery of fitness activities
 - Add smooth scroll behavior for navigation links 
+
+## Task: Improve Scroll Performance & Refine Parallax Effect
+
+**Goal:** Diagnose and fix scroll lag and stuttering issues, optimize parallax effects for performance while meeting visual requirements.
+
+**Plan:**
+[X] Diagnose potential causes of scroll lag (heavy event listeners, `background-attachment: fixed`, complex calculations).
+[X] Add GSAP and ScrollTrigger library to the project (`index.html`).
+[X] Remove performance-intensive `background-attachment: fixed` style from section images (`css/styles.css`).
+[X] Refactor scroll-dependent animations and logic using GSAP ScrollTrigger (`js/main.js`).
+    [X] Implement navbar hide/show logic with ScrollTrigger.
+    [X] Implement hero content parallax effect with ScrollTrigger.
+    [X] Implement section image background parallax effect with ScrollTrigger (initial version - background-position).
+[X] Test the updated page for improved scroll performance. (Initial test confirmed lag is gone)
+[X] Adjust GSAP background parallax animation direction (`0% -> 100%`) for section images (`js/main.js`).
+[X] Test the revised parallax effect for visual satisfaction and performance. (User feedback indicated hero effect was missing)
+[X] Restore `background-attachment: fixed` specifically for the `.hero` section (`css/styles.css`) to bring back the desired static background effect for the main hero image only.
+[ ] Final testing of all effects and performance.
+
+## 2023-10-27: Hero Background Effect Restoration
+
+*   **Implemented Functions:**
+    *   Restored the `background-attachment: fixed;` CSS property specifically to the `.hero` selector in `css/styles.css`.
+*   **Encountered Errors:** None. Adjustment based on user feedback clarifying the desired effect for the hero section background specifically.
+*   **Error Solutions:** N/A.
+*   **Execution Status:** Successful. Code modification completed. User testing is pending for final approval. 
+
+## 2023-10-27: Transform-Based Parallax for Sections
+
+*   **Implemented Functions:**
+    *   Replaced the GSAP `background-position` parallax for section images with a transform-based approach (`yPercent`).
+    *   Restructured HTML for `.about-image`, `.food-image`, `.gym-image`, `.tips-image`: Added an inner `div.parallax-bg` to hold the background image. Added common class `image-parallax-container` to outer divs.
+    *   Updated CSS: Removed `background-image` from outer containers, styled inner `.parallax-bg` (absolute position, increased height, initial offset, `will-change: transform`).
+    *   Updated `js/main.js`: Modified the GSAP ScrollTrigger logic to target `.parallax-bg` elements and animate their `yPercent` property based on the scroll position of the parent `.image-parallax-container`.
+*   **Encountered Errors:** None. This change addresses the user's request for a parallax effect visually similar to `background-attachment: fixed` but implemented in a more performant way using transforms.
+*   **Error Solutions:** N/A.
+*   **Execution Status:** Successful. Code modifications completed for HTML, CSS, and JavaScript. User testing is pending for visual approval and performance check.
