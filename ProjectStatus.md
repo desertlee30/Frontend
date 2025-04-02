@@ -270,4 +270,21 @@ Added a new tips section to the website with the same design pattern as the food
 - Add testimonials section with customer reviews
 - Implement contact form functionality
 - Create a gallery of fitness activities
-- Add smooth scroll behavior for navigation links 
+- Add smooth scroll behavior for navigation links
+
+## 2023-10-27: Parallax Reveal Direction Fix
+
+*   **Implemented Functions:**
+    *   Reversed the GSAP `fromTo` animation for the section image reveal effect in `js/main.js`. Changed the `yPercent` animation range from `{ 0 } -> { -60 }` to `{ -60 } -> { 0 }`.
+*   **Encountered Errors:** User reported the parallax reveal direction was opposite to the desired effect (showing top->middle->bottom instead of bottom->middle->top). A blank space was also visible under images during scroll.
+*   **Error Solutions:** Corrected the `yPercent` animation start and end values in the GSAP `fromTo` function.
+*   **Execution Status:** Successful. Animation direction fixed. User testing pending.
+
+## 2023-10-27: Parallax Speed Adjustment & Code Cleanup
+
+*   **Implemented Functions:**
+    *   Adjusted the `scrub` value in the section image parallax ScrollTrigger in `js/main.js` from `true` to `0.5` to slightly increase responsiveness.
+    *   Removed commented-out and unused CSS rules/properties from `css/styles.css` related to previous parallax attempts.
+*   **Encountered Errors:** None. Changes based on user request for speed adjustment and code tidiness.
+*   **Error Solutions:** N/A.
+*   **Execution Status:** Successful. Speed adjusted and CSS cleaned. Project phase complete.

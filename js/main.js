@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             trigger: container,         
                             start: "top bottom",        
                             end: "bottom top",        
-                            scrub: 0.20, 
+                            scrub: 0.60, 
                             // markers: true,         // Uncomment for debugging
                         }
                     }

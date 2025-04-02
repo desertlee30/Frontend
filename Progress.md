@@ -243,3 +243,32 @@ Add a new tips section with the same design as the food section, utilizing Pictu
 *   **Encountered Errors:** None. This change addresses the user's request for a parallax effect visually similar to `background-attachment: fixed` but implemented in a more performant way using transforms.
 *   **Error Solutions:** N/A.
 *   **Execution Status:** Successful. Code modifications completed for HTML, CSS, and JavaScript. User testing is pending for visual approval and performance check.
+
+# Project Progress
+
+## Task: Improve Scroll Performance & Refine Parallax Effect
+
+**Goal:** Diagnose and fix scroll lag and stuttering issues, optimize parallax effects for performance while meeting visual requirements (revealing effect similar to example).
+
+**Plan:**
+[X] Diagnose potential causes of scroll lag (heavy event listeners, `background-attachment: fixed`, complex calculations).
+[X] Add GSAP and ScrollTrigger library to the project (`index.html`).
+[X] Remove performance-intensive `background-attachment: fixed` style from section images (`css/styles.css`).
+[X] Refactor scroll-dependent animations and logic using GSAP ScrollTrigger (`js/main.js`).
+    [X] Implement navbar hide/show logic with ScrollTrigger.
+    [X] Implement hero content parallax effect with ScrollTrigger.
+    [X] Implement section image background parallax effect with ScrollTrigger (initial version - background-position).
+[X] Test the updated page for improved scroll performance. (Initial test confirmed lag is gone)
+[X] Adjust GSAP background parallax animation direction (`0% -> 100%`) for section images (`js/main.js`).
+[X] Test the revised parallax effect for visual satisfaction and performance. (User feedback indicated hero effect was missing)
+[X] Restore `background-attachment: fixed` specifically for the `.hero` section (`css/styles.css`).
+[X] Re-implement section image parallax using a performant img tag / transform-based technique:
+    [X] Modify HTML structure: Add `<img>` tags to image containers (`index.html`).
+    [X] Modify CSS: Style outer containers and inner `<img>` elements (`css/styles.css`).
+    [X] Modify JS: Use GSAP to animate `yPercent` of `<img>` for reveal effect (`js/main.js`).
+[X] Fix incorrect image paths in inline styles caused by HTML refactoring (`index.html`).
+[X] Fix hidden images by removing old `display: none` CSS rules (`css/styles.css`).
+[X] Reverse parallax animation direction (`yPercent: -60 -> 0`) to match desired reveal (`js/main.js`).
+[X] Adjust parallax speed by changing `scrub: true` to `scrub: 0.5` (`js/main.js`).
+[X] Clean up commented-out/unused CSS code (`css/styles.css`).
+[X] Final testing of all effects and performance. (Completed)
