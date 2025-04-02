@@ -81,6 +81,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 scrub: true
             }
         });
+
+        // Scroll down when arrow is clicked
+        scrollArrow.addEventListener('click', () => {
+            const nextSection = document.querySelector('.about-section'); // Target the next section
+            if (nextSection) {
+                nextSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
     }
 
     // --- Section Image Parallax (Reveal Effect) ---

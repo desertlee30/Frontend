@@ -301,3 +301,159 @@ Create a login page following the provided design example, implementing HTML, CS
 - Add form submission handling with proper error messages
 - Create a sign-up page with similar design language
 - Connect the login and signup pages to the main website navigation
+
+# Meal Planner Project Progress
+
+## Task: Create a Meal Planner with Dynamic Recipe Filtering
+
+### Project Requirements
+- Create a responsive recipe grid with 3D flip cards
+- Implement hover-based filtering with live grid updates
+- Design an interactive category tag system
+- Add save recipe interaction with animations
+- Set up local JSON structure for recipe data
+- Use jQuery and GSAP for interactions and animations
+
+### Implementation Plan
+[X] Create project structure (HTML, CSS, JS files)
+[X] Set up recipe data structure in JSON
+[X] Create HTML layout with responsive grid
+[X] Implement CSS styling for cards and filters
+[X] Create 3D flip card effect
+[X] Build recipe loading functionality
+[X] Implement filter tag generation
+[X] Add hover-based filtering preview
+[X] Implement animation effects for filtered/unfiltered items
+[X] Create save recipe functionality with animations
+[X] Add toast notifications
+[X] Optimize for accessibility and responsiveness
+
+### Completed Components
+
+#### Data Structure
+- Created `recipes.json` with sample recipe data
+- Each recipe contains:
+  - Basic info (title, image, time, calories)
+  - Tags for filtering (e.g., "High-Protein", "Vegan", etc.)
+  - Nutrition facts (protein, carbs, fat)
+  - Ingredients list
+  - Description
+
+#### HTML Structure
+- Created responsive layout with header, filter section, and recipe grid
+- Set up placeholders for dynamic content
+- Added structure for notifications and animations
+
+#### CSS Styling
+- Implemented responsive grid layout
+- Created 3D flip card effect
+- Designed filter tag system
+- Added animations for filtering and notifications
+- Set up responsive breakpoints for different screen sizes
+
+#### JavaScript Functionality
+- Built recipe loading from JSON file
+- Implemented dynamic filter tag generation
+- Created filter mechanism with hover-based preview
+- Developed 3D card flip functionality
+- Added save recipe interaction with particle effects
+- Implemented toast notifications for saving feedback
+
+### Next Steps
+- Connect to a backend API for persistent storage of saved recipes
+- Add user accounts to save preferences
+- Implement meal planning calendar functionality
+- Add recipe search functionality
+- Create a "create recipe" form for users to add their own recipes
+
+## Task: Fix CORS Issues and Improve Local Development Experience
+
+### Issue Description
+When opening the meal-planner.html file directly in a browser, we encountered CORS policy errors when trying to load the recipes JSON data. This happens because browsers restrict JavaScript from accessing local files for security reasons when using the file:// protocol.
+
+### Implementation Plan
+[X] Understand the CORS issue and its causes
+[X] Research and implement solutions:
+  [X] Create a simple Node.js HTTP server
+  [X] Modify JavaScript to have embedded data as a fallback
+[X] Add documentation explaining the issue and solutions
+[X] Update project files to reflect the changes
+
+### Implemented Solutions
+
+#### Server-Based Solution
+- Created `server.js` - a simple Node.js HTTP server
+- Set up proper MIME type handling for different file types
+- Added console output for better developer experience
+- Created a 404 page for improved error handling
+
+#### Client-Side Fallback
+- Modified `meal-planner.js` to include embedded recipe data
+- Implemented a try-catch block for error handling
+- Maintained the same functionality while avoiding the CORS error
+
+#### Documentation
+- Created `README-MEAL-PLANNER.md` with:
+  - Clear explanation of the CORS issue
+  - Instructions for running with Node.js server
+  - Alternative method for direct file opening
+  - Troubleshooting information
+- Updated `Lesson.md` with CORS insights and solutions
+- Updated `ProjectStatus.md` with issue tracking
+
+### Execution Status
+Successfully implemented both solutions. The meal planner now works in two ways:
+1. Using the Node.js server (optimal solution)
+2. Opening directly in a browser with embedded data (convenience solution)
+
+Users can choose the method that best fits their needs.
+
+### Next Steps
+- Consider implementing a service worker for offline capabilities
+- Add local storage for persisting saved recipes
+- Create a more robust build and deployment process
+
+# Project Progress - Frontend Sport
+
+## Current Task: Fix Video Path in Meal Planner Hero Section
+
+### Issue:
+- Video resource failed to load with error: net::ERR_FILE_NOT_FOUND
+- The video file exists in the root directory but was incorrectly referenced in a subdirectory
+
+### Solution Implementation:
+[X] Fix the video source path to point to the correct location in the root directory
+[X] Remove unnecessary fallback video source
+[X] Fix the hero-overlay class which was incorrectly named "overlay"
+[X] Update CSS to ensure proper styling of the hero overlay
+
+### Lessons:
+- Always verify file paths and directory structures when linking to local resources
+- Use browser dev tools to debug resource loading issues
+- Ensure CSS class names match exactly between HTML and CSS files
+
+### Next Steps:
+- Continue optimizing video loading and performance
+- Implement additional interactive elements for the meal planner
+- Ensure full responsiveness of the hero section across all devices
+
+## Previous Task: Resolve CORS Issues with Meal Planner
+
+### Requirements:
+- Fix CORS errors when loading recipe data in the meal planner
+- Ensure the application works without requiring a local server
+- Maintain all existing functionality with the new approach
+
+### Implementation Plan:
+[X] Identify the cause of CORS errors when loading local JSON data
+[X] Research and evaluate potential solutions
+[X] Implement Solution 2: Embed JSON data directly in JavaScript
+[X] Update state management to work with embedded data
+[X] Test and verify all functionality works correctly
+[X] Document the solution in README and Lesson.md
+
+### Outcome:
+- Successfully implemented Solution 2 with embedded JSON data
+- All functionality maintained without requiring a local server
+- Application works correctly with proper error handling
+- Documentation updated to reflect the new approach

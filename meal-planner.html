@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal Planner - Discover Healthy Recipes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/meal-planner.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- GSAP for animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+</head>
+<body>
+    <!-- Navigation Bar (similar to index.html) -->
+    <nav class="navbar">
+        <a href="index.html">
+            <img src="Media/logo.png" alt="WellnessWave Logo" class="logo">
+        </a>
+        
+        <ul class="nav-menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#">Health Tips</a></li>
+            <li><a href="meal-planner.html" class="active">Recipes</a></li>
+            <li><a href="#">Fitness</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+        
+        <div class="nav-buttons">
+            <a href="login.html" class="btn btn-primary">Login In</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Video -->
+    <section class="hero meal-hero">
+        <div class="video-container">
+            <!-- Video element with local path to the existing video file -->
+            <video id="meal-video" autoplay loop muted playsinline>
+                <source src="Media/meal-video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>Discover Your Perfect Meal Plan</h1>
+            <p>Personalized recipes for your lifestyle - fresh, healthy, and delicious meal ideas at your fingertips.</p>
+            <a href="#recipesGrid" class="btn btn-primary hero-btn">Explore Recipes</a>
+        </div>
+        <img src="Media/arrow-circle-down.png" alt="Scroll down arrow" id="scroll-down-arrow" style="z-index: 10;">
+    </section>
+
+    <div id="main-container" class="main-container">
+        <header class="header">
+            <h1>Meal Planner</h1>
+            <p class="subtitle">Discover and save healthy recipes tailored to your needs</p>
+        </header>
+
+        <section class="filter-section">
+            <h2>Filter Recipes</h2>
+            <div class="filter-tags" id="filterTags">
+                <!-- Filter tags will be dynamically populated -->
+            </div>
+            <div class="active-filters">
+                <p>Active Filters: <span id="activeFiltersText">None</span></p>
+                <button id="clearFilters" class="clear-button">Clear All</button>
+            </div>
+        </section>
+
+        <section class="recipes-grid" id="recipesGrid">
+            <!-- Recipe cards will be dynamically populated here -->
+            <div class="recipe-placeholder">Loading recipes...</div>
+        </section>
+    </div>
+
+    <!-- Toast notification for saved recipes -->
+    <div class="toast-notification" id="toastNotification">
+        <div class="toast-icon">
+            <i class="fas fa-check"></i>
+        </div>
+        <div class="toast-content">
+            <p class="toast-message">Recipe saved successfully!</p>
+        </div>
+    </div>
+
+    <!-- Particles container for save animation -->
+    <div class="particles-container" id="particlesContainer"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Brand Column -->
+                <div class="footer-brand">
+                    <h3>WellnessWave</h3>
+                    <p>123 Fitness Street, Healthyville, HV 12345</p>
+                    <p>+1 (555) 123-4567</p>
+                    <div class="social-icons">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links Column -->
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="meal-planner.html">Recipes</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Recipe Categories Column -->
+                <div class="footer-categories">
+                    <h4>Recipe Categories</h4>
+                    <ul>
+                        <li><a href="#">High Protein</a></li>
+                        <li><a href="#">Vegan</a></li>
+                        <li><a href="#">Keto</a></li>
+                        <li><a href="#">Quick Meals</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 WellnessWave. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Existing scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="js/meal-planner.js"></script>
+    <script src="js/meal-planner-hero.js"></script>
+</body>
+</html> 

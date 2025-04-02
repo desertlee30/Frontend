@@ -8,10 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Image zoom effect elements
     const imageContainer = document.querySelector('.login-image-container');
     const personImage = document.querySelector('.person-image');
-    const customCursor = document.querySelector('.custom-cursor');
     
-    // Page zoom effect elements
-    const body = document.body;
+    // Page cursor element (may be null)
     const pageCursor = document.querySelector('.page-cursor');
     
     // Combined zoom effect for both page background and person image
@@ -69,29 +67,23 @@ document.addEventListener('DOMContentLoaded', () => {
         document.documentElement.style.setProperty('--bg-move-x', `${-distFromCenterX * 20}px`);
         document.documentElement.style.setProperty('--bg-move-y', `${-distFromCenterY * 20}px`);
         
-        // Update both cursors based on mouse position
-        // Only show the page cursor, not the custom cursor in the image container
-        if (mouseX >= imageRect.left && mouseX <= imageRect.right && 
-            mouseY >= imageRect.top && mouseY <= imageRect.bottom) {
-            
-            // Hide custom cursor in image container
-            customCursor.style.opacity = 0;
-            
-            // Hide page cursor when over image as well (use default cursor)
-            pageCursor.style.opacity = 0;
-        } else {
-            // Hide custom cursor
-            customCursor.style.opacity = 0;
-            
-            // Show page cursor
-            pageCursor.style.opacity = 1;
-            pageCursor.style.left = `${mouseX}px`;
-            pageCursor.style.top = `${mouseY}px`;
-            
-            // Size cursor relative to background zoom
-            const pageCursorSize = 40 + ((bgZoomFactor - 1) * 300);
-            pageCursor.style.width = `${pageCursorSize}px`;
-            pageCursor.style.height = `${pageCursorSize}px`;
+        // Update page cursor (if it exists)
+        if (pageCursor) {
+            if (mouseX >= imageRect.left && mouseX <= imageRect.right && 
+                mouseY >= imageRect.top && mouseY <= imageRect.bottom) {
+                // Hide page cursor when over image (use default cursor)
+                pageCursor.style.opacity = 0;
+            } else {
+                // Show page cursor
+                pageCursor.style.opacity = 1;
+                pageCursor.style.left = `${mouseX}px`;
+                pageCursor.style.top = `${mouseY}px`;
+                
+                // Size cursor relative to background zoom
+                const pageCursorSize = 40 + ((bgZoomFactor - 1) * 300);
+                pageCursor.style.width = `${pageCursorSize}px`;
+                pageCursor.style.height = `${pageCursorSize}px`;
+            }
         }
     };
     
@@ -103,21 +95,15 @@ document.addEventListener('DOMContentLoaded', () => {
         document.documentElement.style.setProperty('--bg-move-x', '0px');
         document.documentElement.style.setProperty('--bg-move-y', '0px');
         
-        // Hide cursors
-        customCursor.style.opacity = 0;
-        pageCursor.style.opacity = 0;
+        // Hide page cursor if it exists
+        if (pageCursor) {
+            pageCursor.style.opacity = 0;
+        }
     };
     
     // Add global event listeners
     document.addEventListener('mousemove', handleGlobalZoom);
     document.addEventListener('mouseleave', handleMouseLeave);
-    
-    // Remove any old image-specific listeners
-    if (imageContainer && personImage) {
-        imageContainer.removeEventListener('mousemove', handleImageZoom);
-        imageContainer.removeEventListener('mouseenter', handleImageEnter);
-        imageContainer.removeEventListener('mouseleave', handleImageLeave);
-    }
     
     // Toggle password visibility
     const handleTogglePassword = () => {

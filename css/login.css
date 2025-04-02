@@ -256,20 +256,6 @@ input:focus {
     left: -5%; /* Offset to center the enlarged image */
 }
 
-/* Custom cursor for the image container */
-.custom-cursor {
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 2px solid white;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-    z-index: 10;
-    opacity: 0;
-    transition: width 0.3s, height 0.3s, opacity 0.3s;
-}
-
 /* Responsive Design */
 @media (max-width: 992px) {
     .login-container {
