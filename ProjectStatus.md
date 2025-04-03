@@ -123,3 +123,23 @@ This file tracks the progress, challenges, and solutions implemented throughout 
 
 ### Status:
 - Implementation successful. Users can now save recipes, view them in a pop-out modal, and the saved recipes persist between sessions.
+
+## [Date - e.g., YYYY-MM-DD]
+
+**Task:** Implement Scroll-to-Top Button in meal-planner.html
+
+**Functions Implemented:**
+- Added HTML structure for the scroll-to-top button (`#scrollToTopBtn`) in `meal-planner.html`.
+- Added CSS styles for positioning, appearance (oval shape, icon treatment), visibility transition, and responsiveness for `.scroll-to-top-btn` in `css/meal-planner.css`.
+- Implemented JavaScript logic (`setupScrollToTop` function in `js/meal-planner.js`):
+  - Detects scroll position relative to `#recipesGrid`.
+  - Toggles visibility of `#scrollToTopBtn` with a fade/slide effect.
+  - Handles click event on the button to scroll smoothly to `#main-container`.
+
+**Errors Encountered:** None.
+
+**Error Solutions:** N/A.
+
+**Execution Success:** Successful. The button appears/disappears based on scroll position and scrolls to the target element on click.
+
+---

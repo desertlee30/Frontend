@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 navbar.classList.remove('hidden');
             }
         });
+        
     }
 
     // --- Hero Content Parallax ---

@@ -498,3 +498,18 @@ Users can choose the method that best fits their needs.
 [X] Design saved recipe cards with unsave button functionality
 [X] Ensure consistent styling between main grid and saved recipes modal
 [X] Update `ProjectStatus.md` and `Progress.md`
+
+## Task: Add Scroll-to-Top Button
+
+**Description:** Add a button to `meal-planner.html` that appears when the user scrolls down to the recipe grid and scrolls back to the top of the main content area when clicked.
+
+**Steps:**
+[X] Add Bootstrap Icons CDN link to `meal-planner.html`.
+[X] Add HTML for the button element (`#scrollToTopBtn`) with text and icon.
+[X] Add CSS to `css/meal-planner.css` for button positioning, styling (oval, colors, border), initial hidden state, and a `.show` class for visibility with transition.
+[X] Add JavaScript to `js/meal-planner.js` to:
+    [X] Get references to the button, recipe grid, and main container.
+    [X] Add scroll listener to toggle `.show` class based on scroll position relative to the recipe grid.
+    [X] Add click listener to scroll smoothly to the main container.
+[X] Update `ProjectStatus.md`.
+[X] Update `Progress.md`.

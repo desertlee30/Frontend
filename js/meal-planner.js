@@ -27,6 +27,12 @@ const init = () => {
   
   // Set up modal-related event listeners
   setupModalEventListeners();
+
+  // Add: Set up scroll-to-top functionality
+  setupScrollToTop();
+
+  // Add: Set up "more" indicator functionality
+  setupMoreIndicator();
 };
 
 // Set up event listeners for modal
@@ -331,7 +337,7 @@ const loadRecipes = async () => {
         {
           "id": 8,
           "title": "Keto Bacon Cheeseburger Soup",
-          "image": "https://images.unsplash.com/photo-1547592180-85f173990554?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+          "image": "Receipt/burgursoap.png",
           "time": 45,
           "calories": 590,
           "tags": ["Keto", "High Protein", "Family Friendly"],
@@ -357,6 +363,51 @@ const loadRecipes = async () => {
             "fat": 12
           },
           "ingredients": ["Lime", "Shrimp", "Slaw", "Avacodo", "Taco bread"]
+        },
+        {
+          "id": 10,
+          "title": "Cauliflower Crust Pizza",
+          "image": "Receipt/CauliflowerPizza.png",
+          "time": 35,
+          "calories": 280,
+          "tags": ["Family Friendly", "Low Carb"],
+          "description": "Veggie-packed pizza with crispy cauliflower crust and melted mozzarella.",
+          "nutrition": {
+            "protein": 18,
+            "carbs": 12,
+            "fat": 15
+          },
+          "ingredients": ["Cauliflower", "Egg", "Mozzarella", "Tomato Sauce", "Bell Peppers"]
+        },
+        {
+          "id": 11,
+          "title": "Miso Glazed Salmon Bowl",
+          "image": "Receipt/MisoSalmon.png",
+          "time": 30,
+          "calories": 450,
+          "tags": ["High Protein", "Keto", "Low Carb"],
+          "description": "Pan seared salmon with miso glaze, served over cauliflower rice and bok choy.",
+          "nutrition": {
+            "protein": 34,
+            "carbs": 10,
+            "fat": 28
+          },
+          "ingredients": ["Salmon", "Miso Paste", "Cauliflower Rice", "Bok Choy", "Sesame Oil"]
+        },
+        {
+          "id": 21,
+          "title": "Vegan Kimchi Noodle Soup",
+          "image": "Receipt/KimchiSoup.png",
+          "time": 15,
+          "calories": 220,
+          "tags": ["Vegan", "Family Friendly", "Quick Meals"],
+          "description": "Spicy kimchi broth with rice noodles, tofu, and mushrooms.",
+          "nutrition": {
+            "protein": 12,
+            "carbs": 35,
+            "fat": 5
+          },
+          "ingredients": ["Kimchi", "Rice Noodles", "Tofu", "Mushrooms", "Gochujang"]
         }
       ]
     };
@@ -696,6 +747,91 @@ const createParticles = (event) => {
       }
     });
   }
+};
+
+// Add: Scroll to Top Button Logic
+const setupScrollToTop = () => {
+  const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+  const recipesGrid = document.getElementById('recipesGrid');
+  const mainContainer = document.getElementById('main-container'); // Target for scrolling
+
+  if (!scrollToTopBtn || !recipesGrid || !mainContainer) {
+    console.warn('Scroll to top button, recipes grid, or main container not found.');
+    return;
+  }
+
+  const handleScroll = () => {
+    // Get the top position of the recipes grid relative to the viewport
+    const recipesGridTop = recipesGrid.getBoundingClientRect().top + window.scrollY;
+
+    // Show button if scrolled past the top of the recipes grid
+    if (window.scrollY > recipesGridTop) {
+      scrollToTopBtn.classList.add('show');
+    } else {
+      scrollToTopBtn.classList.remove('show');
+    }
+  };
+
+  const handleScrollToTopClick = () => {
+    mainContainer.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  window.addEventListener('scroll', handleScroll);
+  scrollToTopBtn.addEventListener('click', handleScrollToTopClick);
+};
+
+// Add: "More" Indicator Logic
+const setupMoreIndicator = () => {
+  const moreIndicator = document.getElementById('moreIndicator');
+  const recipesGrid = document.getElementById('recipesGrid');
+  const heroSection = document.querySelector('.meal-hero'); // Get the hero section
+
+  if (!moreIndicator || !recipesGrid || !heroSection) {
+    console.warn('More indicator, recipes grid, or hero section not found.');
+    return;
+  }
+
+  let heroBottom = 0;
+  let gridScrollThreshold = 0;
+
+  // Function to calculate the thresholds
+  const calculateThresholds = () => {
+    const firstCard = recipesGrid.querySelector('.recipe-card');
+    heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
+    
+    if (!firstCard) { 
+        gridScrollThreshold = heroBottom + 500; // Estimate if no cards yet
+    } else {
+        const cardHeight = firstCard.offsetHeight;
+        // Disappear threshold: When top of viewport is ~1.5 card heights below the top of the grid
+        gridScrollThreshold = recipesGrid.offsetTop + (cardHeight * 1.5); 
+    }
+  };
+
+  const handleMoreIndicatorScroll = () => {
+    const currentScroll = window.scrollY;
+
+    // Show if scrolled past the hero bottom BUT before the grid threshold
+    if (currentScroll > heroBottom && currentScroll < gridScrollThreshold) {
+      moreIndicator.classList.add('show');
+    } else {
+      moreIndicator.classList.remove('show');
+    }
+  };
+
+  // Initial calculation and setup with delay
+  setTimeout(() => {
+    calculateThresholds();
+    handleMoreIndicatorScroll(); // Initial check
+    window.addEventListener('scroll', handleMoreIndicatorScroll);
+  }, 500); // Delay ensures elements are rendered
+
+  // Recalculate on resize
+  window.addEventListener('resize', () => {
+      calculateThresholds();
+      handleMoreIndicatorScroll(); // Re-check visibility
+  });
+
 };
 
 // Initialize the application
