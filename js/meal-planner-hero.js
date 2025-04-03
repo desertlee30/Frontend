@@ -88,7 +88,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Re-implementing GSAP parallax to mimic fixed background
     const videoElement = document.getElementById('meal-video');
     if (videoElement) {
-        console.log('Applying GSAP fixed-like parallax to video');
         
         gsap.to(videoElement, {
             yPercent: 25, // Move video *down* relative to container as page scrolls up
