@@ -457,3 +457,44 @@ Users can choose the method that best fits their needs.
 - All functionality maintained without requiring a local server
 - Application works correctly with proper error handling
 - Documentation updated to reflect the new approach
+
+## Current Task: Adjust Recipe Grid Layout
+
+**Goal:** Ensure recipe cards always display three per row and the filter section aligns with their total width.
+
+**Plan:**
+[X] Modify CSS for `.recipes-grid` to use `grid-template-columns: repeat(3, 1fr)`.
+[X] Verify filter section alignment (handled by `.main-container`).
+[X] Update `ProjectStatus.md`.
+[X] Update `Progress.md`.
+
+## Current Task: Increase Content Width
+
+**Goal:** Increase the width of the recipe cards by approximately 10% while maintaining the 3-column layout and alignment with the filter section.
+
+**Plan:**
+[X] Increase `max-width` of `.main-container` from `1200px` to `1320px`.
+[X] Update `ProjectStatus.md`.
+[X] Update `Progress.md`.
+
+## Current Task: Fix Footer Container Width
+
+**Goal:** Ensure the footer container in meal-planner.html has the same width as the footer in index.html for UI consistency.
+
+**Plan:**
+[X] Analyze the container widths using DevTools (meal-planner: 1092px vs index: 1038px).
+[X] Add specific CSS rule for `.footer .container` with appropriate width and max-width values.
+[X] Update `ProjectStatus.md`.
+[X] Update `Progress.md`.
+
+## Current Task: Implement Saved Recipes with localStorage
+
+**Goal:** Create a system for saving and viewing favorite recipes that persists across browser sessions.
+
+**Plan:**
+[X] Implement localStorage integration to save and retrieve recipes
+[X] Add a heart icon button with counter in the filter section
+[X] Create a pop-out modal to display saved recipes
+[X] Design saved recipe cards with unsave button functionality
+[X] Ensure consistent styling between main grid and saved recipes modal
+[X] Update `ProjectStatus.md` and `Progress.md`

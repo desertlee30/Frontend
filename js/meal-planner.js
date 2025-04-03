@@ -16,10 +16,205 @@ const state = {
 
 // Initialize
 const init = () => {
+  // Load saved recipes from localStorage
+  loadSavedRecipesFromStorage();
+  
+  // Load recipes data
   loadRecipes();
   
-  // Event listeners
+  // Set up event listeners
   clearFiltersButton.addEventListener('click', handleClearFilters);
+  
+  // Set up modal-related event listeners
+  setupModalEventListeners();
+};
+
+// Set up event listeners for modal
+const setupModalEventListeners = () => {
+  const savedRecipesButton = document.getElementById('savedRecipesButton');
+  const modalCloseButton = document.getElementById('modalCloseButton');
+  const modalOverlay = document.getElementById('savedRecipesModalOverlay');
+  
+  savedRecipesButton.addEventListener('click', openSavedRecipesModal);
+  modalCloseButton.addEventListener('click', closeSavedRecipesModal);
+  modalOverlay.addEventListener('click', closeSavedRecipesModal);
+  
+  // Allow closing with escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeSavedRecipesModal();
+    }
+  });
+};
+
+// Open saved recipes modal
+const openSavedRecipesModal = () => {
+  const modal = document.getElementById('savedRecipesModal');
+  const overlay = document.getElementById('savedRecipesModalOverlay');
+  
+  showSavedRecipes();
+  
+  modal.classList.add('show');
+  overlay.classList.add('show');
+  
+  // Prevent body scrolling when modal is open
+  document.body.style.overflow = 'hidden';
+};
+
+// Close saved recipes modal
+const closeSavedRecipesModal = () => {
+  const modal = document.getElementById('savedRecipesModal');
+  const overlay = document.getElementById('savedRecipesModalOverlay');
+  
+  modal.classList.remove('show');
+  overlay.classList.remove('show');
+  
+  // Re-enable body scrolling
+  document.body.style.overflow = 'auto';
+};
+
+// Show saved recipes in modal
+const showSavedRecipes = () => {
+  const savedRecipesGrid = document.getElementById('savedRecipesGrid');
+  const noSavedRecipes = document.getElementById('noSavedRecipes');
+  
+  // Clear current content
+  savedRecipesGrid.innerHTML = '';
+  
+  // Get saved recipes
+  const savedRecipes = state.recipes.filter(recipe => state.savedRecipes.includes(recipe.id));
+  
+  // Show message if no saved recipes
+  if (savedRecipes.length === 0) {
+    noSavedRecipes.classList.add('show');
+    savedRecipesGrid.classList.remove('show');
+    return;
+  }
+  
+  // Hide message and show grid if we have saved recipes
+  noSavedRecipes.classList.remove('show');
+  savedRecipesGrid.classList.add('show');
+  
+  // Create card for each saved recipe
+  savedRecipes.forEach(recipe => {
+    const recipeCard = createSavedRecipeCard(recipe);
+    savedRecipesGrid.appendChild(recipeCard);
+  });
+};
+
+// Create a saved recipe card
+const createSavedRecipeCard = (recipe) => {
+  const cardElement = document.createElement('div');
+  cardElement.className = 'recipe-card';
+  cardElement.setAttribute('data-id', recipe.id);
+  
+  // Card inner elements (front and back)
+  cardElement.innerHTML = `
+    <div class="recipe-card-inner">
+      <!-- Front of card -->
+      <div class="recipe-card-front">
+        <img src="${recipe.image}" alt="${recipe.title}" class="recipe-image">
+        <div class="recipe-content">
+          <h3 class="recipe-title">${recipe.title}</h3>
+          <div class="recipe-stats">
+            <div class="stat">
+              <span class="stat-value">${recipe.time}</span>
+              <span class="stat-label">mins</span>
+            </div>
+            <div class="stat">
+              <span class="stat-value">${recipe.calories}</span>
+              <span class="stat-label">kcal</span>
+            </div>
+          </div>
+          <div class="recipe-tags">
+            ${recipe.tags.map(tag => `<span class="recipe-tag">${tag}</span>`).join('')}
+          </div>
+        </div>
+      </div>
+      
+      <!-- Back of card -->
+      <div class="recipe-card-back">
+        <h3 class="back-title">${recipe.title}</h3>
+        <p class="recipe-description">${recipe.description}</p>
+        
+        <div class="nutrition-facts">
+          <div class="nutrition-item">
+            <span class="nutrition-value">${recipe.nutrition.protein}g</span>
+            <span class="nutrition-label">Protein</span>
+          </div>
+          <div class="nutrition-item">
+            <span class="nutrition-value">${recipe.nutrition.carbs}g</span>
+            <span class="nutrition-label">Carbs</span>
+          </div>
+          <div class="nutrition-item">
+            <span class="nutrition-value">${recipe.nutrition.fat}g</span>
+            <span class="nutrition-label">Fat</span>
+          </div>
+        </div>
+        
+        <div class="ingredients-list">
+          <h4>Ingredients</h4>
+          <div class="ingredients">
+            ${recipe.ingredients.map(ingredient => `<span class="ingredient">${ingredient}</span>`).join('')}
+          </div>
+        </div>
+        
+        <button class="unsave-button" aria-label="Unsave recipe">
+          <i class="fas fa-trash-alt"></i> Unsave Recipe
+        </button>
+      </div>
+    </div>
+  `;
+  
+  // Event listeners
+  const cardInner = cardElement.querySelector('.recipe-card-inner');
+  
+  // Flip card
+  cardInner.addEventListener('click', () => {
+    cardElement.classList.toggle('flipped');
+  });
+  
+  // Keyboard accessibility for flipping
+  cardInner.setAttribute('tabindex', '0');
+  cardInner.setAttribute('aria-label', `Recipe: ${recipe.title}. Press Enter to see details`);
+  cardInner.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      cardElement.classList.toggle('flipped');
+    }
+  });
+  
+  // Unsave button functionality
+  const unsaveButton = cardElement.querySelector('.unsave-button');
+  unsaveButton.addEventListener('click', (e) => {
+    e.stopPropagation(); // Prevent card flip
+    handleUnsaveRecipe(recipe.id, e);
+  });
+  
+  return cardElement;
+};
+
+// Load saved recipes from localStorage
+const loadSavedRecipesFromStorage = () => {
+  const savedRecipes = localStorage.getItem('savedRecipes');
+  if (savedRecipes) {
+    state.savedRecipes = JSON.parse(savedRecipes);
+    updateSavedCounter();
+  }
+};
+
+// Update saved recipes counter
+const updateSavedCounter = () => {
+  const savedCounter = document.getElementById('savedCounter');
+  if (savedCounter) {
+    savedCounter.textContent = state.savedRecipes.length;
+  }
+};
+
+// Save recipes to localStorage
+const saveRecipesToStorage = () => {
+  localStorage.setItem('savedRecipes', JSON.stringify(state.savedRecipes));
+  updateSavedCounter();
 };
 
 // Load recipes - embedded data instead of fetch to avoid CORS issues
@@ -31,11 +226,11 @@ const loadRecipes = async () => {
         {
           "id": 1,
           "title": "Greek Yogurt Protein Bowl",
-          "image": "https://images.unsplash.com/photo-1488477181946-6428a0291777?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+          "image": "Receipt/GreekBowl.png",
           "time": 15,
           "calories": 320,
-          "tags": ["High-Protein", "Low-Carb", "Quick Meals"],
-          "description": "A delicious protein-packed breakfast bowl with Greek yogurt, berries, and nuts.",
+          "tags": ["High Protein", "Low Carb", "Quick Meals"],
+          "description": "A delicious protein packed breakfast bowl with Greek yogurt, berries, and nuts.",
           "nutrition": {
             "protein": 25,
             "carbs": 20,
@@ -49,7 +244,7 @@ const loadRecipes = async () => {
           "image": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
           "time": 25,
           "calories": 410,
-          "tags": ["Vegan", "Family-Friendly"],
+          "tags": ["Vegan", "Family Friendly"],
           "description": "A refreshing and colorful Mediterranean quinoa salad with fresh vegetables and herbs.",
           "nutrition": {
             "protein": 14,
@@ -64,7 +259,7 @@ const loadRecipes = async () => {
           "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
           "time": 20,
           "calories": 450,
-          "tags": ["High-Protein", "Low-Carb"],
+          "tags": ["High Protein", "Low Carb"],
           "description": "A creamy and satisfying chicken salad with avocado dressing.",
           "nutrition": {
             "protein": 35,
@@ -76,10 +271,10 @@ const loadRecipes = async () => {
         {
           "id": 4,
           "title": "Chocolate Peanut Butter Protein Smoothie",
-          "image": "https://images.unsplash.com/photo-1577805947697-89e18249d767?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+          "image": "Receipt/CPeanut.png",
           "time": 10,
           "calories": 380,
-          "tags": ["High-Protein", "Quick Meals"],
+          "tags": ["High Protein", "Quick Meals"],
           "description": "A creamy and satisfying protein smoothie that tastes like dessert.",
           "nutrition": {
             "protein": 30,
@@ -94,7 +289,7 @@ const loadRecipes = async () => {
           "image": "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
           "time": 30,
           "calories": 280,
-          "tags": ["Keto", "High-Protein", "Low-Carb"],
+          "tags": ["Keto", "High Protein", "Low Carb"],
           "description": "Easy make-ahead breakfast egg muffins packed with protein and veggies.",
           "nutrition": {
             "protein": 22,
@@ -109,8 +304,8 @@ const loadRecipes = async () => {
           "image": "https://images.unsplash.com/photo-1540420773420-3366772f4999?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
           "time": 35,
           "calories": 520,
-          "tags": ["Vegan", "Family-Friendly"],
-          "description": "A nutrient-packed vegan buddha bowl with roasted vegetables and tahini dressing.",
+          "tags": ["Vegan", "Family Friendly"],
+          "description": "A nutrient packed vegan buddha bowl with roasted vegetables and tahini dressing.",
           "nutrition": {
             "protein": 15,
             "carbs": 68,
@@ -121,10 +316,10 @@ const loadRecipes = async () => {
         {
           "id": 7,
           "title": "Zucchini Noodles with Pesto",
-          "image": "https://images.unsplash.com/photo-1556761223-4c4282c73f77?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+          "image": "Receipt/Zpasta.png",
           "time": 20,
           "calories": 310,
-          "tags": ["Low-Carb", "Quick Meals", "Vegan"],
+          "tags": ["Low Carb", "Quick Meals", "Vegan"],
           "description": "Light and fresh zucchini noodles tossed with homemade pesto sauce.",
           "nutrition": {
             "protein": 10,
@@ -139,7 +334,7 @@ const loadRecipes = async () => {
           "image": "https://images.unsplash.com/photo-1547592180-85f173990554?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
           "time": 45,
           "calories": 590,
-          "tags": ["Keto", "High-Protein", "Family-Friendly"],
+          "tags": ["Keto", "High Protein", "Family Friendly"],
           "description": "A hearty and satisfying keto soup that tastes just like a bacon cheeseburger.",
           "nutrition": {
             "protein": 38,
@@ -147,6 +342,21 @@ const loadRecipes = async () => {
             "fat": 48
           },
           "ingredients": ["Ground beef", "Bacon", "Cheddar cheese", "Onion", "Heavy cream"]
+        },
+        {
+          "id": 9,
+          "title": "Lime Shrimp Tacos",
+          "image": "Receipt/ShrimpTaco.png",
+          "time": 15,
+          "calories": 320,
+          "tags": ["Quick Meals", "High Protein"],
+          "description": "A freash and tasty lime shrimp, slaw, and avocado in corn tortillas.",
+          "nutrition": {
+            "protein": 25,
+            "carbs": 30,
+            "fat": 12
+          },
+          "ingredients": ["Lime", "Shrimp", "Slaw", "Avacodo", "Taco bread"]
         }
       ]
     };
@@ -398,11 +608,36 @@ const handleSaveRecipe = (recipe, event) => {
   // Save recipe ID
   state.savedRecipes.push(recipe.id);
   
+  // Save to localStorage
+  saveRecipesToStorage();
+  
   // Show toast notification
   showToast('Recipe saved successfully!');
   
   // Create particles at button location
   createParticles(event);
+};
+
+// Remove a recipe from saved recipes
+const handleUnsaveRecipe = (recipeId, event) => {
+  // Remove recipe ID from saved recipes
+  state.savedRecipes = state.savedRecipes.filter(id => id !== recipeId);
+  
+  // Save updated list to localStorage
+  saveRecipesToStorage();
+  
+  // Show toast notification
+  showToast('Recipe removed from saved recipes');
+  
+  // Create particles at button location if event provided
+  if (event) {
+    createParticles(event);
+  }
+  
+  // Update saved recipes modal if open
+  if (document.getElementById('savedRecipesModal').classList.contains('show')) {
+    showSavedRecipes();
+  }
 };
 
 // Show toast notification
@@ -421,7 +656,7 @@ const showToast = (message) => {
 // Create particle effects
 const createParticles = (event) => {
   const numParticles = 15;
-  const colors = ['#4e54c8', '#8f94fb', '#ff6b6b'];
+  const colors = ['#f5bc00', '#fabe70', '#ff6b6b'];
   const buttonRect = event.target.getBoundingClientRect();
   
   // Clear existing particles

@@ -1,19 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM loaded - meal-planner-hero.js starting');
-    
-    // Check if arrow element exists and is visible
-    const arrowElement = document.getElementById('scroll-down-arrow');
-    if (arrowElement) {
-        console.log('Arrow element found:', arrowElement);
-    } else {
-        console.error('Arrow element not found!');
-    }
-    
-    // Make sure ScrollTrigger is available
-    if (typeof ScrollTrigger === 'undefined') {
-        console.error('ScrollTrigger not loaded. Make sure GSAP and ScrollTrigger are properly included.');
-        return;
-    }
 
     // Register ScrollTrigger plugin
     gsap.registerPlugin(ScrollTrigger);
@@ -87,13 +72,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Scroll down when arrow is clicked
         scrollArrow.addEventListener('click', function() {
-            console.log('Arrow clicked!');
             const mainContainer = document.getElementById('main-container');
             if (mainContainer) {
-                console.log('Scrolling to main container');
                 mainContainer.scrollIntoView({ behavior: 'smooth' });
             } else {
-                console.log('Main container not found, trying class selector');
                 const mainContainerByClass = document.querySelector('.main-container');
                 if (mainContainerByClass) {
                     mainContainerByClass.scrollIntoView({ behavior: 'smooth' });

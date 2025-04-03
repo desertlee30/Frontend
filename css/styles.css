@@ -66,6 +66,10 @@ body {
     color: #FF6B35;
 }
 
+.nav-menu li a.active {
+    color: #FF6B35;
+}
+
 .nav-buttons {
     display: flex;
     gap: 1rem;

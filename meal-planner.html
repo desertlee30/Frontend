@@ -48,19 +48,21 @@
         <div class="hero-content">
             <h1>Discover Your Perfect Meal Plan</h1>
             <p>Personalized recipes for your lifestyle - fresh, healthy, and delicious meal ideas at your fingertips.</p>
-            <a href="#recipesGrid" class="btn btn-primary hero-btn">Explore Recipes</a>
+            <a href="#main-container" class="btn btn-primary hero-btn">Explore Recipes</a>
         </div>
         <img src="Media/arrow-circle-down.png" alt="Scroll down arrow" id="scroll-down-arrow" style="z-index: 10;">
     </section>
 
     <div id="main-container" class="main-container">
-        <header class="header">
-            <h1>Meal Planner</h1>
-            <p class="subtitle">Discover and save healthy recipes tailored to your needs</p>
-        </header>
 
         <section class="filter-section">
-            <h2>Filter Recipes</h2>
+            <div class="filter-header">
+                <h2>Filter Recipes</h2>
+                <div class="saved-recipes-button" id="savedRecipesButton">
+                    <i class="fas fa-heart"></i>
+                    <span class="saved-counter" id="savedCounter">0</span>
+                </div>
+            </div>
             <div class="filter-tags" id="filterTags">
                 <!-- Filter tags will be dynamically populated -->
             </div>
@@ -89,6 +91,25 @@
     <!-- Particles container for save animation -->
     <div class="particles-container" id="particlesContainer"></div>
 
+    <!-- Saved Recipes Modal -->
+    <div class="modal-overlay" id="savedRecipesModalOverlay"></div>
+    <div class="modal" id="savedRecipesModal">
+        <div class="modal-header">
+            <h2>Saved Recipes</h2>
+            <button class="modal-close-button" id="modalCloseButton">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-content">
+            <div class="saved-recipes-grid" id="savedRecipesGrid">
+                <!-- Saved recipe cards will be dynamically populated here -->
+            </div>
+            <div class="no-saved-recipes" id="noSavedRecipes">
+                <p>You have no saved recipes yet. Browse our recipes and click "Save Recipe" to add them here!</p>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -107,25 +128,36 @@
                     </div>
                 </div>
                 
-                <!-- Quick Links Column -->
-                <div class="footer-links">
-                    <h4>Quick Links</h4>
+                <!-- Information Column -->
+                <div class="footer-info">
+                    <h4>Information</h4>
                     <ul>
-                        <li><a href="index.html">Home</a></li>
+                        <li><a href="#">Home</a></li>
                         <li><a href="#">About Us</a></li>
-                        <li><a href="meal-planner.html">Recipes</a></li>
+                        <li><a href="#">Services</a></li>
                         <li><a href="#">Contact Us</a></li>
                     </ul>
                 </div>
                 
-                <!-- Recipe Categories Column -->
-                <div class="footer-categories">
-                    <h4>Recipe Categories</h4>
+                <!-- Support Column -->
+                <div class="footer-support">
+                    <h4>Support</h4>
                     <ul>
-                        <li><a href="#">High Protein</a></li>
-                        <li><a href="#">Vegan</a></li>
-                        <li><a href="#">Keto</a></li>
-                        <li><a href="#">Quick Meals</a></li>
+                        <li><a href="#">Terms of Use</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact Column -->
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <ul>
+                        <li><a href="#">Online Support</a></li>
+                        <li><a href="#">Business Cooperation</a></li>
+                        <li><a href="#">Join Our Team</a></li>
+                        <li><a href="#">Media Inquiries</a></li>
                     </ul>
                 </div>
             </div>
