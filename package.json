@@ -8,7 +8,7 @@
     "dev:backend": "cd backend && npm run dev",
     "dev:frontend": "cd frontend && npm run serve",
     "install:all": "npm install && cd backend && npm install",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"No tests specified - skipping tests\""
   },
   "engines": {
     "node": ">=14.0.0"
@@ -23,6 +23,6 @@
     "jsonwebtoken": "^9.0.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.22"
+    "nodemon": "^3.1.9"
   }
-} 
+}
