@@ -43,9 +43,12 @@
     <!-- Hero Section with Video -->
     <section class="hero meal-hero">
         <div class="video-container">
-            <!-- Video element with local path to the existing video file -->
+            <!-- Video element with multiple fallback sources -->
             <video id="meal-video" autoplay loop muted playsinline>
                 <source src="Media/meal-video.mp4" type="video/mp4">
+                <source src="/Media/meal-video.mp4" type="video/mp4">
+                <!-- Fallback to external hosted video if local file isn't available -->
+                <source src="https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>

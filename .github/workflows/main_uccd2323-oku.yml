@@ -30,6 +30,12 @@ jobs:
         run: npm install
         working-directory: ./backend
       
+      - name: Setup data directory structure
+        run: |
+          mkdir -p backend/data
+          echo '{"users":[]}' > backend/data/users.json
+          echo '{"recipes":[]}' > backend/data/recipes.json
+          
       - name: Run tests if present
         run: npm run test --if-present
       
@@ -72,4 +78,8 @@ jobs:
         with:
           app-name: 'UCCD2323-oKU'
           slot-name: 'Production'
-          package: . 
+          package: .
+      
+      - name: 'Configure startup command'
+        run: |
+          az webapp config set --resource-group UCCD2323 --name UCCD2323-oKU --startup-file "node backend/server.js" 

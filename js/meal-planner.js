@@ -6,10 +6,64 @@ const recipesGrid = document.getElementById('recipesGrid');
 const toastNotification = document.getElementById('toastNotification');
 const particlesContainer = document.getElementById('particlesContainer');
 
-// API endpoint - updated to handle both local development and production
+// Check environment and set API URL
 const API_URL = window.location.hostname.includes('localhost') || window.location.hostname.includes('127.0.0.1') 
   ? 'http://localhost:3000/api'  // Local development
   : '/api';                      // Production (relative URL)
+
+// Log the API URL for debugging
+console.log('Using API URL:', API_URL);
+
+// Backup recipe data in case API fails
+const backupRecipes = {
+  "recipes": [
+    {
+      "id": 1,
+      "title": "Grilled Chicken Salad",
+      "description": "A healthy and protein-rich salad with grilled chicken breast, mixed greens, and a light lemon dressing.",
+      "image": "https://via.placeholder.com/300x200?text=GrilledChickenSalad",
+      "time": 20,
+      "calories": 350,
+      "nutrition": {
+        "protein": 30,
+        "carbs": 15,
+        "fat": 12
+      },
+      "tags": ["high-protein", "low-carb", "keto", "lunch"],
+      "ingredients": ["Chicken breast", "Mixed greens", "Cherry tomatoes", "Cucumber", "Olive oil", "Lemon juice", "Salt", "Pepper"]
+    },
+    {
+      "id": 2,
+      "title": "Protein Smoothie Bowl",
+      "description": "A delicious post-workout smoothie bowl with protein powder, berries, and banana.",
+      "image": "https://via.placeholder.com/300x200?text=SmoothieBowl",
+      "time": 10,
+      "calories": 320,
+      "nutrition": {
+        "protein": 25,
+        "carbs": 40,
+        "fat": 8
+      },
+      "tags": ["breakfast", "high-protein", "vegetarian", "quick"],
+      "ingredients": ["Protein powder", "Frozen berries", "Banana", "Greek yogurt", "Almond milk", "Honey", "Granola", "Chia seeds"]
+    },
+    {
+      "id": 3,
+      "title": "Baked Salmon with Vegetables",
+      "description": "Oven-baked salmon fillet with roasted vegetables and herbs.",
+      "image": "https://via.placeholder.com/300x200?text=BakedSalmon",
+      "time": 35,
+      "calories": 420,
+      "nutrition": {
+        "protein": 35,
+        "carbs": 25,
+        "fat": 20
+      },
+      "tags": ["dinner", "high-protein", "omega-3", "fish"],
+      "ingredients": ["Salmon fillet", "Asparagus", "Bell peppers", "Cherry tomatoes", "Olive oil", "Garlic", "Lemon", "Fresh herbs"]
+    }
+  ]
+};
 
 // State
 const state = {
@@ -233,9 +287,12 @@ const saveRecipesToStorage = () => {
 
 // Load recipes using jQuery AJAX
 const loadRecipes = () => {
+  console.log('Loading recipes from API...');
+  
   $.ajax({
     url: `${API_URL}/recipes`,
     type: 'GET',
+    timeout: 5000, // Add timeout to prevent long waits
     success: function(data) {
       try {
         // Store recipes and extract all unique tags
@@ -247,28 +304,43 @@ const loadRecipes = () => {
         renderRecipeCards();
 
       } catch (error) {
-        console.error('Error processing recipes data:', error);
-        recipesGrid.innerHTML = `<div class="recipe-placeholder">Error processing recipes. Please check the console.</div>`;
+        console.error('Error processing recipe data:', error);
+        fallbackToLocalData();
       }
     },
-    error: function(jqXHR, textStatus, errorThrown) {
-      console.error('Error loading recipes:', textStatus, errorThrown);
+    error: function(xhr, status, error) {
+      console.error('Error loading recipes:', status, error);
       
-      // Fallback to local file if API fails (development mode fallback)
-      console.log('Attempting to load recipes from local file...');
-      $.get('db/recipes.json', (data) => {
-        try {
-          state.recipes = data.recipes;
-          extractAllTags();
-          renderFilterTags();
-          renderRecipeCards();
-        } catch (fallbackError) {
-          console.error('Error loading fallback recipes:', fallbackError);
-          recipesGrid.innerHTML = `<div class="recipe-placeholder">Error loading recipes. Could not fetch data. Please try again later.</div>`;
-        }
-      }).fail(() => {
-        recipesGrid.innerHTML = `<div class="recipe-placeholder">Error loading recipes. Could not fetch data. Please try again later.</div>`;
-      });
+      // Try loading from local file as fallback
+      fallbackToLocalData();
+    }
+  });
+};
+
+// Fallback to local data if API fails
+const fallbackToLocalData = () => {
+  console.log('Attempting to load recipes from local file...');
+  
+  // First try loading from a local JSON file
+  $.ajax({
+    url: 'db/recipes.json',
+    type: 'GET',
+    dataType: 'json',
+    timeout: 3000,
+    success: function(data) {
+      console.log('Successfully loaded recipes from local file');
+      state.recipes = data.recipes;
+      extractAllTags();
+      renderFilterTags();
+      renderRecipeCards();
+    },
+    error: function() {
+      console.log('Local file load failed, using backup recipes data');
+      // Use the embedded backup data as last resort
+      state.recipes = backupRecipes.recipes;
+      extractAllTags();
+      renderFilterTags();
+      renderRecipeCards();
     }
   });
 };
@@ -713,8 +785,77 @@ const setupScrollDownArrow = () => {
   console.log('Scroll down arrow functionality initialized');
 };
 
-// Initialize the application
-document.addEventListener('DOMContentLoaded', init);
+// Fix video loading
+const setupVideoBackground = () => {
+  const videoElement = document.getElementById('meal-video');
+  if (!videoElement) return;
+  
+  // Set up potential video sources to try
+  const videoSources = [
+    'Media/meal-video.mp4',           // Original path
+    '/Media/meal-video.mp4',          // Root-relative path
+    './Media/meal-video.mp4',         // Current directory relative
+    '../Media/meal-video.mp4',        // Parent directory
+    'https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4' // Fallback to a sample video if all else fails
+  ];
+  
+  // Try loading the video from different paths
+  const tryVideoSources = () => {
+    let sourceElement = videoElement.querySelector('source');
+    if (!sourceElement) {
+      sourceElement = document.createElement('source');
+      videoElement.appendChild(sourceElement);
+    }
+    
+    // Try each source
+    let currentSourceIndex = 0;
+    
+    const tryNextSource = () => {
+      if (currentSourceIndex >= videoSources.length) {
+        console.error('Failed to load video from any source');
+        return;
+      }
+      
+      const sourcePath = videoSources[currentSourceIndex];
+      console.log(`Trying to load video from: ${sourcePath}`);
+      
+      sourceElement.src = sourcePath;
+      sourceElement.type = 'video/mp4';
+      videoElement.load();
+      
+      currentSourceIndex++;
+    };
+    
+    // Handle success/failure
+    videoElement.addEventListener('loadeddata', () => {
+      console.log('Video loaded successfully');
+    });
+    
+    videoElement.addEventListener('error', () => {
+      console.warn(`Video source failed: ${sourceElement.src}`);
+      tryNextSource();
+    });
+    
+    // Start trying sources
+    tryNextSource();
+  };
+  
+  tryVideoSources();
+};
+
+// Document Ready Function
+$(document).ready(function() {
+  init();
+  
+  // Set up video loading
+  setupVideoBackground();
+  
+  // Load saved recipes from localStorage
+  loadSavedRecipesFromStorage();
+  
+  // Load recipe data
+  loadRecipes();
+});
 
 // jQuery implementation for those who prefer jQuery
 $(document).ready(function() {

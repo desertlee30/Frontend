@@ -5,29 +5,95 @@
 
 const fs = require('fs');
 const path = require('path');
+const config = require('../azure-config'); // Import the Azure config
 
-// Path to recipes JSON file
-const recipesFilePath = path.join(__dirname, '..', 'data', 'recipes.json');
+// Path to recipes JSON file - use the config dataPath for flexibility
+const getRecipesFilePath = () => {
+  // Default data paths
+  const dataDir = path.resolve(config.dataPath);
+  const recipesFilePath = path.join(dataDir, 'recipes.json');
+  
+  // Create fallback paths to check
+  const fallbackPaths = [
+    recipesFilePath,
+    path.join(__dirname, '..', 'data', 'recipes.json'),
+    path.join(__dirname, '..', '..', 'db', 'recipes.json'),
+    path.join(process.cwd(), 'db', 'recipes.json'),
+    path.join(process.cwd(), 'data', 'recipes.json'),
+    path.join(process.cwd(), 'backend', 'data', 'recipes.json')
+  ];
+  
+  // Log search paths for debugging
+  console.log('Searching for recipes.json in these locations:');
+  fallbackPaths.forEach(p => console.log(` - ${p}`));
+  
+  // Find the first path that exists
+  for (const checkPath of fallbackPaths) {
+    if (fs.existsSync(checkPath)) {
+      console.log(`Found recipes.json at: ${checkPath}`);
+      return checkPath;
+    }
+  }
+  
+  // If no file exists, default to the config path (we'll create it)
+  console.log(`No existing recipes.json found. Will create at: ${recipesFilePath}`);
+  return recipesFilePath;
+};
 
 // Ensure recipes.json exists
 const ensureRecipesFile = () => {
-    const dataDir = path.join(__dirname, '..', 'data');
+    const dataDir = path.resolve(config.dataPath);
     
     // Create data directory if it doesn't exist
     if (!fs.existsSync(dataDir)) {
-        fs.mkdirSync(dataDir);
+        fs.mkdirSync(dataDir, { recursive: true });
+        console.log(`Created data directory at: ${dataDir}`);
     }
     
-    // Create recipes.json with empty array if it doesn't exist
+    const recipesFilePath = getRecipesFilePath();
+    
+    // Create recipes.json with sample data if it doesn't exist
     if (!fs.existsSync(recipesFilePath)) {
-        fs.writeFileSync(recipesFilePath, JSON.stringify({ recipes: [] }));
+        // Sample recipe data
+        const sampleRecipes = {
+            recipes: [
+                {
+                    id: 1,
+                    title: "Sample Healthy Salad",
+                    description: "A nutritious salad with mixed greens, grilled chicken, and light vinaigrette.",
+                    image: "https://via.placeholder.com/300x200?text=Salad",
+                    time: 15,
+                    calories: 320,
+                    nutrition: { protein: 28, carbs: 12, fat: 15 },
+                    tags: ["healthy", "quick", "high-protein"],
+                    ingredients: ["Mixed greens", "Grilled chicken", "Cherry tomatoes", "Cucumber", "Olive oil", "Balsamic vinegar", "Salt", "Pepper"]
+                },
+                {
+                    id: 2,
+                    title: "Protein Smoothie Bowl",
+                    description: "Refreshing smoothie bowl loaded with fruits and protein powder.",
+                    image: "https://via.placeholder.com/300x200?text=Smoothie",
+                    time: 10,
+                    calories: 280,
+                    nutrition: { protein: 22, carbs: 35, fat: 5 },
+                    tags: ["breakfast", "high-protein", "vegetarian"],
+                    ingredients: ["Frozen banana", "Frozen berries", "Protein powder", "Almond milk", "Chia seeds", "Granola"]
+                }
+            ]
+        };
+        
+        fs.writeFileSync(recipesFilePath, JSON.stringify(sampleRecipes, null, 2));
+        console.log(`Created recipes.json with sample data at: ${recipesFilePath}`);
     }
+    
+    return recipesFilePath;
 };
 
 // Get all recipes
 const getAllRecipes = () => {
     try {
-        ensureRecipesFile();
+        const recipesFilePath = ensureRecipesFile();
+        console.log(`Reading recipes from: ${recipesFilePath}`);
         const data = fs.readFileSync(recipesFilePath, 'utf8');
         return JSON.parse(data);
     } catch (error) {
@@ -39,8 +105,9 @@ const getAllRecipes = () => {
 // Save recipes to file
 const saveRecipes = (recipesData) => {
     try {
-        ensureRecipesFile();
+        const recipesFilePath = ensureRecipesFile();
         fs.writeFileSync(recipesFilePath, JSON.stringify(recipesData, null, 2));
+        console.log(`Saved recipes to: ${recipesFilePath}`);
         return true;
     } catch (error) {
         console.error('Error writing recipes file:', error);
