@@ -1,65 +1,95 @@
-# WellnessWave - Fitness & Wellness Landing Page
+# Sport Meal Planner
 
-A modern, responsive landing page for a wellness and fitness brand called "WellnessWave". 
-
-## Project Overview
-
-This project contains a simple yet elegant landing page for a wellness brand with:
-
-- Full-screen hero section with fixed background image and scroll effects
-- Modern navigation bar with logo
-- About section with equal-sized image and content areas
-- Call-to-action buttons
-- Responsive design for all device sizes
-- Interactive elements (hover effects, scroll effects)
-
-## File Structure
-
-- `index.html` - Main HTML file
-- `css/styles.css` - External CSS styles
-- `js/main.js` - JavaScript functionality
-- `logo.png` - Brand logo for the navigation bar
-- `Picture 1.jpg` - Background image for the hero section
-- `Picture 2.jpg` - Image for the About section
-
-## Color Palette
-
-The website uses a fresh, wellness-focused color palette:
-
-- **Primary**: Fresh greens (#4CAF50, #8BC34A) for health/wellness
-- **Secondary**: Warm oranges (#FF9800) for energy, soft blues (#42A5F5) for trust
-- **Neutrals**: White (#FFFFFF) + light gray (#F5F5F5) for cleanliness
+A web application for athletes to plan and track their meals based on their fitness goals.
 
 ## Features
 
-- Fixed background on hero section that remains static while content scrolls
-- Text content that moves up on scroll for a parallax-like effect
-- Equal-sized image and content areas in the About section
-- Responsive layout that adapts to all screen sizes
+- User authentication (signup/login)
+- Meal planning based on fitness goals
+- Calorie and nutrition tracking
+- User profile management
 
-## How to Use
+## Project Structure
 
-1. Simply open the `index.html` file in any modern web browser
-2. The page is fully responsive and works on mobile, tablet, and desktop
+```
+├── backend/            # Node.js server with Express
+│   ├── server.js       # Main server file
+│   ├── azure-config.js # Azure deployment configuration
+│   └── data/           # Data storage directory
+│       └── users.json  # User data
+├── js/                 # Frontend JavaScript
+│   ├── login.js        # Login functionality
+│   ├── signup.js       # Registration functionality
+│   └── meal-planner.js # Main application logic
+├── css/                # Stylesheets
+├── web.config          # IIS configuration for Azure
+├── AZURE_DEPLOYMENT_GUIDE.md # Deployment instructions
+└── DEPLOYMENT_SUMMARY.md     # Changes made for deployment
+```
 
-## Customization
+## Local Development Setup
 
-You can customize the following elements:
+1. **Prerequisites**
+   - Node.js and npm installed
+   - Git (optional, for version control)
 
-- Colors: Modify the color variables in the CSS file
-- Images: Replace `logo.png`, `Picture 1.jpg`, and `Picture 2.jpg` with your own images
-- Text content: Modify the headings and paragraphs
-- Links: Update the navigation links to point to your actual pages
+2. **Install Backend Dependencies**
+   ```bash
+   # From the project root
+   cd backend
+   npm install
+   ```
 
-## Future Enhancements
+3. **Start the Backend Server**
+   ```bash
+   # From the backend directory
+   npm start
+   ```
+   The server will start on http://localhost:3000
 
-Consider adding:
+4. **Access the Frontend**
+   - Open the login.html file in your browser
+   - Or use a local server like Live Server in VS Code
 
-- Additional sections (features, testimonials, etc.)
-- Contact form functionality
-- Newsletter signup
-- Animation effects
+## API Endpoints
+
+### Authentication
+
+- `POST /api/signup` - Register a new user
+- `POST /api/login` - Authenticate a user and receive a JWT token
+
+### User Data
+
+- `GET /api/user` - Get user profile information (requires authentication)
+- `PUT /api/user` - Update user profile (requires authentication)
+
+## Deployment
+
+This application can be deployed to Azure App Service. See the detailed instructions in [AZURE_DEPLOYMENT_GUIDE.md](AZURE_DEPLOYMENT_GUIDE.md).
+
+For a summary of all changes made to prepare the app for deployment, see [DEPLOYMENT_SUMMARY.md](DEPLOYMENT_SUMMARY.md).
+
+### Quick Deployment Steps
+
+1. Configure Azure-specific settings in `backend/azure-config.js`
+2. Set up environment variables in Azure App Service
+3. Deploy code to Azure using Azure Portal or Azure CLI
+
+## Security Considerations
+
+- JWT tokens are used for authentication
+- Passwords are hashed with bcrypt
+- CORS is configured for secure cross-origin requests
+- Environment variables are used for sensitive data
+
+## Browser Compatibility
+
+The application is compatible with all modern browsers:
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
 
 ## License
 
-This project is for demonstration purposes. 
+This project is licensed under the ISC License 

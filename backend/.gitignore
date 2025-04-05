@@ -1,0 +1,25 @@
+# Node.js dependencies
+node_modules/
+
+# Environment variables
+.env
+
+# Log files
+logs/
+*.log
+npm-debug.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Data directory (contains user data)
+data/
+
+# Editor directories and files
+.idea/
+.vscode/
+*.swp
+*.swo 

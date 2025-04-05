@@ -663,4 +663,30 @@ body {
     .social-icons {
         justify-content: center;
     }
+}
+
+/* Authentication-specific Styles */
+.btn.logged-in {
+    background-color: #28a745; /* Green color to indicate logged in */
+}
+
+.side-nav-disabled-when-logged-in.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Logout button styles */
+.logout-btn {
+    background-color: #dc3545; /* Red color for logout */
+}
+
+.logout-btn:hover {
+    background-color: #c82333;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 } 

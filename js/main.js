@@ -1,122 +1,152 @@
-gsap.registerPlugin(ScrollTrigger);
+// Main JS file with parallax effects and animations
+// Wait for both DOM and all scripts to load
+window.addEventListener('load', function() {
+    console.log('Main.js initializing GSAP animations');
+    
+    // Check if GSAP and ScrollTrigger are loaded
+    if (typeof gsap === 'undefined') {
+        console.error('GSAP library not loaded. Parallax effects will not work.');
+        return;
+    }
 
-document.addEventListener('DOMContentLoaded', function() {
+    if (typeof ScrollTrigger === 'undefined') {
+        console.error('ScrollTrigger plugin not loaded. Parallax effects will not work.');
+        return;
+    }
+
+    // Register ScrollTrigger plugin
+    gsap.registerPlugin(ScrollTrigger);
+
+    initNavbarScroll();
+    initHeroParallax();
+    initScrollArrow();
+    initSectionParallax();
+});
+
+// Navbar scroll visibility
+function initNavbarScroll() {
     const navbar = document.querySelector('.navbar');
     const aboutSection = document.querySelector('.about-section');
 
-    // --- Navbar Visibility Control ---
-    if (navbar && aboutSection) {
-        const aboutSectionTop = aboutSection.offsetTop; // Get the initial top position
+    if (!navbar || !aboutSection) {
+        console.warn("Navbar or About Section element not found for scroll behavior.");
+        return;
+    }
 
-        ScrollTrigger.create({
-            start: () => aboutSectionTop - 100, // Start checking when scrolled 100px above the about section
-            end: "max", // Continue checking to the end of the page
-            onUpdate: (self) => {
-                // Hide navbar when scrolling down past the trigger point
-                if (self.direction === 1) {
-                    navbar.classList.add('hidden');
-                }
-                // Show navbar when scrolling up past the trigger point
-                else if (self.direction === -1) {
-                    navbar.classList.remove('hidden');
-                }
-            },
-            // Ensure navbar is visible when scrolling back up above the trigger point
-            onLeaveBack: () => {
-                navbar.classList.remove('hidden');
-            },
-            // If the page loads scrolled past the trigger, handle initial state correctly
-            onEnter: (self) => {
-                 if (self.direction === 1) { // If entered scrolling down
-                    navbar.classList.add('hidden');
-                 }
-            },
-            onEnterBack: () => { // When scrolling up into the trigger zone
+    const aboutSectionTop = aboutSection.offsetTop;
+
+    ScrollTrigger.create({
+        start: () => aboutSectionTop - 100,
+        end: "max",
+        onUpdate: (self) => {
+            if (self.direction === 1) {
+                navbar.classList.add('hidden');
+            } else if (self.direction === -1) {
                 navbar.classList.remove('hidden');
             }
-        });
-
-        // Initial check in case the page loads already scrolled down
-        if (window.scrollY >= aboutSectionTop - 100) {
-             // We don't necessarily hide it here, the onEnter/onUpdate will handle direction
-             // But we might need an initial state if loading deep and scrolling up initially
-        } else {
-             navbar.classList.remove('hidden'); // Ensure visible if loaded above trigger
+        },
+        onLeaveBack: () => {
+            navbar.classList.remove('hidden');
+        },
+        onEnter: (self) => {
+            if (self.direction === 1) {
+                navbar.classList.add('hidden');
+            }
+        },
+        onEnterBack: () => {
+            navbar.classList.remove('hidden');
         }
+    });
 
-
-    } else {
-        console.error("Navbar or About Section element not found for scroll behavior.");
+    if (window.scrollY < aboutSectionTop - 100) {
+        navbar.classList.remove('hidden');
     }
+}
 
-    // --- Hero Content Parallax ---
+// Hero section parallax
+function initHeroParallax() {
     const heroContent = document.querySelector('.hero-content');
-    if (heroContent) {
-        gsap.to(heroContent, {
-            yPercent: -30, // Move up 30% of its own height
-            opacity: 0.7, // Fade out slightly (adjust opacity as desired)
-            ease: "none", // Linear transition
-            scrollTrigger: {
-                trigger: ".hero",        // Element that triggers the animation
-                start: "top top",        // When the top of the trigger hits the top of the viewport
-                end: "bottom top",     // When the bottom of the trigger hits the top of the viewport
-                scrub: true,             // Smoothly link animation progress to scroll position
-                // markers: true,        // Uncomment for debugging visual markers
-            }
-        });
-    } else {
-         console.error("Hero content element not found for parallax effect.");
+    if (!heroContent) {
+        console.warn("Hero content element not found for parallax effect.");
+        return;
     }
 
-    // --- Hero Scroll Down Arrow Fade --- 
+    gsap.to(heroContent, {
+        yPercent: -30,
+        opacity: 0.7,
+        ease: "none",
+        scrollTrigger: {
+            trigger: ".hero",
+            start: "top top",
+            end: "bottom top",
+            scrub: true,
+        }
+    });
+}
+
+// Scroll down arrow animation
+function initScrollArrow() {
     const scrollArrow = document.querySelector('#scroll-down-arrow');
-    if (scrollArrow) {
-        gsap.to(scrollArrow, {
-            opacity: 0,
-            ease: "none",
-            scrollTrigger: {
-                trigger: ".hero",
-                start: "top top", // Start fading when top of hero hits top of viewport
-                end: "15% top", // Fully faded by the time 15% of hero is scrolled past top
-                scrub: true
-            }
-        });
-
-        // Scroll down when arrow is clicked
-        scrollArrow.addEventListener('click', () => {
-            const nextSection = document.querySelector('.about-section'); // Target the next section
-            if (nextSection) {
-                nextSection.scrollIntoView({ behavior: 'smooth' });
-            }
-        });
+    if (!scrollArrow) {
+        console.warn("Scroll arrow element not found.");
+        return;
     }
 
-    // --- Section Image Parallax (Reveal Effect) ---
+    gsap.to(scrollArrow, {
+        opacity: 0,
+        ease: "none",
+        scrollTrigger: {
+            trigger: ".hero",
+            start: "top top",
+            end: "15% top",
+            scrub: true
+        }
+    });
+
+    scrollArrow.addEventListener('click', () => {
+        const nextSection = document.querySelector('.about-section');
+        if (nextSection) {
+            nextSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    });
+}
+
+// Section images parallax effect
+function initSectionParallax() {
+    console.log('Initializing section parallax');
     const parallaxContainers = gsap.utils.toArray('.image-parallax-container');
-    if (parallaxContainers.length > 0) {
-        parallaxContainers.forEach(container => {
-            const image = container.querySelector('img'); // Target the img directly
-            if (image) {
-                // Animate yPercent from -45% to 0% (relative to image height, assuming 180% CSS height)
-                // This slides the image downwards within the container
-                gsap.fromTo(image, 
-                    { yPercent: -50 }, // Start with image shifted up (bottom visible)
-                    {
-                        yPercent: 0,   // End with image top aligned with container top (top visible)
-                        ease: "none",
-                        scrollTrigger: {
-                            trigger: container,         
-                            start: "top bottom",        
-                            end: "bottom top",        
-                            scrub: 0.60, 
-                            // markers: true,         // Uncomment for debugging
-                        }
-                    }
-                );
-            }
-        });
-    } else {
-        console.warn("No image-parallax-container elements found.");
+    
+    if (parallaxContainers.length === 0) {
+        console.warn("No image-parallax-container elements found. Parallax won't work.");
+        return;
     }
-
-}); // End DOMContentLoaded 
+    
+    console.log(`Found ${parallaxContainers.length} parallax containers`);
+    
+    parallaxContainers.forEach((container, index) => {
+        const image = container.querySelector('img');
+        if (!image) {
+            console.warn(`No image found in parallax container ${index+1}`);
+            return;
+        }
+        
+        console.log(`Setting up parallax for container ${index+1}`);
+        
+        gsap.fromTo(image, 
+            { yPercent: -50 },
+            {
+                yPercent: 0,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: container,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: 0.60,
+                    // markers: true,  // Uncomment for debugging
+                    onEnter: () => console.log(`Parallax ${index+1} entered`),
+                    onLeave: () => console.log(`Parallax ${index+1} left`)
+                }
+            }
+        );
+    });
+} 

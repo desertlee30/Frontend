@@ -6,6 +6,11 @@ const recipesGrid = document.getElementById('recipesGrid');
 const toastNotification = document.getElementById('toastNotification');
 const particlesContainer = document.getElementById('particlesContainer');
 
+// API endpoint - updated to handle both local development and production
+const API_URL = window.location.hostname.includes('localhost') || window.location.hostname.includes('127.0.0.1') 
+  ? 'http://localhost:3000/api'  // Local development
+  : '/api';                      // Production (relative URL)
+
 // State
 const state = {
   recipes: [],
@@ -33,6 +38,9 @@ const init = () => {
 
   // Add: Set up "more" indicator functionality
   setupMoreIndicator();
+  
+  // Set up scroll down arrow functionality
+  setupScrollDownArrow();
 };
 
 // Set up event listeners for modal
@@ -223,207 +231,46 @@ const saveRecipesToStorage = () => {
   updateSavedCounter();
 };
 
-// Load recipes - embedded data instead of fetch to avoid CORS issues
-const loadRecipes = async () => {
-  try {
-    // Embedded recipes data
-    const recipesData = {
-      "recipes": [
-        {
-          "id": 1,
-          "title": "Greek Yogurt Protein Bowl",
-          "image": "Receipt/GreekBowl.png",
-          "time": 15,
-          "calories": 320,
-          "tags": ["High Protein", "Low Carb", "Quick Meals"],
-          "description": "A delicious protein packed breakfast bowl with Greek yogurt, berries, and nuts.",
-          "nutrition": {
-            "protein": 25,
-            "carbs": 20,
-            "fat": 12
-          },
-          "ingredients": ["Greek yogurt", "Mixed berries", "Almonds", "Honey"]
-        },
-        {
-          "id": 2,
-          "title": "Mediterranean Quinoa Salad",
-          "image": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-          "time": 25,
-          "calories": 410,
-          "tags": ["Vegan", "Family Friendly"],
-          "description": "A refreshing and colorful Mediterranean quinoa salad with fresh vegetables and herbs.",
-          "nutrition": {
-            "protein": 14,
-            "carbs": 45,
-            "fat": 18
-          },
-          "ingredients": ["Quinoa", "Cucumber", "Tomatoes", "Red onion", "Olive oil", "Lemon juice"]
-        },
-        {
-          "id": 3,
-          "title": "Avocado Chicken Salad",
-          "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-          "time": 20,
-          "calories": 450,
-          "tags": ["High Protein", "Low Carb"],
-          "description": "A creamy and satisfying chicken salad with avocado dressing.",
-          "nutrition": {
-            "protein": 35,
-            "carbs": 12,
-            "fat": 28
-          },
-          "ingredients": ["Chicken breast", "Avocado", "Greek yogurt", "Lemon juice", "Mixed greens"]
-        },
-        {
-          "id": 4,
-          "title": "Chocolate Peanut Butter Protein Smoothie",
-          "image": "Receipt/CPeanut.png",
-          "time": 10,
-          "calories": 380,
-          "tags": ["High Protein", "Quick Meals"],
-          "description": "A creamy and satisfying protein smoothie that tastes like dessert.",
-          "nutrition": {
-            "protein": 30,
-            "carbs": 35,
-            "fat": 14
-          },
-          "ingredients": ["Banana", "Protein powder", "Peanut butter", "Cocoa powder", "Almond milk"]
-        },
-        {
-          "id": 5,
-          "title": "Keto Breakfast Egg Muffins",
-          "image": "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-          "time": 30,
-          "calories": 280,
-          "tags": ["Keto", "High Protein", "Low Carb"],
-          "description": "Easy make-ahead breakfast egg muffins packed with protein and veggies.",
-          "nutrition": {
-            "protein": 22,
-            "carbs": 4,
-            "fat": 20
-          },
-          "ingredients": ["Eggs", "Spinach", "Bell peppers", "Cheese", "Bacon"]
-        },
-        {
-          "id": 6,
-          "title": "Vegan Buddha Bowl",
-          "image": "https://images.unsplash.com/photo-1540420773420-3366772f4999?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-          "time": 35,
-          "calories": 520,
-          "tags": ["Vegan", "Family Friendly"],
-          "description": "A nutrient packed vegan buddha bowl with roasted vegetables and tahini dressing.",
-          "nutrition": {
-            "protein": 15,
-            "carbs": 68,
-            "fat": 22
-          },
-          "ingredients": ["Quinoa", "Sweet potato", "Chickpeas", "Avocado", "Kale", "Tahini"]
-        },
-        {
-          "id": 7,
-          "title": "Zucchini Noodles with Pesto",
-          "image": "Receipt/Zpasta.png",
-          "time": 20,
-          "calories": 310,
-          "tags": ["Low Carb", "Quick Meals", "Vegan"],
-          "description": "Light and fresh zucchini noodles tossed with homemade pesto sauce.",
-          "nutrition": {
-            "protein": 10,
-            "carbs": 12,
-            "fat": 26
-          },
-          "ingredients": ["Zucchini", "Fresh basil", "Pine nuts", "Garlic", "Olive oil"]
-        },
-        {
-          "id": 8,
-          "title": "Keto Bacon Cheeseburger Soup",
-          "image": "Receipt/burgursoap.png",
-          "time": 45,
-          "calories": 590,
-          "tags": ["Keto", "High Protein", "Family Friendly"],
-          "description": "A hearty and satisfying keto soup that tastes just like a bacon cheeseburger.",
-          "nutrition": {
-            "protein": 38,
-            "carbs": 6,
-            "fat": 48
-          },
-          "ingredients": ["Ground beef", "Bacon", "Cheddar cheese", "Onion", "Heavy cream"]
-        },
-        {
-          "id": 9,
-          "title": "Lime Shrimp Tacos",
-          "image": "Receipt/ShrimpTaco.png",
-          "time": 15,
-          "calories": 320,
-          "tags": ["Quick Meals", "High Protein"],
-          "description": "A freash and tasty lime shrimp, slaw, and avocado in corn tortillas.",
-          "nutrition": {
-            "protein": 25,
-            "carbs": 30,
-            "fat": 12
-          },
-          "ingredients": ["Lime", "Shrimp", "Slaw", "Avacodo", "Taco bread"]
-        },
-        {
-          "id": 10,
-          "title": "Cauliflower Crust Pizza",
-          "image": "Receipt/CauliflowerPizza.png",
-          "time": 35,
-          "calories": 280,
-          "tags": ["Family Friendly", "Low Carb"],
-          "description": "Veggie-packed pizza with crispy cauliflower crust and melted mozzarella.",
-          "nutrition": {
-            "protein": 18,
-            "carbs": 12,
-            "fat": 15
-          },
-          "ingredients": ["Cauliflower", "Egg", "Mozzarella", "Tomato Sauce", "Bell Peppers"]
-        },
-        {
-          "id": 11,
-          "title": "Miso Glazed Salmon Bowl",
-          "image": "Receipt/MisoSalmon.png",
-          "time": 30,
-          "calories": 450,
-          "tags": ["High Protein", "Keto", "Low Carb"],
-          "description": "Pan seared salmon with miso glaze, served over cauliflower rice and bok choy.",
-          "nutrition": {
-            "protein": 34,
-            "carbs": 10,
-            "fat": 28
-          },
-          "ingredients": ["Salmon", "Miso Paste", "Cauliflower Rice", "Bok Choy", "Sesame Oil"]
-        },
-        {
-          "id": 21,
-          "title": "Vegan Kimchi Noodle Soup",
-          "image": "Receipt/KimchiSoup.png",
-          "time": 15,
-          "calories": 220,
-          "tags": ["Vegan", "Family Friendly", "Quick Meals"],
-          "description": "Spicy kimchi broth with rice noodles, tofu, and mushrooms.",
-          "nutrition": {
-            "protein": 12,
-            "carbs": 35,
-            "fat": 5
-          },
-          "ingredients": ["Kimchi", "Rice Noodles", "Tofu", "Mushrooms", "Gochujang"]
+// Load recipes using jQuery AJAX
+const loadRecipes = () => {
+  $.ajax({
+    url: `${API_URL}/recipes`,
+    type: 'GET',
+    success: function(data) {
+      try {
+        // Store recipes and extract all unique tags
+        state.recipes = data.recipes;
+        extractAllTags();
+
+        // Render UI
+        renderFilterTags();
+        renderRecipeCards();
+
+      } catch (error) {
+        console.error('Error processing recipes data:', error);
+        recipesGrid.innerHTML = `<div class="recipe-placeholder">Error processing recipes. Please check the console.</div>`;
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      console.error('Error loading recipes:', textStatus, errorThrown);
+      
+      // Fallback to local file if API fails (development mode fallback)
+      console.log('Attempting to load recipes from local file...');
+      $.get('db/recipes.json', (data) => {
+        try {
+          state.recipes = data.recipes;
+          extractAllTags();
+          renderFilterTags();
+          renderRecipeCards();
+        } catch (fallbackError) {
+          console.error('Error loading fallback recipes:', fallbackError);
+          recipesGrid.innerHTML = `<div class="recipe-placeholder">Error loading recipes. Could not fetch data. Please try again later.</div>`;
         }
-      ]
-    };
-    
-    // Store recipes and extract all unique tags
-    state.recipes = recipesData.recipes;
-    extractAllTags();
-    
-    // Render UI
-    renderFilterTags();
-    renderRecipeCards();
-    
-  } catch (error) {
-    console.error('Error loading recipes:', error);
-    recipesGrid.innerHTML = `<div class="recipe-placeholder">Error loading recipes. Please try again later.</div>`;
-  }
+      }).fail(() => {
+        recipesGrid.innerHTML = `<div class="recipe-placeholder">Error loading recipes. Could not fetch data. Please try again later.</div>`;
+      });
+    }
+  });
 };
 
 // Extract all unique tags from recipes
@@ -832,6 +679,38 @@ const setupMoreIndicator = () => {
       handleMoreIndicatorScroll(); // Re-check visibility
   });
 
+};
+
+// Set up scroll down arrow functionality
+const setupScrollDownArrow = () => {
+  const scrollArrow = document.getElementById('scroll-down-arrow');
+  if (!scrollArrow) {
+    console.warn('Scroll down arrow element not found');
+    return;
+  }
+  
+  // Add click event listener to smooth scroll to main container
+  scrollArrow.addEventListener('click', () => {
+    console.log('Scroll arrow clicked');
+    const mainContainer = document.getElementById('main-container');
+    if (mainContainer) {
+      mainContainer.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+  
+  // Add fade-out effect on scroll
+  window.addEventListener('scroll', () => {
+    const scrollPosition = window.scrollY;
+    // Start fading out the arrow after 50px of scrolling
+    if (scrollPosition > 50) {
+      const opacity = Math.max(0, 1 - (scrollPosition - 50) / 200);
+      scrollArrow.style.opacity = opacity;
+    } else {
+      scrollArrow.style.opacity = 1;
+    }
+  });
+  
+  console.log('Scroll down arrow functionality initialized');
 };
 
 // Initialize the application

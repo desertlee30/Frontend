@@ -2,6 +2,60 @@
 
 This file tracks the progress, challenges, and solutions implemented throughout the development of the Frontend Sport project.
 
+## 2024-04-XX: Azure Deployment Preparation
+
+### Functions Implemented:
+- Created `web.config` file with IIS configuration for Azure App Service
+- Developed `backend/azure-config.js` for centralized Azure deployment settings
+- Updated API URL configuration in all frontend JS files to be environment-aware
+- Modified server.js to use Azure configuration settings
+- Updated CORS configuration to support both development and production environments
+- Created deployment documentation including AZURE_DEPLOYMENT_GUIDE.md
+- Created a DEPLOYMENT_SUMMARY.md documenting all changes made
+- Added a root package.json file for simplified deployment process
+
+### Errors Encountered:
+- Initially, the API URLs were hardcoded to use localhost, which would not work in production
+- CORS settings were limited to localhost origins only
+- Data paths were not configured to work with Azure's file system structure
+- No centralized configuration for deployment settings
+
+### Solutions:
+- Implemented dynamic API URL determination based on the current hostname:
+  ```javascript
+  const API_URL = window.location.hostname.includes('localhost') || window.location.hostname.includes('127.0.0.1') 
+    ? 'http://localhost:3000/api'  // Local development
+    : '/api';                      // Production (relative URL)
+  ```
+- Created flexible CORS configuration that supports both development and production environments:
+  ```javascript
+  app.use(cors({
+      origin: function(origin, callback) {
+          // Dynamic CORS check against config.allowedOrigins
+          // Including regex pattern matching for Azure domains
+      },
+      methods: ['GET', 'POST', 'PUT', 'DELETE'],
+      credentials: true
+  }));
+  ```
+- Updated data paths to use configuration values:
+  ```javascript
+  const dataDir = path.resolve(config.dataPath);
+  const usersFilePath = path.join(dataDir, 'users.json');
+  
+  // Ensure data directory exists
+  if (!fs.existsSync(dataDir)) {
+      fs.mkdirSync(dataDir, { recursive: true });
+  }
+  ```
+- Created comprehensive deployment guide with step-by-step instructions
+
+### Status:
+- Implementation successful - the application is now configured for deployment to Azure App Service
+- The frontend and backend code have been updated to work in both development and production environments
+- Comprehensive documentation has been created for deployment
+- Next steps: Actual deployment to Azure and testing in the production environment
+
 ## 2023-11-26: Video Path Fix in Meal Planner Hero Section
 
 ### Functions Implemented:
@@ -141,5 +195,30 @@ This file tracks the progress, challenges, and solutions implemented throughout 
 **Error Solutions:** N/A.
 
 **Execution Success:** Successful. The button appears/disappears based on scroll position and scrolls to the target element on click.
+
+## 2024-04-03: Tips Page Implementation
+
+### Functions Implemented:
+- Created a new tips.html page with health and wellness tips content
+- Developed a dedicated tips.css file with styles for the new page
+- Duplicated navigation, hero styling, font styles, and footer from the main site
+- Used background.png from the Media folder as the hero image background
+- Implemented responsive tip card grid layout with hover animations
+- Added featured tip section with step-by-step instructions
+- Ensured consistent styling and branding across all site pages
+- Maintained responsive design for all screen sizes
+
+### Errors Encountered:
+- No significant errors were encountered during implementation
+
+### Solutions:
+- Adapted existing styles from the main site to maintain consistency
+- Created new component styles specific to the tips page content
+- Implemented responsive grid layouts that adjust based on screen size
+
+### Status:
+- Implementation successful - tips.html page now displays correctly with proper styling
+- The page maintains consistent branding and user experience with the rest of the site
+- Next steps: Link to the tips page from other site pages and potentially add more detailed tip content
 
 ---

@@ -1,5 +1,47 @@
 # WellnessWave Project Progress
 
+## Azure Deployment Preparation - April 2024
+
+### Task Description
+Prepare the application for deployment to Azure App Service, including updating API URLs, CORS settings, and creating necessary configuration files for Azure.
+
+### Plan
+[X] Create Azure configuration file (backend/azure-config.js)
+[X] Update API URL configuration in all frontend JavaScript files
+[X] Modify CORS settings to support both development and production
+[X] Update data path configuration for Azure
+[X] Create IIS web.config file for Azure App Service
+[X] Create comprehensive deployment documentation
+[X] Create root package.json for simplified deployment
+[X] Update status documentation
+
+### Implementation Notes
+- Created a centralized configuration in azure-config.js for all Azure-specific settings
+- Modified API URLs to dynamically use localhost in development and relative paths in production:
+  ```javascript
+  const API_URL = window.location.hostname.includes('localhost') || window.location.hostname.includes('127.0.0.1') 
+    ? 'http://localhost:3000/api'  // Local development
+    : '/api';                      // Production (relative URL)
+  ```
+- Updated CORS to allow Azure domains in production:
+  ```javascript
+  app.use(cors({
+      origin: function(origin, callback) {
+          // Checks origin against allowedOrigins including regex patterns
+          // for Azure domains
+      }
+  }));
+  ```
+- Created a web.config file with URL rewrite rules for proper API routing
+- Created comprehensive documentation in AZURE_DEPLOYMENT_GUIDE.md and DEPLOYMENT_SUMMARY.md
+- Created a root package.json to simplify the deployment process
+
+### Next Steps
+- Deploy the application to Azure
+- Test the application in the production environment
+- Monitor for any issues and fix as needed
+- Consider implementing additional security features like HTTPS redirection
+
 ## April 9, 2023 - Fixed Background Parallax Implementation
 
 ### Task Description
@@ -513,3 +555,34 @@ Users can choose the method that best fits their needs.
     [X] Add click listener to scroll smoothly to the main container.
 [X] Update `ProjectStatus.md`.
 [X] Update `Progress.md`.
+
+## 2024-04-03: Health Tips Page Creation
+
+### Task Description
+Create a new standalone tips.html page with its corresponding CSS file, duplicating the navigation, hero styling, font styles, and footer from the main site.
+
+### Plan
+[X] Analyze the existing site structure to identify components to duplicate
+[X] Create a new HTML file (tips.html) with the same navigation, hero, and footer
+[X] Use background.png from the Media folder for the hero section background
+[X] Create a dedicated CSS file (tips.css) with styles from the main site
+[X] Implement a responsive tips card grid layout for health tips content
+[X] Add a featured tip section with detailed content and steps
+[X] Ensure responsive design for all screen sizes
+[X] Update documentation in ProjectStatus.md and Progress.md
+
+### Implementation Notes
+- Created a new tips.html file with the same navigation, hero styling, and footer as the main site
+- Used background.png as the hero image with a gradient overlay for better text readability
+- Implemented a responsive card grid layout that adjusts from 3 columns to 1 column on smaller screens
+- Added engaging visual elements like icons, step counters, and hover animations
+- Maintained consistent styling for buttons, spacing, and typography
+- Created a featured tip section with step-by-step instructions and an image
+- Included the newsletter subscription section for user engagement
+- Ensured all components are fully responsive across all device sizes
+
+### Next Steps
+- Link to the tips page from other pages in the site
+- Add more detailed health tips content
+- Implement functionality to filter tips by category
+- Consider adding a search feature for tips

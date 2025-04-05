@@ -1,5 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Get elements
+    // API endpoint - updated to handle both local development and production
+    const API_URL = window.location.hostname.includes('localhost') || window.location.hostname.includes('127.0.0.1') 
+      ? 'http://localhost:3000/api'  // Local development
+      : '/api';                      // Production (relative URL)
+    
+    // DOM elements
     const loginForm = document.getElementById('loginForm');
     const togglePassword = document.querySelector('.toggle-password');
     const passwordInput = document.getElementById('password');
@@ -125,31 +130,91 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    // Handle form submission
-    const handleSubmit = (e) => {
+    // Loading spinner references
+    const $loadingSpinner = $('#loadingSpinner');
+    
+    // Show/hide loading spinner
+    const showLoading = () => $loadingSpinner.addClass('active');
+    const hideLoading = () => $loadingSpinner.removeClass('active');
+    
+    // Handle login form submission
+    const handleLoginSubmit = async (e) => {
         e.preventDefault();
         
         const email = emailInput.value.trim();
         const password = passwordInput.value;
         
-        // Simple validation
+        // Basic validation
         if (!email || !password) {
-            alert('Please fill in all fields');
+            alert('Please fill in both email and password');
             return;
         }
         
-        // This is where you would typically make an API call to authenticate
-        console.log('Form submitted', { email, password });
-        
-        // Simulate successful login
-        alert('Login successful! (Demo purposes only)');
-        
-        // Clear form after submission
-        loginForm.reset();
+        try {
+            showLoading();
+            
+            // Send login request to API
+            $.ajax({
+                url: `${API_URL}/login`,
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ email, password }),
+                success: function(response) {
+                    // Store token in localStorage for future authenticated requests
+                    localStorage.setItem('authToken', response.token);
+                    
+                    // Store basic user info (no sensitive data)
+                    if (response.user) {
+                        localStorage.setItem('currentUser', JSON.stringify({
+                            id: response.user.id,
+                            firstName: response.user.firstName,
+                            lastName: response.user.lastName,
+                            email: response.user.email
+                        }));
+                    }
+                    
+                    // Reset form
+                    loginForm.reset();
+                    
+                    // Show success message and redirect (in a real app)
+                    alert('Login successful! Redirecting...');
+                    
+                    // Redirect to main page after successful login
+                    window.location.href = 'index.html';
+                },
+                error: function(xhr) {
+                    // Parse and display error message
+                    let errorMessage = 'Invalid email or password.';
+                    
+                    console.log('Login error status:', xhr.status);
+                    console.log('Response text:', xhr.responseText);
+                    
+                    try {
+                        const response = JSON.parse(xhr.responseText);
+                        if (response && response.error) {
+                            errorMessage = response.error;
+                            console.log('Parsed error:', response.error);
+                        }
+                    } catch (e) {
+                        console.error('Error parsing response:', e);
+                    }
+                    
+                    alert(errorMessage);
+                },
+                complete: function() {
+                    hideLoading();
+                }
+            });
+            
+        } catch (error) {
+            console.error('Login error:', error);
+            alert('An error occurred during login. Please try again.');
+            hideLoading();
+        }
     };
     
     // Add form submission event listener
-    loginForm.addEventListener('submit', handleSubmit);
+    loginForm.addEventListener('submit', handleLoginSubmit);
     
     // Handle social login buttons
     const handleSocialLogin = (platform) => {

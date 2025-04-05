@@ -6,6 +6,8 @@
     <title>Login - Sports App</title>
     <link rel="stylesheet" href="css/login.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Add jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
     <a href="index.html" class="login-logo-link">
@@ -55,7 +57,7 @@
                 </div>
                 
                 <p class="signup-link">
-                    Don't have account? <a href="#" tabindex="0">Sign up</a>
+                    Don't have account? <a href="#" id="showSignupBtn" tabindex="0">Sign up</a>
                 </p>
             </div>
         </div>
@@ -66,6 +68,72 @@
         </div>
     </div>
 
+    <!-- Signup Modal -->
+    <div class="signup-modal-overlay" id="signupModalOverlay">
+        <div class="signup-modal">
+            <div class="signup-modal-header">
+                <h2><span class="login-dot"></span>Create Account</h2>
+                <button type="button" class="close-modal-btn" id="closeSignupModal" aria-label="Close signup modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="signup-modal-body">
+                <form id="signupForm">
+                    <div class="form-row">
+                        <div class="form-group half-width">
+                            <label for="firstName">First Name</label>
+                            <input type="text" id="firstName" name="firstName" placeholder="Enter first name" required>
+                        </div>
+                        <div class="form-group half-width">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" id="lastName" name="lastName" placeholder="Enter last name" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupEmail">Email</label>
+                        <input type="email" id="signupEmail" name="signupEmail" placeholder="Enter your email" required>
+                        <small class="error-message" id="emailError"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="dateOfBirth">Date of Birth</label>
+                        <input type="date" id="dateOfBirth" name="dateOfBirth" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupPassword">Password</label>
+                        <div class="password-field">
+                            <input type="password" id="signupPassword" name="signupPassword" placeholder="Create a password" required>
+                            <span class="toggle-password signup-toggle" tabindex="0" aria-label="Toggle password visibility">
+                                <i class="far fa-eye"></i>
+                            </span>
+                        </div>
+                        <small class="password-hint">Must be 6+ chars, 1 uppercase, 1 lowercase, 1 number, 1 symbol.</small>
+                        <small class="error-message" id="passwordError"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <div class="password-field">
+                            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Re-enter your password" required>
+                            <span class="toggle-password confirm-toggle" tabindex="0" aria-label="Toggle password visibility">
+                                <i class="far fa-eye"></i>
+                            </span>
+                        </div>
+                        <small class="error-message" id="confirmPasswordError"></small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="signup-btn" tabindex="0">Create Account</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div class="spinner-overlay" id="loadingSpinner">
+        <div class="spinner"></div>
+    </div>
+
     <script src="js/login.js"></script>
+    <script src="js/signup.js"></script>
 </body>
 </html> 

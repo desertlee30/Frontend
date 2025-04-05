@@ -214,19 +214,14 @@ body {
 
 #scroll-down-arrow {
   position: absolute;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 40px;
-  height: 40px;
-  opacity: 1;
-  cursor: pointer;
-  animation: bounce 2s infinite;
-  z-index: 10;
-  background-image: url('../Media/arrow-circle-down.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+    bottom: 30px; /* Adjust spacing from bottom */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px; /* Adjust size as needed */
+    height: auto;
+    opacity: 1;
+    cursor: pointer; /* Optional: Indicate it's clickable */
+    animation: bounce 2s infinite;
 }
 
 @keyframes bounce {
@@ -1089,4 +1084,30 @@ body {
   50% {
     transform: translateY(-5px);
   }
+}
+
+/* Authentication-specific Styles */
+.btn.logged-in {
+  background-color: #28a745; /* Green color to indicate logged in */
+}
+
+.side-nav-disabled-when-logged-in.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Logout button styles */
+.logout-btn {
+  background-color: #dc3545; /* Red color for logout */
+}
+
+.logout-btn:hover {
+  background-color: #c82333;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 } 

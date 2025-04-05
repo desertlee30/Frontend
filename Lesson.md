@@ -1,5 +1,98 @@
 # WellnessWave Project Lessons
 
+## Azure Deployment Best Practices
+
+### API Configuration
+- **Environment-Aware URLs**: Always make API URLs environment-aware to handle both development and production:
+  ```javascript
+  const API_URL = window.location.hostname.includes('localhost') || window.location.hostname.includes('127.0.0.1') 
+    ? 'http://localhost:3000/api'  // Local development
+    : '/api';                      // Production (relative URL)
+  ```
+- **Relative API Paths**: In production, use relative API paths (`/api`) rather than absolute URLs to avoid cross-domain issues.
+- **Configuration Files**: Create a dedicated configuration file (e.g., `azure-config.js`) to centralize all deployment settings.
+
+### CORS Configuration
+- **Dynamic Origins**: Configure CORS to dynamically handle different environments:
+  ```javascript
+  app.use(cors({
+      origin: function(origin, callback) {
+          // Check against allowed origins including your Azure domain
+      },
+      methods: ['GET', 'POST', 'PUT', 'DELETE'],
+      credentials: true
+  }));
+  ```
+- **Regex Pattern Matching**: Use regex patterns to allow multiple subdomains or related domains:
+  ```javascript
+  if (allowedOrigins.some(allowedOrigin => {
+      if (allowedOrigin.startsWith('/') && allowedOrigin.endsWith('/')) {
+          return new RegExp(allowedOrigin.slice(1, -1)).test(origin);
+      }
+      return allowedOrigin === origin;
+  }))
+  ```
+- **No Origin Handling**: Handle requests with no origin (like from mobile apps) with a specific check: `if (!origin) return callback(null, true);`
+
+### Web Server Configuration
+- **IIS on Azure**: Create a proper `web.config` file for Azure App Service that uses IIS.
+- **URL Rewriting**: Configure URL rewrite rules for both static files and API routes:
+  ```xml
+  <rule name="StaticContent" stopProcessing="true">
+      <match url="^(?!api).*\.(html|js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$" />
+      <action type="Rewrite" url="{R:0}" />
+  </rule>
+  ```
+- **API Routing**: Add a specific rule for API routes to ensure they're properly handled:
+  ```xml
+  <rule name="DynamicContent-API" stopProcessing="true">
+      <match url="^api(/.*)?$" />
+      <action type="Rewrite" url="backend/server.js" />
+  </rule>
+  ```
+- **Fallback for SPA**: Include a fallback rule for client-side routing in SPAs:
+  ```xml
+  <rule name="ClientFallback">
+      <match url="^(?!api).*$" />
+      <conditions>
+          <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
+      </conditions>
+      <action type="Rewrite" url="index.html" />
+  </rule>
+  ```
+
+### File System & Data
+- **Environment-Specific Paths**: Use environment-specific paths for data files:
+  ```javascript
+  const dataPath = process.env.NODE_ENV === 'production'
+      ? path.join(__dirname, '../data')  // Azure App Service path
+      : path.join(__dirname, 'data');    // Local development path
+  ```
+- **Directory Creation**: Always check and create directories if needed:
+  ```javascript
+  if (!fs.existsSync(dataDir)) {
+      fs.mkdirSync(dataDir, { recursive: true });
+  }
+  ```
+- **Absolute Paths**: Use absolute paths with `path.resolve()` to avoid path resolution issues.
+
+### Security Best Practices
+- **Environment Variables**: Store secrets in environment variables, not in code:
+  ```javascript
+  const JWT_SECRET = process.env.JWT_SECRET || 'development-only-secret';
+  ```
+- **Production Detection**: Use `process.env.NODE_ENV === 'production'` to detect production environment.
+- **Port Configuration**: Allow Azure to set the port via environment variables:
+  ```javascript
+  const PORT = process.env.PORT || 3000;
+  ```
+- **HTTP vs HTTPS**: Consider adding HTTPS redirection for production environments.
+
+### Documentation
+- **Deployment Guide**: Create a comprehensive deployment guide with step-by-step instructions.
+- **Environment Variables**: Document all required environment variables and their purpose.
+- **Troubleshooting**: Include common issues and their solutions in the documentation.
+
 ## CSS Best Practices
 
 ### Responsive Design
