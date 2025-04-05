@@ -15,6 +15,7 @@ module.exports = {
     
     // CORS origins
     allowedOrigins: [
+        'https://uccd2323-oku.azurewebsites.net/',
         // Main Azure domain
         process.env.WEBSITE_HOSTNAME ? `https://${process.env.WEBSITE_HOSTNAME}` : null,
         
