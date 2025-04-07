@@ -257,4 +257,135 @@
 # Lessons Learned
 
 - **JavaScript Execution Timing:** Ensure JavaScript code that manipulates DOM elements, especially event listeners, runs *after* the DOM is fully loaded. Wrapping such code in a `DOMContentLoaded` event listener is a reliable way to achieve this. This prevents errors where scripts try to access elements that don't exist yet. (Seen in fixing navbar animation in `js/main.js`).
-- **CSS Transitions and JS Interference:** Be mindful when using JavaScript methods that directly manipulate CSS properties (like jQuery's `.show()`, `.hide()`, or `.css()`). These can override or bypass CSS transitions defined in stylesheets. Prefer using class addition/removal (`addClass()`, `removeClass()`, `toggleClass()`) to trigger state changes, allowing CSS to handle the visual transition smoothly. (Seen in fixing navbar fade effect due to `js/auth-ui.js` interference). 
+- **CSS Transitions and JS Interference:** Be mindful when using JavaScript methods that directly manipulate CSS properties (like jQuery's `.show()`, `.hide()`, or `.css()`). These can override or bypass CSS transitions defined in stylesheets. Prefer using class addition/removal (`addClass()`, `removeClass()`, `toggleClass()`) to trigger state changes, allowing CSS to handle the visual transition smoothly. (Seen in fixing navbar fade effect due to `js/auth-ui.js` interference).
+
+## Frosted Glass Effect Best Practices
+
+### Implementation Techniques
+- **Backdrop Filter**: The core CSS property for frosted glass effects is `backdrop-filter: blur()`, which applies a blur effect to everything behind the element.
+  ```css
+  .glass-element {
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px); /* Safari support */
+  }
+  ```
+- **Multiple Layers**: Create depth by using pseudo-elements with gradients:
+  ```css
+  .glass-element::before {
+    content: '';
+    position: absolute;
+    inset: 0; /* shorthand for top, right, bottom, left */
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.05) 100%);
+    z-index: -1;
+    border-radius: inherit;
+  }
+  ```
+- **Border Effects**: Semi-transparent borders enhance the glass appearance:
+  ```css
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  ```
+- **Subtle Shadows**: Use soft, spread-out shadows for depth:
+  ```css
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  ```
+
+### Browser Compatibility
+- **Vendor Prefixes**: Always include `-webkit-backdrop-filter` for Safari support.
+- **Fallback Styles**: Provide fallbacks for browsers that don't support backdrop-filter:
+  ```css
+  @supports not (backdrop-filter: blur()) {
+    .glass-element {
+      background-color: rgba(255, 255, 255, 0.9);
+    }
+  }
+  ```
+- **Feature Detection**: Use `@supports` to test for backdrop-filter support and provide alternative styling.
+
+### Performance Considerations
+- **Hardware Acceleration**: Add `will-change: transform` to optimize rendering performance.
+- **Limited Use**: Use frosted glass effects sparingly as they can be GPU-intensive.
+- **Reduced Motion**: Consider providing alternatives for users with reduced motion preferences:
+  ```css
+  @media (prefers-reduced-motion: reduce) {
+    .glass-element {
+      backdrop-filter: none;
+      background-color: rgba(255, 255, 255, 0.9);
+      transition: none;
+    }
+  }
+  ```
+
+### Design Best Practices
+- **Sufficient Contrast**: Ensure text remains readable on frosted glass backgrounds:
+  ```css
+  .glass-text {
+    color: rgba(0, 0, 0, 0.8); /* Darker text for better contrast */
+    font-weight: 500; /* Slightly bolder for better readability */
+  }
+  ```
+- **Background Considerations**: Frosted glass effects work best over colorful or photographic backgrounds with sufficient contrast.
+- **Content Density**: Avoid overcrowding glass elements with too much content.
+- **Elegant Transitions**: Use smooth transitions for hover and active states:
+  ```css
+  transition: all 0.4s cubic-bezier(0.215, 0.610, 0.355, 1.000);
+  ```
+
+### Accessibility Concerns
+- **Color Contrast**: Maintain WCAG-compliant contrast ratios between text and background.
+- **Focus Indicators**: Ensure focus states are clearly visible on interactive glass elements.
+- **Non-Essential Usage**: Don't rely solely on the frosted effect to convey important information.
+- **Text Readability**: Consider slightly larger font sizes and weights for text on glass backgrounds.
+
+## Proximity Effect Implementation
+
+### JavaScript Techniques
+- **Mouse Position Tracking**: Use a `mousemove` event listener on the `document` or a specific container to get the cursor's `clientX` and `clientY` coordinates.
+- **Element Position Calculation**: Get the target element's position and dimensions using `element.getBoundingClientRect()`. This provides `top`, `left`, `width`, and `height` relative to the viewport.
+- **Center Calculation**: Calculate the element's center coordinates:
+  ```javascript
+  const imageCenterX = imageRect.left + imageRect.width / 2;
+  const imageCenterY = imageRect.top + imageRect.height / 2;
+  ```
+- **Distance Calculation**: Calculate the Euclidean distance between the mouse cursor and the element's center:
+  ```javascript
+  const distanceX = e.clientX - imageCenterX;
+  const distanceY = e.clientY - imageCenterY;
+  const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+  ```
+- **Mapping Distance to Effect**: Map the calculated `distance` to the desired animation property (e.g., scale, opacity, rotation). Use linear interpolation or other mapping functions.
+  ```javascript
+  // Example: Map distance to scale (closer = bigger)
+  const proximityThreshold = 250; // Max distance for effect
+  const maxScale = 1.15;
+  const baseScale = 1.0;
+  let targetScale = baseScale;
+  if (distance < proximityThreshold) {
+    const progress = Math.max(0, 1 - (distance / proximityThreshold)); 
+    targetScale = baseScale + (maxScale - baseScale) * progress;
+  }
+  ```
+- **Smooth Animation**: Use an animation library like GSAP (`gsap.to()`) or CSS transitions to smoothly animate the target property.
+  ```javascript
+  gsap.to(element, {
+    scale: targetScale,
+    duration: 0.5,
+    ease: "power2.out",
+    overwrite: 'auto' // Important to prevent conflicting animations
+  });
+  ```
+- **Resetting the Effect**: Add a `mouseleave` event listener (e.g., on the `document` or the trigger container) to smoothly reset the element to its base state when the mouse moves away.
+
+### Performance Considerations
+- **Throttling/Debouncing**: For complex calculations or effects triggered frequently by `mousemove`, consider throttling or debouncing the event handler to improve performance, although modern animation libraries like GSAP often handle this internally.
+- **Optimize Calculations**: Keep the calculations inside the `mousemove` handler as lightweight as possible.
+- **Hardware Acceleration**: Use CSS properties that trigger hardware acceleration (like `transform: scale()` or `transform: translate3d()`) for smoother animations.
+- **`will-change` Property**: Use the `will-change` CSS property (`will-change: transform;`) on the element being animated to hint to the browser about upcoming changes.
+- **`overwrite: 'auto'` (GSAP)**: When using GSAP, `overwrite: 'auto'` is crucial in `mousemove` listeners to ensure new animations smoothly interrupt and replace previous ones targeting the same properties, preventing jitter or conflicts.
+
+### Design & UX Considerations
+- **Subtlety**: Proximity effects often work best when they are subtle and don't distract the user.
+- **Threshold Tuning**: Adjust the `proximityThreshold` to control how close the mouse needs to be to trigger the effect.
+- **Effect Intensity**: Fine-tune the range of the animation (e.g., `maxScale`) to achieve the desired visual impact.
+- **Responsiveness**: Consider how the effect behaves on different screen sizes. Sometimes it's better to disable complex proximity effects on smaller touch devices where mouse hover isn't applicable.
+- **Purpose**: Ensure the proximity effect serves a purpose, either enhancing visual appeal or providing subtle feedback, rather than just being a gimmick. 

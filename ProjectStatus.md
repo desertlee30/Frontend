@@ -1,3 +1,183 @@
+# Project Status: WellnessWave Frontend Development
+
+## Work Log - Doctor Image Proximity Effect (Update)
+
+### Implemented Features
+- Repositioned the doctor image to the top-left of the `.tips-main` section using `position: absolute`.
+- Adjusted `z-index` to `0` to place the image behind the main container's content (like the tip cards).
+- Updated `transform-origin` to `top left` for correct scaling from the new position.
+- Added opacity to the image container for a subtle appearance.
+- Updated JavaScript proximity logic to include a visibility check, optimizing performance by skipping calculations when the image is off-screen.
+
+### Encountered Errors and Solutions
+1. **Issue**: Image initially appeared *over* the tip cards due to fixed positioning and higher z-index.
+   **Solution**: Changed `position` to `absolute` (relative to `.tips-main`), set `z-index` to `0`, and ensured `.tips-main .container` has `position: relative` and `z-index: 1`.
+
+2. **Issue**: Proximity effect calculations running even when the image wasn't visible.
+   **Solution**: Added a check using `getBoundingClientRect()` in the `mousemove` listener to see if the image is outside the viewport bounds (plus the threshold) and skip calculations if it is.
+
+### Execution Status
+✅ **Successful Implementation**: The doctor image is now positioned at the top-left, behind the main content, and the proximity effect functions correctly, including the performance optimization for visibility.
+
+### Technical Details
+- CSS `position: absolute` used for positioning within the parent section.
+- `z-index: 0` on the image container and `z-index: 1` on the `.tips-main .container` ensures correct layering.
+- JavaScript `getBoundingClientRect()` check added to `mousemove` listener for optimization.
+
+### Future Enhancements
+- Consider adding a subtle rotation or tilt effect along with the scaling.
+- Explore different easing functions for the animation.
+- Implement a more specific trigger area instead of the entire document for the `mouseleave` reset.
+- Make the image clickable, perhaps linking to a contact or about section.
+
+## Work Log - Doctor Image Proximity Effect (Initial)
+
+### Implemented Features
+- Added doctor.png image to the tips page
+- Positioned the image using CSS (initially fixed, bottom-right)
+- Implemented a JavaScript proximity effect using GSAP:
+  - The image smoothly scales up as the mouse cursor gets closer
+  - The scaling effect reaches its maximum when the cursor is very close
+  - The image smoothly returns to its original size when the mouse moves away
+- Added responsive adjustments to hide the image on smaller screens
+
+### Encountered Errors and Solutions
+1. **Issue**: Initial CSS hover effect wasn't meeting the "proximity" requirement.
+   **Solution**: Implemented a JavaScript solution using GSAP to calculate mouse distance and dynamically apply scaling.
+
+2. **Issue**: Potential performance concerns with mousemove event listeners.
+   **Solution**: Used GSAP's optimized animation handling and `overwrite: 'auto'` to manage animations efficiently. Kept calculations within the event listener lightweight.
+
+3. **Issue**: Image could potentially overlap important content on smaller screens.
+   **Solution**: Added media queries to hide the image container below 768px viewport width.
+
+### Execution Status
+✅ **Successful Implementation**: The doctor image has been added to the tips page, and the proximity scaling effect is functioning smoothly using GSAP. The image scales based on mouse distance as intended, and it is hidden on smaller screens to maintain a clean layout.
+
+### Technical Details
+- Used `getBoundingClientRect()` to get the image's position.
+- Calculated Euclidean distance between mouse cursor and image center.
+- Mapped the distance to a scale factor using linear interpolation.
+- Used `gsap.to()` for smooth animation of the `scale` property.
+- Added `mouseleave` event listener on the document to reset the scale when the mouse leaves the window.
+
+### Future Enhancements
+- Consider adding a subtle rotation or tilt effect along with the scaling.
+- Explore different easing functions for the animation.
+- Implement a more specific trigger area instead of the entire document for the `mouseleave` reset.
+- Make the image clickable, perhaps linking to a contact or about section.
+
+## Work Log - Authentication Implementation in Tips Page
+
+### Implemented Features
+- Added authentication functionality to the tips page to match other pages
+- Implemented login/logout button toggle based on authentication status
+- Ensured consistent user experience across all site pages
+- Added jQuery dependency for auth-ui.js functionality
+- Included necessary CSS styles for authentication-related elements
+
+### Encountered Errors and Solutions
+1. **Issue**: The tips.html page was missing jQuery which is required by auth-ui.js.
+   **Solution**: Added the jQuery library via CDN to ensure auth-ui.js works properly.
+
+2. **Issue**: Missing logout button in the navigation bar.
+   **Solution**: Added a logout button with appropriate classes (btn-secondary, logout-btn, hidden).
+
+3. **Issue**: Missing CSS classes for authentication styling.
+   **Solution**: Added the necessary CSS classes (.hidden, .logged-in, .logout-btn) to tips.css.
+
+### Execution Status
+✅ **Successful Implementation**: The authentication functionality has been successfully implemented in the tips page. The login button now changes to the user's last name after successful login, and a logout button appears. The functionality is consistent with the other pages of the site.
+
+### Technical Details
+- Used the existing auth-ui.js script for authentication management
+- Implemented consistent class naming across all pages
+- Ensured proper hiding/showing of elements based on login status
+- Maintained consistent styling for login/logout buttons
+
+### Future Enhancements
+- Consider implementing user profiles with personalized tips
+- Add ability to save favorite tips for logged-in users
+- Implement user-specific settings for content preferences
+- Add social login options for easier authentication
+
+## Work Log - Frosted Glass Effect for Tip Cards
+
+### Implemented Features
+- Added a modern frosted glass effect to the tip cards using CSS backdrop-filter
+- Enhanced the visual appeal with subtle gradients and improved shadows
+- Updated the tips-main section background with a light gradient and subtle pattern
+- Improved typography and spacing for better readability
+- Enhanced the "Read More" button with a more modern, interactive design
+- Added smooth animations for hover states to improve user interaction
+
+### Encountered Errors and Solutions
+1. **Issue**: There was a potential compatibility concern with backdrop-filter in older browsers.
+   **Solution**: Added -webkit-backdrop-filter vendor prefix for better cross-browser support and created a fallback appearance using background color and opacity.
+
+2. **Issue**: The frosted glass effect needed appropriate background contrast to be visible.
+   **Solution**: Added a gradient background to the tips-main section to enhance the glass effect visibility.
+
+3. **Issue**: The text on frosted glass cards needed contrast improvements for accessibility.
+   **Solution**: Adjusted text colors and font weights to ensure proper contrast ratios and readability.
+
+### Execution Status
+✅ **Successful Implementation**: The frosted glass effect has been successfully implemented on the tip cards, creating a modern and visually appealing interface. The new design enhances the content visibility while providing an elegant, contemporary aesthetic.
+
+### Technical Details
+- Used CSS backdrop-filter property for the glass effect
+- Implemented multiple layers with pseudo-elements to create depth
+- Applied cubic-bezier timing functions for smoother animations
+- Used SVG background patterns for subtle texture
+- Incorporated gradient effects for buttons and backgrounds
+- Enhanced accessibility by maintaining proper contrast ratios
+
+### Future Enhancements
+- Consider adding subtle animation when cards initially load
+- Explore using CSS variables for easier theming
+- Add support for reduced motion preferences for accessibility
+- Consider implementing card color variations based on the tip category
+
+## Work Log - Tip Card Modal Implementation
+
+### Implemented Features
+- Created a modal overlay system for the tip cards
+- Added a morphing animation effect that transitions from the tip card to the modal
+- Implemented JavaScript functionality for opening and closing the modal
+- Styled the modal with a clean, modern design using the site's color scheme
+- Added detailed content for each tip type (Cardiovascular Health, Mental Wellness, etc.)
+- Ensured responsive design for all screen sizes
+- Implemented accessibility features (keyboard navigation, aria attributes)
+
+### Encountered Errors and Solutions
+1. **Issue**: Initial challenge with positioning the modal to match the clicked card position
+   **Solution**: Used getBoundingClientRect() to get the exact card position and used GSAP to set initial modal position.
+
+2. **Issue**: Modal content scrolling issues on mobile devices
+   **Solution**: Added the 'active' class after animation completes to enable scrolling only when animation is done.
+
+3. **Issue**: Card hover effects interfering with the morphing animation
+   **Solution**: Added a 'no-hover-effect' class to prevent hover styling during animation.
+
+4. **Issue**: Need for different content for each tip type
+   **Solution**: Created a tipContent object in JavaScript to store and dynamically load content based on the tip title.
+
+### Execution Status
+✅ **Successful Implementation**: The tip card modal feature has been successfully implemented with all planned functionality. The morphing animation creates a smooth transition between the tip card and the detailed modal view, enhancing user experience.
+
+### Technical Details
+- Used GSAP for animations to ensure smooth performance across devices
+- Implemented event delegation for better performance with multiple tip cards
+- Added keyboard event listeners for accessibility (Escape key closes the modal)
+- Used CSS transitions combined with GSAP for optimal animation performance
+- Structured modal content for consistent presentation across different tip types
+
+### Future Enhancements
+- Consider adding pagination for very long content
+- Add social sharing functionality for tips
+- Implement a "save to favorites" feature for logged-in users
+- Add related tips suggestions in the modal
+
 # Project Status - Frontend Sport
 
 This file tracks the progress, challenges, and solutions implemented throughout the development of the Frontend Sport project.
@@ -274,14 +454,4 @@ This file tracks the progress, challenges, and solutions implemented throughout 
 
 ## Navbar Animation Fix (GSAP Approach)
 
-- **Implemented Function:** Refactored the navbar hide/show animation on scroll for `index.html` and `meal-planner.html` to use GSAP for direct control over `opacity` and `y` properties, aiming for a reliable fade and slide effect.
-- **Errors Encountered:**
-    1.  Previous CSS transition approach wasn't producing the desired fade effect consistently, possibly due to subtle JS/CSS conflicts or browser rendering issues.
-    2.  `meal-planner.html` was missing the script tag to load `js/main.js`, where the animation logic resided.
-- **Error Solution:**
-    1.  Added the `<script src="js/main.js"></script>` tag to `meal-planner.html`.
-    2.  Rewritten the scroll event listener logic in `js/main.js` to use `gsap.to()` to animate `opacity` and `y` based on scroll direction.
-    3.  Removed the `transition` CSS property from the `.navbar` rule in `css/styles.css` and `css/meal-planner.css` to prevent conflicts with GSAP animations.
-- **Execution Status:** Successful. The navbar animation is now controlled by GSAP. User testing is needed to confirm if the fade effect is working as expected.
-
----
+- **Implemented Function:** Refactored the navbar hide/show animation on scroll for `

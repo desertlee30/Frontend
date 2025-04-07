@@ -642,3 +642,227 @@ The application will handle recipe loading with appropriate fallbacks to ensure 
         - [X] Identify the missing `hide-when-logged-in` class on the relevant buttons in `index.html` and `meal-planner.html`.
         - [X] Add the `hide-when-logged-in` class to the buttons using `edit_file`.
         - [X] Request user testing.
+
+# Project Progress: Tip Card Modal Feature
+
+## Task: Implement Pop-out Modal for Tip Cards
+The goal was to enhance the tips section by implementing a pop-out window feature that displays detailed information when a user clicks "Read More" on a tip card.
+
+### Progress:
+[X] Create modal structure in HTML
+[X] Style modal with CSS
+[X] Implement JavaScript functionality for modal opening/closing
+[X] Add morphing animation effect
+[X] Populate modal content for different tip types
+[X] Add accessibility features
+[X] Ensure responsive design
+
+### Implementation Details:
+1. **HTML Structure**: Created a modal overlay and modal container with appropriate structure for headers, images, and content sections.
+
+2. **CSS Styling**: 
+   - Added styles for modal overlay with semi-transparent background
+   - Styled the modal container with clean, modern design
+   - Created animation classes for the morphing effect
+   - Ensured responsive design for different screen sizes
+   - Added hover effects and transitions for interactive elements
+
+3. **JavaScript Functionality**:
+   - Implemented click event listeners for the "Read More" links
+   - Created animation using GSAP for smooth morphing effect
+   - Added modal closing functionality via button, overlay click, and keyboard (Escape key)
+   - Populated modal content dynamically based on the tip card clicked
+   - Handled edge cases and prevented hover effects during animation
+
+4. **Content Management**:
+   - Created detailed content for each tip type
+   - Structured content with consistent headers, benefits lists, and practical tips
+   - Added visual elements via icons and images
+
+### Next Steps:
+- Test the implementation thoroughly across different browsers and devices
+- Gather user feedback on the interaction and refine as needed
+- Consider adding additional accessibility features
+- Potentially add more advanced animations or transitions
+
+# Project Progress: Authentication Implementation in Tips Page
+
+## Task: Implement User Authentication in Tips Page
+The goal was to add authentication functionality to the tips page to ensure a consistent user experience across all pages of the site.
+
+### Progress:
+[X] Add jQuery library to tips.html for auth-ui.js functionality
+[X] Include auth-ui.js script in tips.html
+[X] Add logout button to navigation bar
+[X] Update login link with proper classes
+[X] Add CSS styles for authentication-related elements
+[X] Test login/logout functionality
+
+### Implementation Details:
+1. **Script Dependencies**: 
+   - Added jQuery library via CDN which is required by auth-ui.js
+   - Included auth-ui.js script at the bottom of the page
+
+2. **HTML Structure Updates**: 
+   - Updated the login link with the proper classes (login-link, hide-when-logged-in)
+   - Added a logout button with appropriate classes (btn-secondary, logout-btn, hidden)
+
+3. **CSS Styling**:
+   - Added styles for .hidden class to properly hide elements
+   - Added styles for .logged-in class to style the button when user is logged in
+   - Added styles for .logout-btn to maintain consistent appearance
+
+4. **Integration with Existing Functionality**:
+   - Leveraged the existing auth-ui.js script which handles:
+     - Checking localStorage for authentication status
+     - Updating UI elements based on logged-in state
+     - Managing the logout process
+   - Ensured all class names match those expected by auth-ui.js
+
+### Next Steps:
+- Consider enhancing the user profile functionality
+- Add ability to save favorite tips for logged-in users
+- Implement personalized content based on user preferences
+
+# Project Progress: Frosted Glass Effect for Tip Cards
+
+## Task: Implement Frosted Glass Effect for Tip Cards
+The goal was to enhance the visual design of the tip cards by implementing a modern frosted glass effect using CSS.
+
+### Progress:
+[X] Implement backdrop-filter for frosted glass effect
+[X] Add fallback support with -webkit-backdrop-filter
+[X] Create layered design with pseudo-elements
+[X] Update background of tips-main section to complement glass effect
+[X] Enhance typography and spacing
+[X] Improve the "Read More" button design
+[X] Add smooth animations for hover states
+[X] Ensure accessibility with proper contrast ratios
+
+### Implementation Details:
+1. **CSS Frosted Glass Effect**: Used backdrop-filter with blur effect and semi-transparent background to create the glass appearance.
+
+2. **Layered Design**: 
+   - Added a pseudo-element with gradient background to create depth
+   - Used subtle shadows and border effects to enhance the glass appearance
+   - Included a subtle gradient in the background for better visibility of the glass effect
+
+3. **Enhanced Visual Elements**:
+   - Updated the tip icons with gradient backgrounds and improved shadows
+   - Redesigned the "Read More" button with a more interactive hover state
+   - Improved typography with better font sizes and weights
+
+4. **Background Improvements**:
+   - Added a subtle gradient background to the tips-main section
+   - Incorporated a light SVG pattern for texture
+   - Ensured the background complements the frosted glass elements
+
+### Next Steps:
+- Test the implementation across different browsers for compatibility
+- Consider additional animations for initial card loading
+- Explore color variations based on tip categories
+
+# Project Progress: Tip Card Modal Feature
+
+## Task: Implement Pop-out Modal for Tip Cards
+The goal was to enhance the tips section by implementing a pop-out window feature that displays detailed information when a user clicks "Read More" on a tip card.
+
+### Progress:
+[X] Create modal structure in HTML
+[X] Style modal with CSS
+[X] Implement JavaScript functionality for modal opening/closing
+[X] Add morphing animation effect
+[X] Populate modal content for different tip types
+[X] Add accessibility features
+[X] Ensure responsive design
+
+### Implementation Details:
+1. **HTML Structure**: Created a modal overlay and modal container with appropriate structure for headers, images, and content sections.
+
+2. **CSS Styling**: 
+   - Added styles for modal overlay with semi-transparent background
+   - Styled the modal container with clean, modern design
+   - Created animation classes for the morphing effect
+   - Ensured responsive design for different screen sizes
+   - Added hover effects and transitions for interactive elements
+
+3. **JavaScript Functionality**:
+   - Implemented click event listeners for the "Read More" links
+   - Created animation using GSAP for smooth morphing effect
+   - Added modal closing functionality via button, overlay click, and keyboard (Escape key)
+   - Populated modal content dynamically based on the tip card clicked
+   - Handled edge cases and prevented hover effects during animation
+
+4. **Content Management**:
+   - Created detailed content for each tip type
+   - Structured content with consistent headers, benefits lists, and practical tips
+   - Added visual elements via icons and images
+
+### Next Steps:
+- Test the implementation thoroughly across different browsers and devices
+- Gather user feedback on the interaction and refine as needed
+- Consider adding additional accessibility features
+- Potentially add more advanced animations or transitions
+
+# Project Progress: Doctor Image Proximity Effect
+
+## Task: Add Doctor Image with Proximity Scaling Effect (Update)
+The goal was to reposition the doctor image to the top-left of the tips section and ensure it appears behind the tip cards, while maintaining the proximity scaling effect.
+
+### Progress:
+[X] Update CSS for `.doctor-image-container`: changed `position` to `absolute`, adjusted `top` and `left` values, set `z-index` to `0`.
+[X] Update CSS for `.doctor-image`: changed `transform-origin` to `top left`.
+[X] Ensure `.tips-main .container` has `position: relative` and `z-index: 1` for proper layering.
+[X] Update JavaScript proximity logic: add visibility check using `getBoundingClientRect()` to optimize performance.
+[X] Update `transformOrigin` in GSAP animations to match CSS.
+[X] Test layering, positioning, and proximity effect.
+
+### Implementation Details:
+1. **CSS Positioning & Layering**: 
+   - Changed `.doctor-image-container` to `position: absolute` to position it relative to `.tips-main`.
+   - Set `top` and `left` properties for top-left placement.
+   - Set `z-index: 0` on the image container.
+   - Confirmed `.tips-main .container` has `position: relative` and `z-index: 1` (implicitly handled by its content flow and the image being behind).
+2. **JavaScript Optimization**: 
+   - Added a condition within the `mousemove` event listener to check if the `imageRect` is significantly outside the viewport bounds. If so, it resets the scale (if needed) and returns early, preventing unnecessary distance calculations.
+3. **Transform Origin**: Updated `transform-origin` in both CSS and the GSAP tweens to `top left` to ensure scaling behaves correctly from the new position.
+
+### Next Steps:
+- (Same as previous entry)
+
+## Task: Add Doctor Image with Proximity Scaling Effect (Initial)
+The goal was to add a decorative doctor image to the tips page and make it interactive by having it scale up slightly when the user's mouse approaches it.
+
+### Progress:
+[X] Add doctor image HTML structure to `tips.html`
+[X] Add CSS to position the doctor image (fixed, bottom-right)
+[X] Implement JavaScript logic using GSAP for proximity detection and scaling
+[X] Calculate distance between mouse and image center
+[X] Map distance to a scale factor (closer = larger)
+[X] Animate the scale property smoothly using `gsap.to()`
+[X] Add event listener to reset scale when mouse leaves the window
+[X] Add responsive CSS to hide the image on small screens
+[X] Test the effect across different scenarios
+
+### Implementation Details:
+1. **HTML Structure**: Added a `div.doctor-image-container` containing an `img.doctor-image` inside the `.tips-main > .container`.
+2. **CSS Styling**:
+   - Positioned the container using `position: fixed`, `bottom: 0`, `right: 20px`.
+   - Set a base width (`200px`) and `z-index`.
+   - Applied smooth `transition` and `transform-origin` to the image.
+   - Used `pointer-events: none` on the container and `pointer-events: auto` on the image.
+   - Added media queries to adjust size and hide the image on smaller screens.
+3. **JavaScript Proximity Logic**:
+   - Added a `mousemove` event listener to the `document`.
+   - Inside the listener, calculated the distance from the mouse coordinates (`e.clientX`, `e.clientY`) to the center of the `doctorImage` using `getBoundingClientRect()`.
+   - Determined the `targetScale` based on the `distance` relative to a `proximityThreshold`. If the distance is less than the threshold, the scale increases linearly from `baseScale` (1.0) up to `maxScale` (1.15) as the distance decreases.
+   - Used `gsap.to(doctorImage, { scale: targetScale, ... })` to smoothly animate the image's scale.
+   - Added a `mouseleave` listener on the `document` to reset the scale back to `baseScale` when the mouse leaves the browser window.
+
+### Next Steps:
+- Fine-tune the `proximityThreshold` and `maxScale` values if needed.
+- Consider adding a subtle entry animation for the image.
+- Explore making the image interactive (e.g., clickable).
+
+# Project Progress: Authentication Implementation in Tips Page
+// ... rest of the file

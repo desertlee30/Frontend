@@ -9,9 +9,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/tips.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha512-onMTRKJBKz8M1TnqqDuGBlowlH0ohFzMXYRNebz+yOcc5TQr/zAKsthzhuv0hiyUKEiQEQXEynnXCvNTOk50dg==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+    <!-- GSAP and jQuery scripts without defer attribute for proper initialization -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha512-onMTRKJBKz8M1TnqqDuGBlowlH0ohFzMXYRNebz+yOcc5TQr/zAKsthzhuv0hiyUKEiQEQXEynnXCvNTOk50dg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -31,7 +33,8 @@
         </ul>
         
         <div class="nav-buttons">
-            <a href="login.html" class="btn btn-primary">Login In</a>
+            <a href="login.html" class="btn btn-primary login-link hide-when-logged-in">Login In</a>
+            <a href="#" class="btn btn-secondary logout-btn hidden">Logout</a>
         </div>
     </nav>
 
@@ -51,6 +54,21 @@
 
     <!-- Tips Main Content -->
     <section class="tips-main">
+        <!-- Reposition the glass circles layer to ensure proper stacking context -->
+        <div class="circle-base-layer">
+            <!-- Glass circles with improved visibility and layering -->
+            <div class="glass-circle circle-1" style="background-color: rgba(173, 216, 230, 0.8);"></div>
+            <div class="glass-circle circle-2" style="background-color: rgba(255, 182, 193, 0.8);"></div>
+            <div class="glass-circle circle-3" style="background-color: rgba(144, 238, 144, 0.8);"></div>
+            <div class="glass-circle circle-4" style="background-color: rgba(230, 230, 250, 0.8);"></div>
+            <div class="glass-circle circle-5" style="background-color: rgba(255, 255, 224, 0.8);"></div>
+        </div>
+
+        <!-- Add Doctor Image - positioned above circles but below content -->
+        <div class="doctor-image-container">
+            <img src="Media/doctor.png" alt="Friendly Doctor Illustration" class="doctor-image">
+        </div>
+
         <div class="container">
             <h2>Wellness Tips for a Better Life</h2>
             <p class="tips-intro">Discover our collection of evidence-based health and wellness tips to help you live your best life. From nutrition and fitness to mental wellbeing and sleep, we've got you covered.</p>
@@ -114,6 +132,61 @@
         </div>
     </section>
 
+    <!-- Modal for Tip Details -->
+    <div id="tipModalOverlay" class="tip-modal-overlay">
+        <div id="tipModal" class="tip-modal">
+            <button id="modalCloseBtn" class="modal-close-btn" aria-label="Close modal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="tip-modal-content">
+                <div class="modal-header">
+                    <div id="modalIcon" class="modal-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <h2 id="modalTitle">Cardiovascular Health</h2>
+                </div>
+                <div class="modal-body">
+                    <div id="modalText" class="modal-text">
+                        <h3>Why Cardiovascular Health Matters</h3>
+                        <p>Cardiovascular health is vital because your heart and blood vessels supply oxygen and nutrients to every cell in your body. A strong cardiovascular system improves both length and quality of life. Regular cardiovascular exercise strengthens your heart muscle, improves circulation, and helps maintain healthy blood pressure levels. Research shows that individuals with good cardiovascular health have lower risks of chronic diseases and tend to live longer, more active lives.</p>
+                        
+                        <h3>Key Benefits</h3>
+                        <ul>
+                            <li>Reduced risk of heart disease and stroke</li>
+                            <li>Lower blood pressure and cholesterol levels</li>
+                            <li>Improved energy levels and endurance</li>
+                            <li>Better sleep quality</li>
+                            <li>Enhanced mood and reduced anxiety</li>
+                            <li>Increased insulin sensitivity and better blood sugar control</li>
+                            <li>Stronger immune system response</li>
+                            <li>Improved cognitive function and reduced risk of dementia</li>
+                        </ul>
+                        
+                        <h3>Practical Tips</h3>
+                        <ol>
+                            <li><strong>Consistent Activity:</strong> Aim for at least 150 minutes of moderate-intensity aerobic activity weekly. This could include brisk walking, swimming, cycling, or dancing. The key is finding activities you enjoy so you'll stick with them long-term.</li>
+                            <li><strong>Interval Training:</strong> Include short bursts of higher intensity exercise for maximum heart benefits. Even adding 30-second sprints during a walk can significantly improve cardiovascular fitness.</li>
+                            <li><strong>Daily Movement:</strong> Take frequent movement breaks throughout the day—walk, stretch, or do simple exercises. Research shows that breaking up periods of sitting with even brief activity can improve cardiovascular markers.</li>
+                            <li><strong>Heart-Healthy Diet:</strong> Emphasize whole foods, particularly fruits, vegetables, and whole grains. Include omega-3 fatty acids from sources like fatty fish, walnuts, and flaxseeds. Limit processed foods, saturated fats, and excess sodium.</li>
+                            <li><strong>Stress Management:</strong> Practice stress-reduction techniques like deep breathing, meditation, or yoga. Chronic stress contributes to inflammation and high blood pressure, both risk factors for heart disease.</li>
+                            <li><strong>Quality Sleep:</strong> Prioritize getting 7-9 hours of quality sleep each night. Poor sleep is linked to increased cardiovascular risks, including hypertension and inflammation.</li>
+                            <li><strong>Stay Hydrated:</strong> Proper hydration helps your heart pump blood more efficiently and supports overall cardiovascular function. Aim for about 8 glasses of water daily.</li>
+                        </ol>
+                        
+                        <h3>Start Small</h3>
+                        <p>Begin with just 10 minutes of walking each day. Research shows even short bouts of activity provide cardiovascular benefits. Gradually increase duration and intensity as your fitness improves. Remember that consistency matters more than intensity when you're starting out.</p>
+                        
+                        <h3>Track Your Progress</h3>
+                        <p>Consider monitoring your resting heart rate as a simple measure of cardiovascular fitness. As your heart becomes stronger, your resting heart rate typically decreases. You might also track how quickly your heart rate recovers after exercise, which tends to improve as cardiovascular fitness increases.</p>
+                        
+                        <h3>When to Consult a Professional</h3>
+                        <p>If you have pre-existing health conditions, are over 40, or have been inactive for a long period, consult with a healthcare provider before beginning a new exercise program. They can help create a safe plan tailored to your specific needs and health status.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -173,6 +246,70 @@
     </footer>
 
     <!-- JavaScript -->
-    <script src="js/tips.js" defer></script>
+    <script src="js/tips.js"></script>
+    <script src="js/auth-ui.js"></script>
+    <script src="js/main.js"></script>
+    <!-- Ensure GSAP is properly initialized -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("DOM loaded, checking GSAP");
+            
+            // Check if GSAP was loaded correctly
+            if (typeof gsap !== 'undefined') {
+                console.log("GSAP is available:", gsap.version);
+                
+                // Initialize ScrollTrigger if available
+                if (gsap.registerPlugin && typeof ScrollTrigger !== 'undefined') {
+                    gsap.registerPlugin(ScrollTrigger);
+                    console.log("ScrollTrigger registered");
+                }
+                
+                // Enhance glass circle visibility with GSAP animations
+                const circles = document.querySelectorAll('.glass-circle');
+                
+                // Initial setup - make sure circles are visible
+                gsap.set(circles, {
+                    opacity: 0.85,  // Higher than CSS default for better visibility
+                    scale: 0.9
+                });
+                
+                // Animate circles in with staggered effect
+                gsap.to(circles, {
+                    opacity: 0.85,
+                    scale: 1,
+                    duration: 1.8,
+                    stagger: 0.15,
+                    ease: "power2.out",
+                    onComplete: function() {
+                        // Add subtle continuous floating animation
+                        circles.forEach((circle, index) => {
+                            gsap.to(circle, {
+                                y: "+=15",
+                                duration: 2 + (index * 0.5),
+                                ease: "sine.inOut",
+                                repeat: -1,
+                                yoyo: true
+                            });
+                        });
+                    }
+                });
+            } else {
+                console.warn("GSAP not available - falling back to CSS animations");
+            }
+            
+            // Navbar animation
+            const navbar = document.querySelector('.navbar');
+            if (navbar) {
+                window.addEventListener('scroll', function() {
+                    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                    if (scrollTop > 100) {
+                        navbar.classList.add('scrolled');
+                    } else {
+                        navbar.classList.remove('scrolled');
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html> 
