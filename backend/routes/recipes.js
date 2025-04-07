@@ -6,7 +6,6 @@
 const express = require('express');
 const router = express.Router();
 const Recipe = require('../models/Recipe');
-const path = require('path');
 
 // Get all recipes
 router.get('/', (req, res) => {
@@ -42,15 +41,15 @@ router.post('/', (req, res) => {
         const { title, description, image, time, calories, nutrition, tags, ingredients } = req.body;
         
         // Basic validation
-        if (!title || !description || !image || !tags || !ingredients) {
-            return res.status(400).json({ error: 'Missing required recipe fields' });
+        if (!title || !description) {
+            return res.status(400).json({ error: 'Title and description are required' });
         }
         
-        // Create recipe
+        // Create recipe with default values for missing fields
         const newRecipe = Recipe.addRecipe({
             title,
             description,
-            image,
+            image: image || 'https://placehold.co/300x200/png?text=Recipe',
             time: time || 0,
             calories: calories || 0,
             nutrition: nutrition || { protein: 0, carbs: 0, fat: 0 },

@@ -586,3 +586,49 @@ Create a new standalone tips.html page with its corresponding CSS file, duplicat
 - Add more detailed health tips content
 - Implement functionality to filter tips by category
 - Consider adding a search feature for tips
+
+# Project Cleanup and Local Development Focus
+
+## Overview
+Removed all Azure deployment-related files and configurations to create a cleaner project structure focused solely on local development.
+
+## Tasks Completed
+[X] Deleted web.config (IIS configuration file)
+[X] Removed AZURE_DEPLOYMENT.md and AZURE_DEPLOYMENT_GUIDE.md documentation files
+[X] Removed DEPLOYMENT_SUMMARY.md 
+[X] Updated README.md to remove Azure deployment sections
+[X] Added video background error handling to improve reliability
+
+## Current Environment
+- The application is now configured to run in a local development environment using:
+  - Local JSON files for data storage
+  - jQuery Ajax for API calls
+  - Node.js Express backend
+  - Browser-based frontend
+
+## Running the Application
+1. Start the backend server: 
+   ```bash
+   cd backend
+   npm start
+   ```
+2. Open the frontend HTML files in a browser
+3. Access the application at http://localhost:5500 (or whatever port your local server uses)
+
+The application will handle recipe loading with appropriate fallbacks to ensure it works well in a local development environment.
+
+# Project Progress
+
+## Tasks
+
+[X] **Fix Navbar Animation Inconsistency**
+    - **Description:** Ensure the navigation bar hide/show animation is smooth and consistent across `index.html`, `meal-planner.html`, and `tips.html`.
+    - **Steps:**
+        - [X] Analyze `tips.html` navbar CSS (`css/tips.css`) and JS (`js/tips.js`).
+        - [X] Analyze `index.html` navbar HTML, CSS (`css/styles.css`), and JS (`js/script.js`, `js/main.js`).
+        - [X] Analyze `meal-planner.html` navbar HTML, CSS (`css/meal-planner.css`), and JS (`js/meal-planner.js`, `js/main.js`).
+        - [X] Identify discrepancies (JS execution timing in `js/main.js`, JS interference from `js/auth-ui.js`).
+        - [X] Modify `js/main.js` to fix the timing issue.
+        - [X] Verify CSS transitions are present in all relevant CSS files.
+        - [X] Modify `js/auth-ui.js` to use class toggling instead of `.show()`/`.hide()`.
+        - [X] Request user testing.

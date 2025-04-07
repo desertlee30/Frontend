@@ -15,20 +15,76 @@ const ensureRecipesFile = () => {
     
     // Create data directory if it doesn't exist
     if (!fs.existsSync(dataDir)) {
-        fs.mkdirSync(dataDir);
+        fs.mkdirSync(dataDir, { recursive: true });
+        console.log(`Created data directory at: ${dataDir}`);
     }
     
     // Create recipes.json with empty array if it doesn't exist
     if (!fs.existsSync(recipesFilePath)) {
-        fs.writeFileSync(recipesFilePath, JSON.stringify({ recipes: [] }));
+        // Sample recipe data
+        const sampleRecipes = {
+            recipes: [
+                {
+                    id: 1,
+                    title: "Grilled Chicken Salad",
+                    description: "A healthy and protein-rich salad with grilled chicken breast, mixed greens, and a light lemon dressing.",
+                    image: "https://placehold.co/300x200/png?text=GrilledChickenSalad",
+                    time: 20,
+                    calories: 350,
+                    nutrition: {
+                        protein: 30,
+                        carbs: 15,
+                        fat: 12
+                    },
+                    tags: ["high-protein", "low-carb", "keto", "lunch"],
+                    ingredients: ["Chicken breast", "Mixed greens", "Cherry tomatoes", "Cucumber", "Olive oil", "Lemon juice", "Salt", "Pepper"]
+                },
+                {
+                    id: 2,
+                    title: "Protein Smoothie Bowl",
+                    description: "A delicious post-workout smoothie bowl with protein powder, berries, and banana.",
+                    image: "https://placehold.co/300x200/png?text=SmoothieBowl",
+                    time: 10,
+                    calories: 320,
+                    nutrition: {
+                        protein: 25,
+                        carbs: 40,
+                        fat: 8
+                    },
+                    tags: ["breakfast", "high-protein", "vegetarian", "quick"],
+                    ingredients: ["Protein powder", "Frozen berries", "Banana", "Greek yogurt", "Almond milk", "Honey", "Granola", "Chia seeds"]
+                },
+                {
+                    id: 3,
+                    title: "Baked Salmon with Vegetables",
+                    description: "Oven-baked salmon fillet with roasted vegetables and herbs.",
+                    image: "https://placehold.co/300x200/png?text=BakedSalmon",
+                    time: 35,
+                    calories: 420,
+                    nutrition: {
+                        protein: 35,
+                        carbs: 25,
+                        fat: 20
+                    },
+                    tags: ["dinner", "high-protein", "omega-3", "fish"],
+                    ingredients: ["Salmon fillet", "Asparagus", "Bell peppers", "Cherry tomatoes", "Olive oil", "Garlic", "Lemon", "Fresh herbs"]
+                }
+            ]
+        };
+        
+        fs.writeFileSync(recipesFilePath, JSON.stringify(sampleRecipes, null, 2), 'utf8');
+        console.log(`Created recipes.json with sample data at: ${recipesFilePath}`);
     }
+    
+    return recipesFilePath;
 };
 
 // Get all recipes
 const getAllRecipes = () => {
     try {
-        ensureRecipesFile();
-        const data = fs.readFileSync(recipesFilePath, 'utf8');
+        const recipesPath = ensureRecipesFile();
+        console.log(`Reading recipes from: ${recipesPath}`);
+        const data = fs.readFileSync(recipesPath, 'utf8');
         return JSON.parse(data);
     } catch (error) {
         console.error('Error reading recipes file:', error);

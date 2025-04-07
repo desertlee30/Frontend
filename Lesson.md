@@ -252,4 +252,9 @@
 - **Case sensitivity**: File paths are case-sensitive on many servers (especially Linux-based). "Video.mp4" is not the same as "video.mp4".
 - **Forward vs. backward slashes**: Use forward slashes (/) for web paths, even on Windows systems. Backward slashes (\) will not work in URLs.
 - **Incorrect relative paths**: Be careful with "../" notation - verify you're traversing the directory structure correctly.
-- **Cross-origin restrictions**: Loading files from different domains might require proper CORS headers. 
+- **Cross-origin restrictions**: Loading files from different domains might require proper CORS headers.
+
+# Lessons Learned
+
+- **JavaScript Execution Timing:** Ensure JavaScript code that manipulates DOM elements, especially event listeners, runs *after* the DOM is fully loaded. Wrapping such code in a `DOMContentLoaded` event listener is a reliable way to achieve this. This prevents errors where scripts try to access elements that don't exist yet. (Seen in fixing navbar animation in `js/main.js`).
+- **CSS Transitions and JS Interference:** Be mindful when using JavaScript methods that directly manipulate CSS properties (like jQuery's `.show()`, `.hide()`, or `.css()`). These can override or bypass CSS transitions defined in stylesheets. Prefer using class addition/removal (`addClass()`, `removeClass()`, `toggleClass()`) to trigger state changes, allowing CSS to handle the visual transition smoothly. (Seen in fixing navbar fade effect due to `js/auth-ui.js` interference). 

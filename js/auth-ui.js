@@ -53,10 +53,10 @@ function updateAuthUI() {
             $loginLink.attr('title', `Logged in as ${currentUser.firstName} ${currentUser.lastName}`);
         }
         
-        // Ensure logout button is visible
+        // Ensure logout button is visible using class
         if ($logoutBtn.length) {
-            console.log('Making logout button visible');
-            $logoutBtn.show();
+            console.log('Making logout button visible via class');
+            $logoutBtn.removeClass('hidden');
         }
         
         // Disable side buttons
@@ -66,11 +66,11 @@ function updateAuthUI() {
             $sideButtons.attr('aria-disabled', 'true');
         }
         
-        // Show elements that should only be visible when logged in
-        $('.show-when-logged-in').removeClass('hidden').show();
+        // Show elements that should only be visible when logged in using class
+        $('.show-when-logged-in').removeClass('hidden');
         
-        // Hide elements that should be hidden when logged in
-        $('.hide-when-logged-in').addClass('hidden').hide();
+        // Hide elements that should be hidden when logged in using class
+        $('.hide-when-logged-in').addClass('hidden');
     } else {
         // User is not logged in
         
@@ -86,10 +86,10 @@ function updateAuthUI() {
             $loginLink.attr('title', 'Login to your account');
         }
         
-        // Hide logout button
+        // Hide logout button using class
         if ($logoutBtn.length) {
-            console.log('Hiding logout button');
-            $logoutBtn.hide();
+            console.log('Hiding logout button via class');
+            $logoutBtn.addClass('hidden');
         }
         
         // Enable side buttons
@@ -99,11 +99,11 @@ function updateAuthUI() {
             $sideButtons.attr('aria-disabled', 'false');
         }
         
-        // Hide elements that should only be visible when logged in
-        $('.show-when-logged-in').addClass('hidden').hide();
+        // Hide elements that should only be visible when logged in using class
+        $('.show-when-logged-in').addClass('hidden');
         
-        // Show elements that should be visible when logged out
-        $('.hide-when-logged-in').removeClass('hidden').show();
+        // Show elements that should be visible when logged out using class
+        $('.hide-when-logged-in').removeClass('hidden');
     }
 }
 

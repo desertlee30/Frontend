@@ -6,10 +6,8 @@ const recipesGrid = document.getElementById('recipesGrid');
 const toastNotification = document.getElementById('toastNotification');
 const particlesContainer = document.getElementById('particlesContainer');
 
-// API endpoint - updated to handle both local development and production
-const API_URL = window.location.hostname.includes('localhost') || window.location.hostname.includes('127.0.0.1') 
-  ? 'http://localhost:3000/api'  // Local development
-  : '/api';                      // Production (relative URL)
+// API URL for local development
+const API_URL = 'http://localhost:3000/api';
 
 // State
 const state = {
@@ -33,14 +31,17 @@ const init = () => {
   // Set up modal-related event listeners
   setupModalEventListeners();
 
-  // Add: Set up scroll-to-top functionality
+  // Set up scroll-to-top functionality
   setupScrollToTop();
 
-  // Add: Set up "more" indicator functionality
+  // Set up "more" indicator functionality
   setupMoreIndicator();
   
   // Set up scroll down arrow functionality
   setupScrollDownArrow();
+  
+  // Set up video background
+  setupVideoBackground();
 };
 
 // Set up event listeners for modal
@@ -233,9 +234,12 @@ const saveRecipesToStorage = () => {
 
 // Load recipes using jQuery AJAX
 const loadRecipes = () => {
+  console.log('Loading recipes from API...');
+  
   $.ajax({
     url: `${API_URL}/recipes`,
     type: 'GET',
+    timeout: 5000, // Add timeout to prevent long waits
     success: function(data) {
       try {
         // Store recipes and extract all unique tags
@@ -245,30 +249,46 @@ const loadRecipes = () => {
         // Render UI
         renderFilterTags();
         renderRecipeCards();
+        console.log('Successfully loaded recipes from API');
 
       } catch (error) {
-        console.error('Error processing recipes data:', error);
-        recipesGrid.innerHTML = `<div class="recipe-placeholder">Error processing recipes. Please check the console.</div>`;
+        console.error('Error processing recipe data:', error);
+        fallbackToLocalData();
       }
     },
-    error: function(jqXHR, textStatus, errorThrown) {
-      console.error('Error loading recipes:', textStatus, errorThrown);
+    error: function(xhr, status, error) {
+      console.error('Error loading recipes:', status, error);
       
-      // Fallback to local file if API fails (development mode fallback)
-      console.log('Attempting to load recipes from local file...');
-      $.get('db/recipes.json', (data) => {
-        try {
-          state.recipes = data.recipes;
-          extractAllTags();
-          renderFilterTags();
-          renderRecipeCards();
-        } catch (fallbackError) {
-          console.error('Error loading fallback recipes:', fallbackError);
-          recipesGrid.innerHTML = `<div class="recipe-placeholder">Error loading recipes. Could not fetch data. Please try again later.</div>`;
-        }
-      }).fail(() => {
-        recipesGrid.innerHTML = `<div class="recipe-placeholder">Error loading recipes. Could not fetch data. Please try again later.</div>`;
-      });
+      // Try loading from local file as fallback
+      fallbackToLocalData();
+    }
+  });
+};
+
+// Fallback to local data if API fails
+const fallbackToLocalData = () => {
+  console.log('Attempting to load recipes from local file...');
+  
+  // First try loading from a local JSON file
+  $.ajax({
+    url: 'db/recipes.json',
+    type: 'GET',
+    dataType: 'json',
+    timeout: 3000,
+    success: function(data) {
+      console.log('Successfully loaded recipes from local file');
+      state.recipes = data.recipes;
+      extractAllTags();
+      renderFilterTags();
+      renderRecipeCards();
+    },
+    error: function() {
+      console.log('Local file load failed, using backup recipes data');
+      // Use the embedded backup data as last resort
+      state.recipes = backupRecipes.recipes;
+      extractAllTags();
+      renderFilterTags();
+      renderRecipeCards();
     }
   });
 };
@@ -711,6 +731,32 @@ const setupScrollDownArrow = () => {
   });
   
   console.log('Scroll down arrow functionality initialized');
+};
+
+// Set up video background to try multiple paths
+const setupVideoBackground = () => {
+  console.log('Setting up video background');
+  
+  // The video element should already be in the HTML with sources
+  const videoElement = document.querySelector('.meal-hero video');
+  
+  if (!videoElement) {
+    console.warn('Video element not found in the hero section');
+    return;
+  }
+  
+  // Log that we found the video element
+  console.log('Video element found, setting up event listeners');
+  
+  // Add error event listener to detect if sources fail to load
+  videoElement.addEventListener('error', (e) => {
+    console.warn('Video error occurred:', e);
+  });
+  
+  // Add loaded data event listener to confirm successful loading
+  videoElement.addEventListener('loadeddata', () => {
+    console.log('Video loaded successfully');
+  });
 };
 
 // Initialize the application

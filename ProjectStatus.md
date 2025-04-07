@@ -221,4 +221,48 @@ This file tracks the progress, challenges, and solutions implemented throughout 
 - The page maintains consistent branding and user experience with the rest of the site
 - Next steps: Link to the tips page from other site pages and potentially add more detailed tip content
 
+## Reverting from Azure Deployment and Cleaning Up Project Structure
+
+### Date: April 8, 2023
+
+### Changes Made:
+1. Removed all Azure deployment-related files:
+   - web.config (IIS configuration)
+   - AZURE_DEPLOYMENT.md (documentation)
+   - AZURE_DEPLOYMENT_GUIDE.md (detailed guide)
+   - DEPLOYMENT_SUMMARY.md (summary of changes)
+
+2. Updated README.md:
+   - Removed Azure deployment instructions and related information
+   - Simplified project structure description
+   - Updated local development setup instructions
+
+3. Updated JavaScript files:
+   - Added video element error handling in meal-planner.js
+   - Set up video background initialization to support fallbacks
+
+### Results:
+- Created a cleaner project structure focused on local development
+- Simplified codebase by removing Azure-specific configurations
+- Application now runs purely for local development using JSON files
+- Maintained functionality while removing deployment complexity
+
+### Next Steps:
+- Test the application in local development mode
+- Continue building features without deployment overhead
+- Update documentation for local testing and development workflows
+
+## Project Status Log
+
+## Navbar Animation Fix (index.html & meal-planner.html)
+
+- **Implemented Function:** Added consistent navbar hide/show animation (smooth fade and slide) on scroll to `index.html` and `meal-planner.html`, matching the behavior in `tips.html`.
+- **Errors Encountered:**
+    1.  The navbar animation logic in `js/main.js` was initially outside the `DOMContentLoaded` listener, potentially executing before the navbar element was ready.
+    2.  jQuery's `.show()` and `.hide()` methods used in `js/auth-ui.js` were directly manipulating the `display` style, interfering with the CSS `opacity` transition on the navbar and its children, causing the fade effect to fail.
+- **Error Solution:**
+    1.  Moved the navbar scroll event listener code block inside the `DOMContentLoaded` listener in `js/main.js`.
+    2.  Replaced all instances of `.show()` and `.hide()` in `js/auth-ui.js` with `.removeClass('hidden')` and `.addClass('hidden')` respectively to leverage CSS transitions properly.
+- **Execution Status:** Successful. The necessary CSS transitions were already present. Both JavaScript timing and interference issues have been addressed.
+
 ---

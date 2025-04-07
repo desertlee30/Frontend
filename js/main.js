@@ -1,70 +1,59 @@
 // Main JS file with parallax effects and animations
-// Wait for both DOM and all scripts to load
-window.addEventListener('load', function() {
-    console.log('Main.js initializing GSAP animations');
-    
-    // Check if GSAP and ScrollTrigger are loaded
-    if (typeof gsap === 'undefined') {
-        console.error('GSAP library not loaded. Parallax effects will not work.');
-        return;
+
+// Check if GSAP and ScrollTrigger are loaded early
+const isGsapLoaded = typeof gsap !== 'undefined' && gsap;
+const isScrollTriggerLoaded = isGsapLoaded && typeof ScrollTrigger !== 'undefined' && ScrollTrigger;
+
+if (isGsapLoaded) {
+    console.log('GSAP loaded. Version:', gsap.version);
+    if (isScrollTriggerLoaded) {
+        console.log('ScrollTrigger loaded.');
+        gsap.registerPlugin(ScrollTrigger);
+    } else {
+        console.error('ScrollTrigger plugin not loaded. Some effects will not work.');
+    }
+} else {
+    console.error('GSAP library not loaded. Effects will not work.');
+}
+
+
+// Initialize other GSAP animations on DOMContentLoaded
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOMContentLoaded - Initializing GSAP-dependent animations');
+
+    // ======== Navbar Scroll Effects ========
+    // Moved inside DOMContentLoaded for reliability
+    const navbar = document.querySelector('.navbar');
+    if (navbar) {
+        console.log("Setting up navbar scroll animation (CSS transition approach)");
+        
+        let lastScrollTop = 0;
+        
+        window.addEventListener('scroll', function() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTop > lastScrollTop && scrollTop > 100) {
+                navbar.classList.add('hidden');
+            } else {
+                navbar.classList.remove('hidden');
+            }
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+        });
+    } else {
+        console.warn("Navbar not found - navbar animation disabled");
     }
 
-    if (typeof ScrollTrigger === 'undefined') {
-        console.error('ScrollTrigger plugin not loaded. Parallax effects will not work.');
-        return;
-    }
+    if (!isGsapLoaded) return; // Don't run GSAP stuff if not loaded
 
-    // Register ScrollTrigger plugin
-    gsap.registerPlugin(ScrollTrigger);
-
-    initNavbarScroll();
+    // Reenable other initializations
     initHeroParallax();
     initScrollArrow();
     initSectionParallax();
 });
 
-// Navbar scroll visibility
-function initNavbarScroll() {
-    const navbar = document.querySelector('.navbar');
-    const aboutSection = document.querySelector('.about-section');
-
-    if (!navbar || !aboutSection) {
-        console.warn("Navbar or About Section element not found for scroll behavior.");
-        return;
-    }
-
-    const aboutSectionTop = aboutSection.offsetTop;
-
-    ScrollTrigger.create({
-        start: () => aboutSectionTop - 100,
-        end: "max",
-        onUpdate: (self) => {
-            if (self.direction === 1) {
-                navbar.classList.add('hidden');
-            } else if (self.direction === -1) {
-                navbar.classList.remove('hidden');
-            }
-        },
-        onLeaveBack: () => {
-            navbar.classList.remove('hidden');
-        },
-        onEnter: (self) => {
-            if (self.direction === 1) {
-                navbar.classList.add('hidden');
-            }
-        },
-        onEnterBack: () => {
-            navbar.classList.remove('hidden');
-        }
-    });
-
-    if (window.scrollY < aboutSectionTop - 100) {
-        navbar.classList.remove('hidden');
-    }
-}
 
 // Hero section parallax
 function initHeroParallax() {
+    if (!isGsapLoaded || !isScrollTriggerLoaded) return; // Check GSAP/ScrollTrigger
     const heroContent = document.querySelector('.hero-content');
     if (!heroContent) {
         console.warn("Hero content element not found for parallax effect.");
@@ -86,6 +75,7 @@ function initHeroParallax() {
 
 // Scroll down arrow animation
 function initScrollArrow() {
+    if (!isGsapLoaded || !isScrollTriggerLoaded) return; // Check GSAP/ScrollTrigger
     const scrollArrow = document.querySelector('#scroll-down-arrow');
     if (!scrollArrow) {
         console.warn("Scroll arrow element not found.");
@@ -104,7 +94,8 @@ function initScrollArrow() {
     });
 
     scrollArrow.addEventListener('click', () => {
-        const nextSection = document.querySelector('.about-section');
+        const nextSection = document.querySelector('.about-section') || 
+                           document.querySelector('#main-container');
         if (nextSection) {
             nextSection.scrollIntoView({ behavior: 'smooth' });
         }
@@ -113,6 +104,7 @@ function initScrollArrow() {
 
 // Section images parallax effect
 function initSectionParallax() {
+    if (!isGsapLoaded || !isScrollTriggerLoaded) return; // Check GSAP/ScrollTrigger
     console.log('Initializing section parallax');
     const parallaxContainers = gsap.utils.toArray('.image-parallax-container');
     
@@ -134,7 +126,7 @@ function initSectionParallax() {
         
         gsap.fromTo(image, 
             { yPercent: -50 },
-            {
+            {   
                 yPercent: 0,
                 ease: "none",
                 scrollTrigger: {
