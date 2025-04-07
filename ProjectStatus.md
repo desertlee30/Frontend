@@ -265,4 +265,23 @@ This file tracks the progress, challenges, and solutions implemented throughout 
     2.  Replaced all instances of `.show()` and `.hide()` in `js/auth-ui.js` with `.removeClass('hidden')` and `.addClass('hidden')` respectively to leverage CSS transitions properly.
 - **Execution Status:** Successful. The necessary CSS transitions were already present. Both JavaScript timing and interference issues have been addressed.
 
+## Login Button Visibility Fix
+
+- **Implemented Function:** Ensured the "Login In" button in the navbar (on `index.html` and `meal-planner.html`) and the "Join Today" side button (on `index.html`) are hidden when a user is logged in.
+- **Errors Encountered:** The buttons were missing the `hide-when-logged-in` CSS class, preventing the existing `js/auth-ui.js` logic from hiding them.
+- **Error Solution:** Added the `hide-when-logged-in` class to the respective anchor tags (`<a>`) in `index.html` and `meal-planner.html`.
+- **Execution Status:** Successful. The buttons should now be correctly hidden upon successful login.
+
+## Navbar Animation Fix (GSAP Approach)
+
+- **Implemented Function:** Refactored the navbar hide/show animation on scroll for `index.html` and `meal-planner.html` to use GSAP for direct control over `opacity` and `y` properties, aiming for a reliable fade and slide effect.
+- **Errors Encountered:**
+    1.  Previous CSS transition approach wasn't producing the desired fade effect consistently, possibly due to subtle JS/CSS conflicts or browser rendering issues.
+    2.  `meal-planner.html` was missing the script tag to load `js/main.js`, where the animation logic resided.
+- **Error Solution:**
+    1.  Added the `<script src="js/main.js"></script>` tag to `meal-planner.html`.
+    2.  Rewritten the scroll event listener logic in `js/main.js` to use `gsap.to()` to animate `opacity` and `y` based on scroll direction.
+    3.  Removed the `transition` CSS property from the `.navbar` rule in `css/styles.css` and `css/meal-planner.css` to prevent conflicts with GSAP animations.
+- **Execution Status:** Successful. The navbar animation is now controlled by GSAP. User testing is needed to confirm if the fade effect is working as expected.
+
 ---

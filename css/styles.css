@@ -21,7 +21,6 @@ body {
     z-index: 1000;
     background-color: rgba(47, 43, 50, 0.8);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .navbar a {

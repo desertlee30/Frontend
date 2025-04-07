@@ -627,8 +627,18 @@ The application will handle recipe loading with appropriate fallbacks to ensure 
         - [X] Analyze `tips.html` navbar CSS (`css/tips.css`) and JS (`js/tips.js`).
         - [X] Analyze `index.html` navbar HTML, CSS (`css/styles.css`), and JS (`js/script.js`, `js/main.js`).
         - [X] Analyze `meal-planner.html` navbar HTML, CSS (`css/meal-planner.css`), and JS (`js/meal-planner.js`, `js/main.js`).
-        - [X] Identify discrepancies (JS execution timing in `js/main.js`, JS interference from `js/auth-ui.js`).
+        - [X] Identify discrepancies (JS execution timing in `js/main.js`, JS interference from `js/auth-ui.js`, missing `main.js` script in `meal-planner.html`).
         - [X] Modify `js/main.js` to fix the timing issue.
         - [X] Verify CSS transitions are present in all relevant CSS files.
         - [X] Modify `js/auth-ui.js` to use class toggling instead of `.show()`/`.hide()`.
+        - [X] Add missing `js/main.js` script tag to `meal-planner.html`.
+        - [X] Refactor navbar animation logic in `js/main.js` to use GSAP `opacity` and `y` animation.
+        - [X] Remove CSS `transition` from `.navbar` rule in `css/styles.css` and `css/meal-planner.css`.
+        - [X] Request user testing.
+
+[X] **Fix Login Button Visibility**
+    - **Description:** Ensure the "Login In" button (and "Join Today" side button) are hidden when a user is logged in.
+    - **Steps:**
+        - [X] Identify the missing `hide-when-logged-in` class on the relevant buttons in `index.html` and `meal-planner.html`.
+        - [X] Add the `hide-when-logged-in` class to the buttons using `edit_file`.
         - [X] Request user testing.

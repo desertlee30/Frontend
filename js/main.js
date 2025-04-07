@@ -21,14 +21,53 @@ if (isGsapLoaded) {
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOMContentLoaded - Initializing GSAP-dependent animations');
 
-    // ======== Navbar Scroll Effects ========
-    // Moved inside DOMContentLoaded for reliability
+    // ======== Navbar Scroll Effects (GSAP Approach) ========
     const navbar = document.querySelector('.navbar');
-    if (navbar) {
-        console.log("Setting up navbar scroll animation (CSS transition approach)");
+    if (navbar && isGsapLoaded) { // Ensure GSAP is loaded
+        console.log("Setting up navbar scroll animation (GSAP approach)");
         
         let lastScrollTop = 0;
-        
+        let isHidden = false; // Track state to prevent redundant animations
+        const navbarHeight = navbar.offsetHeight;
+
+        // Set initial state (visible)
+        gsap.set(navbar, { y: 0, opacity: 1 });
+
+        window.addEventListener('scroll', function() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // Scrolling Down
+            if (scrollTop > lastScrollTop && scrollTop > 100) {
+                if (!isHidden) {
+                    isHidden = true;
+                    gsap.to(navbar, { 
+                        y: -navbarHeight, // Move up by its height
+                        opacity: 0,
+                        duration: 0.3, 
+                        ease: "power1.inOut" 
+                    });
+                }
+            } 
+            // Scrolling Up or Near Top
+            else {
+                if (isHidden) {
+                    isHidden = false;
+                    gsap.to(navbar, { 
+                        y: 0, 
+                        opacity: 1, 
+                        duration: 0.3, 
+                        ease: "power1.inOut" 
+                    });
+                }
+            }
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+        });
+    } else if (!navbar) {
+        console.warn("Navbar not found - navbar animation disabled");
+    } else if (!isGsapLoaded) {
+        console.warn("GSAP not loaded - falling back to CSS class toggle for navbar");
+        // Fallback to original CSS class logic if GSAP isn't available
+        let lastScrollTop = 0;
         window.addEventListener('scroll', function() {
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
             if (scrollTop > lastScrollTop && scrollTop > 100) {
@@ -38,8 +77,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
         });
-    } else {
-        console.warn("Navbar not found - navbar animation disabled");
     }
 
     if (!isGsapLoaded) return; // Don't run GSAP stuff if not loaded
