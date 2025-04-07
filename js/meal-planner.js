@@ -30,6 +30,9 @@ const init = () => {
   
   // Set up modal-related event listeners
   setupModalEventListeners();
+  
+  // Set up auth modal event listeners
+  setupAuthModalEventListeners();
 
   // Set up scroll-to-top functionality
   setupScrollToTop();
@@ -86,6 +89,73 @@ const closeSavedRecipesModal = () => {
   
   // Re-enable body scrolling
   document.body.style.overflow = 'auto';
+};
+
+// Open auth required modal
+const openAuthModal = () => {
+  const modal = document.getElementById('authModal');
+  const overlay = document.getElementById('authModalOverlay');
+  
+  if (!modal || !overlay) {
+    console.error('Auth modal elements not found');
+    return;
+  }
+  
+  modal.classList.add('show');
+  overlay.classList.add('show');
+  
+  // Prevent body scrolling when modal is open
+  document.body.style.overflow = 'hidden';
+};
+
+// Close auth required modal
+const closeAuthModal = () => {
+  const modal = document.getElementById('authModal');
+  const overlay = document.getElementById('authModalOverlay');
+  
+  if (!modal || !overlay) {
+    console.error('Auth modal elements not found');
+    return;
+  }
+  
+  modal.classList.remove('show');
+  overlay.classList.remove('show');
+  
+  // Re-enable body scrolling
+  document.body.style.overflow = 'auto';
+};
+
+// Check if user is logged in (using the auth-ui.js function)
+const isUserLoggedIn = () => {
+  const authToken = localStorage.getItem('authToken');
+  const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+  return !!(authToken && currentUser && currentUser.lastName);
+};
+
+// Setup auth modal event listeners
+const setupAuthModalEventListeners = () => {
+  const closeButton = document.getElementById('authModalCloseButton');
+  const cancelButton = document.getElementById('authModalCancelButton');
+  const overlay = document.getElementById('authModalOverlay');
+  
+  if (closeButton) {
+    closeButton.addEventListener('click', closeAuthModal);
+  }
+  
+  if (cancelButton) {
+    cancelButton.addEventListener('click', closeAuthModal);
+  }
+  
+  if (overlay) {
+    overlay.addEventListener('click', closeAuthModal);
+  }
+  
+  // Allow closing with escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && document.getElementById('authModal').classList.contains('show')) {
+      closeAuthModal();
+    }
+  });
 };
 
 // Show saved recipes in modal
@@ -520,6 +590,13 @@ const handleSaveRecipe = (recipe, event) => {
   // Check if already saved
   if (state.savedRecipes.includes(recipe.id)) {
     showToast('Recipe already saved!');
+    return;
+  }
+  
+  // Check if user is not logged in and trying to save more than 2 recipes
+  if (!isUserLoggedIn() && state.savedRecipes.length >= 2) {
+    // Show auth required modal
+    openAuthModal();
     return;
   }
   

@@ -1,208 +1,246 @@
 /**
- * Signup Modal and Form Handling
- * This file manages the signup modal and form validation/submission
- * using jQuery and AJAX.
+ * Signup Form Handler
+ * This file manages user registration functionality
  */
 
 $(document).ready(function() {
-    // API endpoint - updated to handle both local development and production
-    const API_URL = window.location.hostname.includes('localhost') || window.location.hostname.includes('127.0.0.1') 
-      ? 'http://localhost:3000/api'  // Local development
-      : '/api';                      // Production (relative URL)
+    console.log('Signup script initialized');
     
-    // DOM Elements
-    const $signupModalOverlay = $('#signupModalOverlay');
-    const $signupModal = $('.signup-modal');
-    const $showSignupBtn = $('#showSignupBtn');
-    const $closeSignupModal = $('#closeSignupModal');
-    const $signupForm = $('#signupForm');
-    const $loadingSpinner = $('#loadingSpinner');
+    // Check for URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const redirectUrl = urlParams.get('redirect');
     
-    // Error message elements
-    const $emailError = $('#emailError');
-    const $passwordError = $('#passwordError');
-    const $confirmPasswordError = $('#confirmPasswordError');
+    // Store redirect URL in session storage for later use
+    if (redirectUrl) {
+        sessionStorage.setItem('redirectAfterAuth', redirectUrl);
+    }
     
-    // Password toggle functionality
-    $('.signup-toggle, .confirm-toggle').on('click', function() {
-        const $passwordField = $(this).siblings('input');
-        const type = $passwordField.attr('type') === 'password' ? 'text' : 'password';
-        $passwordField.attr('type', type);
-        
-        // Toggle eye icon
-        $(this).find('i').toggleClass('fa-eye fa-eye-slash');
-    });
+    // Setup password toggle visibility
+    setupPasswordToggles();
     
-    // Show signup modal
-    $showSignupBtn.on('click', function(e) {
-        e.preventDefault();
-        $signupModalOverlay.addClass('active');
-        // Focus first name input after modal animation completes
-        setTimeout(() => $('#firstName').focus(), 300);
-    });
-    
-    // Close signup modal
-    $closeSignupModal.on('click', function() {
-        $signupModalOverlay.removeClass('active');
-    });
-    
-    // Close modal if clicked outside of it
-    $signupModalOverlay.on('click', function(e) {
-        if ($(e.target).is($signupModalOverlay)) {
-            $signupModalOverlay.removeClass('active');
-        }
-    });
-    
-    // ESC key to close modal
-    $(document).on('keydown', function(e) {
-        if (e.key === 'Escape' && $signupModalOverlay.hasClass('active')) {
-            $signupModalOverlay.removeClass('active');
-        }
-    });
-    
-    // Show loading spinner
-    const showLoading = () => {
-        $loadingSpinner.addClass('active');
-    };
-    
-    // Hide loading spinner
-    const hideLoading = () => {
-        $loadingSpinner.removeClass('active');
-    };
-    
-    // Validate password meets requirements
-    const validatePassword = (password) => {
-        // Regex: 6+ chars, 1 lowercase, 1 uppercase, 1 number, 1 special character
-        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-!@#$%^&*()_+={}\[\]:;'<>,.?/~]).{6,}$/;
-        return regex.test(password);
-    };
-    
-    // Handle signup form submission
-    $signupForm.on('submit', async function(e) {
-        e.preventDefault();
-        
-        // Clear previous errors
-        $emailError.text('');
-        $passwordError.text('');
-        $confirmPasswordError.text('');
-        
-        // Get form values
-        const firstName = $('#firstName').val().trim();
-        const lastName = $('#lastName').val().trim();
-        const email = $('#signupEmail').val().trim();
-        const dateOfBirth = $('#dateOfBirth').val();
-        const password = $('#signupPassword').val();
-        const confirmPassword = $('#confirmPassword').val();
-        
-        // Validation flag
-        let isValid = true;
-        
-        // Basic validation
-        if (!firstName || !lastName || !email || !dateOfBirth || !password || !confirmPassword) {
-            alert('Please fill in all fields');
-            isValid = false;
+    // Setup form validation and submission
+    setupSignupForm();
+});
+
+/**
+ * Sets up password visibility toggles
+ */
+function setupPasswordToggles() {
+    $('.toggle-password').on('click keypress', function(e) {
+        // Handle both click and keyboard events (Enter and Space)
+        if (e.type === 'keypress' && e.which !== 13 && e.which !== 32) {
             return;
         }
         
-        // Email format validation
-        if (!email.match(/.+@.+\..+/)) {
-            $emailError.text('Please enter a valid email address');
-            isValid = false;
-        }
+        const passwordField = $(this).siblings('input');
+        const icon = $(this).find('i');
         
-        // Password requirements validation
-        if (!validatePassword(password)) {
-            $passwordError.text('Password must be 6+ characters with at least 1 uppercase, 1 lowercase, 1 number, and 1 symbol');
-            isValid = false;
-        }
-        
-        // Confirm password match
-        if (password !== confirmPassword) {
-            $confirmPasswordError.text('Passwords do not match');
-            isValid = false;
-        }
-        
-        // If validation passes, submit to API
-        if (isValid) {
-            try {
-                showLoading();
-                
-                // Prepare user data
-                const userData = {
-                    firstName,
-                    lastName,
-                    email,
-                    dateOfBirth,
-                    password
-                };
-                
-                // Send signup request to API
-                $.ajax({
-                    url: `${API_URL}/signup`,
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify(userData),
-                    success: function(response) {
-                        // Store token in localStorage for future authenticated requests
-                        localStorage.setItem('authToken', response.token);
-                        
-                        // Store basic user info (no sensitive data)
-                        if (response.user) {
-                            localStorage.setItem('currentUser', JSON.stringify({
-                                id: response.user.id,
-                                firstName: response.user.firstName,
-                                lastName: response.user.lastName,
-                                email: response.user.email
-                            }));
-                        }
-                        
-                        // Reset form
-                        $signupForm[0].reset();
-                        
-                        // Close modal
-                        $signupModalOverlay.removeClass('active');
-                        
-                        // Show success message and redirect to index.html
-                        alert('Account created successfully! Redirecting to homepage...');
-                        
-                        // Redirect to index page
-                        window.location.href = 'index.html';
-                        
-                        hideLoading();
-                    },
-                    error: function(xhr) {
-                        // Parse and display error message
-                        let errorMessage = 'An error occurred during sign up.';
-                        
-                        try {
-                            const response = JSON.parse(xhr.responseText);
-                            if (response && response.error) {
-                                errorMessage = response.error;
-                                
-                                // Display specific errors in the appropriate fields
-                                if (errorMessage.includes('Email is already registered')) {
-                                    $emailError.text('This email address is already registered');
-                                } else if (errorMessage.includes('Password must be')) {
-                                    $passwordError.text(errorMessage);
-                                } else {
-                                    alert(errorMessage);
-                                }
-                            } else {
-                                alert(errorMessage);
-                            }
-                        } catch (e) {
-                            alert(errorMessage);
-                        }
-                        
-                        hideLoading();
-                    }
-                });
-                
-            } catch (error) {
-                console.error('Signup error:', error);
-                alert('An error occurred during sign up. Please try again.');
-                hideLoading();
-            }
+        // Toggle password visibility
+        if (passwordField.attr('type') === 'password') {
+            passwordField.attr('type', 'text');
+            icon.removeClass('fa-eye').addClass('fa-eye-slash');
+        } else {
+            passwordField.attr('type', 'password');
+            icon.removeClass('fa-eye-slash').addClass('fa-eye');
         }
     });
-}); 
+}
+
+/**
+ * Sets up signup form validation and submission
+ */
+function setupSignupForm() {
+    const $form = $('#signupForm');
+    const $emailInput = $('#signupEmail');
+    const $passwordInput = $('#signupPassword');
+    const $confirmPasswordInput = $('#confirmPassword');
+    const $emailError = $('#emailError');
+    const $passwordError = $('#passwordError');
+    const $confirmPasswordError = $('#confirmPasswordError');
+    const $loadingSpinner = $('#loadingSpinner');
+    
+    // Form submission handler
+    $form.on('submit', function(e) {
+        e.preventDefault();
+        
+        // Reset errors
+        resetErrors();
+        
+        // Validate form
+        if (!validateForm()) {
+            return;
+        }
+        
+        // Show loading spinner
+        $loadingSpinner.show();
+        
+        // Simulate API call with timeout
+        setTimeout(function() {
+            // Create user object
+            const user = {
+                firstName: $('#firstName').val().trim(),
+                lastName: $('#lastName').val().trim(),
+                email: $emailInput.val().trim(),
+                dateOfBirth: $('#dateOfBirth').val(),
+                password: $passwordInput.val() // In a real app, never store raw passwords
+            };
+            
+            // Generate fake auth token
+            const authToken = generateFakeToken();
+            
+            // Store in localStorage (In a real app, this would come from a server)
+            localStorage.setItem('authToken', authToken);
+            localStorage.setItem('currentUser', JSON.stringify({
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email
+            }));
+            
+            // Hide spinner
+            $loadingSpinner.hide();
+            
+            // Show success message
+            alert('Account created successfully! You are now logged in.');
+            
+            // Redirect to index page or previous page
+            const redirectUrl = getRedirectUrl();
+            window.location.href = redirectUrl;
+        }, 1500);
+    });
+    
+    // Input event listeners for real-time validation
+    $emailInput.on('blur', validateEmail);
+    $passwordInput.on('input', validatePassword);
+    $confirmPasswordInput.on('input', validateConfirmPassword);
+    
+    /**
+     * Validates the entire form
+     * @returns {boolean} Whether the form is valid
+     */
+    function validateForm() {
+        const isEmailValid = validateEmail();
+        const isPasswordValid = validatePassword();
+        const isConfirmPasswordValid = validateConfirmPassword();
+        
+        return isEmailValid && isPasswordValid && isConfirmPasswordValid;
+    }
+    
+    /**
+     * Validates the email field
+     * @returns {boolean} Whether the email is valid
+     */
+    function validateEmail() {
+        const email = $emailInput.val().trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        
+        if (!email) {
+            $emailError.text('Email is required');
+            return false;
+        }
+        
+        if (!emailRegex.test(email)) {
+            $emailError.text('Please enter a valid email address');
+            return false;
+        }
+        
+        $emailError.text('');
+        return true;
+    }
+    
+    /**
+     * Validates the password field
+     * @returns {boolean} Whether the password is valid
+     */
+    function validatePassword() {
+        const password = $passwordInput.val();
+        
+        if (!password) {
+            $passwordError.text('Password is required');
+            return false;
+        }
+        
+        // Check password length
+        if (password.length < 6) {
+            $passwordError.text('Password must be at least 6 characters');
+            return false;
+        }
+        
+        // Check for uppercase, lowercase, number, and special character
+        const hasUppercase = /[A-Z]/.test(password);
+        const hasLowercase = /[a-z]/.test(password);
+        const hasNumber = /[0-9]/.test(password);
+        const hasSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
+        
+        if (!(hasUppercase && hasLowercase && hasNumber && hasSpecial)) {
+            $passwordError.text('Password must include uppercase, lowercase, number, and special character');
+            return false;
+        }
+        
+        $passwordError.text('');
+        return true;
+    }
+    
+    /**
+     * Validates the confirm password field
+     * @returns {boolean} Whether the confirm password is valid
+     */
+    function validateConfirmPassword() {
+        const password = $passwordInput.val();
+        const confirmPassword = $confirmPasswordInput.val();
+        
+        if (!confirmPassword) {
+            $confirmPasswordError.text('Please confirm your password');
+            return false;
+        }
+        
+        if (password !== confirmPassword) {
+            $confirmPasswordError.text('Passwords do not match');
+            return false;
+        }
+        
+        $confirmPasswordError.text('');
+        return true;
+    }
+    
+    /**
+     * Resets all error messages
+     */
+    function resetErrors() {
+        $emailError.text('');
+        $passwordError.text('');
+        $confirmPasswordError.text('');
+    }
+}
+
+/**
+ * Generates a fake auth token for demo purposes
+ * @returns {string} A random string token
+ */
+function generateFakeToken() {
+    return 'auth_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+}
+
+/**
+ * Gets the URL to redirect to after successful signup
+ * @returns {string} The URL to redirect to
+ */
+function getRedirectUrl() {
+    // Check for stored redirect URL from login page
+    const storedRedirect = sessionStorage.getItem('redirectAfterAuth');
+    if (storedRedirect) {
+        sessionStorage.removeItem('redirectAfterAuth'); // Clean up
+        return storedRedirect;
+    }
+    
+    // Check for a redirect parameter in the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const redirect = urlParams.get('redirect');
+    
+    // If there's a redirect parameter, use it
+    if (redirect) {
+        return decodeURIComponent(redirect);
+    }
+    
+    // Otherwise, redirect to the home page
+    return 'index.html';
+} 

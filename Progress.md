@@ -1,5 +1,201 @@
 # WellnessWave Project Progress
 
+## Task: Update Fitness Page Color Scheme to Match Index.html
+
+### Task Description
+Update the fitness.css file to match the color scheme of index.html, ensuring visual consistency across the website. The primary color was changed from indigo/blue to orange (#FF6B35) to create a unified design language throughout the site.
+
+### Plan
+[X] Analyze the color scheme in index.html and its CSS file
+[X] Update CSS variables in fitness.css to match the primary and secondary colors
+[X] Modify button styles to use the consistent orange color scheme
+[X] Update hover states and accent colors throughout the fitness page
+[X] Ensure all interactive elements (buttons, links, icons) use the correct colors
+[X] Maintain specific color treatments for special elements (like the logout button)
+[X] Test visual consistency across all elements
+
+### Implementation Notes
+- Changed the primary color from indigo (#3F51B5) to orange (#FF6B35) throughout the CSS
+- Updated all accent colors and hover states to use shades of orange
+- Modified button backgrounds to match the flat color style of index.html (vs. gradients)
+- Updated footer link hover colors and social icon hover backgrounds
+- Maintained the green background for logged-in user status and red for logout button
+- Ensured consistent styling for navigation active links and hover states
+- Updated program card link and icon colors to match the primary orange theme
+
+### Next Steps
+- Add content to the fitness main section with the updated color scheme
+- Create program cards using the new styling
+- Consider adding complementary images that work well with the orange color scheme
+- Implement filtering functionality for fitness programs
+
+## Task: Update Fitness Page Hero Animations to Match Tips Page
+
+### Task Description
+Update the fitness.js file to match the animation approach used in tips.js for the hero overlay and parallax effects. This ensures consistency in animations across different sections of the site and improves the user experience with enhanced visual effects.
+
+### Plan
+[X] Study the animation implementation in tips.js to understand the approach
+[X] Update the hero overlay mouse attraction effect in fitness.js
+[X] Implement the "breathing" animation for the overlay image
+[X] Improve the parallax scrolling effect for the hero background
+[X] Enhance the scroll-down arrow visibility and animation
+[X] Ensure proper registration of GSAP plugins
+[X] Add fallback options for when GSAP is not available
+[X] Test animations to ensure smooth performance
+
+### Implementation Notes
+- Completely rewrote the hero animation code in fitness.js to match the approach in tips.js
+- Added a "breathing" animation effect for the overlay image with subtle scale changes
+- Simplified the mouse tracking system with cleaner state management
+- Implemented scroll-based animations using ScrollTrigger
+- Enhanced the visibility of the scroll-down arrow with opacity adjustments
+- Added performance optimizations by using GSAP's built-in animation capabilities
+- Improved error handling for cases where GSAP plugins are not loaded
+- Used a more efficient animation loop with requestAnimationFrame
+
+### Next Steps
+- Add content to the fitness main section
+- Implement program card design and animations
+- Add filtering functionality for fitness programs
+- Consider adding interactive elements like video previews
+- Create a booking system for fitness classes
+
+## Task: Create Dedicated CSS and JS Files for Fitness Page
+
+### Task Description
+Separate the fitness.html page to use its own dedicated CSS and JavaScript files instead of sharing with tips.html. This will allow for better organization, maintenance, and customization specific to the fitness section.
+
+### Plan
+[X] Create a new dedicated CSS file (fitness.css) for the fitness page
+[X] Adapt necessary styles from tips.css while customizing for fitness theme
+[X] Create unique color variables for the fitness page
+[X] Create a new JavaScript file (fitness.js) for fitness-specific functionality 
+[X] Update fitness.html to reference the new CSS and JS files
+[X] Test the page to ensure all styling and functionality works correctly
+[X] Update Progress.md with the changes made
+
+### Implementation Notes
+- Created `css/fitness.css` with a unique color scheme using CSS variables
+- Implemented fitness-specific styling with indigo and pink accent colors
+- Added program card styling for future fitness program listings
+- Created `js/fitness.js` with dedicated animations and functionality for the fitness page
+- Implemented parallax effects for the hero section
+- Added scroll-down arrow functionality with smooth animations
+- Included helper functions for future dynamic content loading
+- Updated references in `fitness.html` to use the new files
+
+### Next Steps
+- Add fitness program content to the main section
+- Implement program filtering functionality
+- Consider adding a trainer section with profiles
+- Add an interactive class schedule or calendar
+- Create a form for class sign-ups or consultations
+
+## Task: Update Fitness Page Hero Section
+
+### Task Description
+Update the fitness.html page to use the same hero design as the tips.html page, with glass.png as the background image and gym.png as the overlay image. Also, remove the side button and newsletter section.
+
+### Plan
+[X] Update hero section to match the tips.html design with glass.png background
+[X] Add gym.png as the overlay image
+[X] Remove the side "Join Today" button
+[X] Remove the newsletter section
+[X] Include relevant CSS by adding a link to tips.css
+[X] Add appropriate content to the hero section (title, text, and button)
+[X] Include the ScrollToPlugin for GSAP to ensure proper scroll functionality
+[X] Add script reference to tips.js for proper animation effects
+[X] Update Progress.md with details of the changes
+
+### Implementation Notes
+- Added the tips.css stylesheet to reuse the hero section styling
+- Used the same hero section structure as tips.html with hero-background and hero-overlay
+- Set glass.png as the background image and gym.png as the overlay image
+- Added appropriate content to the hero section: "Fitness Programs" title and CTA text
+- Included the scroll-down arrow for consistent user experience
+- Maintained consistent navigation and footer sections
+- Removed the newsletter section as requested
+- Added reference to tips.js script to ensure proper animations
+
+### Next Steps
+- Design and implement content for the fitness-main section
+- Create fitness program cards or sections
+- Add interactive elements for program selection
+- Consider adding a trainer profiles section
+- Implement a class schedule or booking functionality
+
+## Task: Create Fitness Page Structure
+
+### Task Description
+Create a new fitness.html page with the same navigation, footer, user authentication functionality, and navigation effects as the other pages in the site while leaving the hero and content sections empty for future development.
+
+### Plan
+[X] Create a new HTML file (fitness.html) with the same structure as index.html
+[X] Include the same navigation bar with "Fitness" link marked as active
+[X] Add the side "Join Today" button with proper authentication classes
+[X] Include empty hero section with necessary structure for future development
+[X] Add empty content section for future development
+[X] Include newsletter section and footer from the main site
+[X] Include all required scripts and stylesheets
+[X] Link the authentication functionality
+[X] Add proper references in the navigation of other pages
+[X] Update Progress.md documentation
+
+### Implementation Notes
+- Created fitness.html using the same HTML structure as index.html to maintain consistency
+- Added empty hero and content sections with proper class names for future styling
+- Included all necessary scripts (js/script.js, js/auth-ui.js, js/main.js) for proper functionality
+- Used the same CSS files and CDN references as the main site
+- Set the "Fitness" navigation link as active to highlight the current page
+- Applied all authentication-related classes to ensure proper login/logout functionality
+- Included the newsletter and footer sections to maintain a consistent user experience
+
+### Next Steps
+- Design and implement the hero section for the fitness page
+- Create fitness-specific content and components
+- Design and implement workout program cards or listings
+- Add interactive elements like workout filters or categories
+- Consider adding trainer profiles or class schedules
+
+## Task: Add Authentication Limit to Meal Planner
+
+### Task Description
+Implement a limit on the number of recipes guests can save (2) and show a sign-in prompt when they try to save more.
+
+### Plan
+[X] Add a function to check if the user is logged in using localStorage credentials
+[X] Modify the handleSaveRecipe function to check login status before saving
+[X] Create an authentication modal in HTML with sign in/sign up options
+[X] Add CSS styles for the authentication modal with responsive design
+[X] Implement JavaScript to show/hide the authentication modal
+[X] Update login.js to automatically show signup modal when redirected from meal planner
+[X] Set up redirect functionality to return to meal planner after login
+[X] Test the feature across different scenarios
+
+### Implementation Details
+1. **Authentication Check Logic**:
+   - Created an `isUserLoggedIn()` function that checks for authToken and currentUser in localStorage
+   - Added a condition in `handleSaveRecipe()` to check login status and saved recipe count
+   - Created modal open/close functions that handle body scrolling
+
+2. **HTML and CSS Implementation**:
+   - Added a modal overlay and container with call-to-action buttons
+   - Used consistent styling with the site's color scheme and button design
+   - Ensured responsive design with appropriate spacing and button layout
+
+3. **Navigation and Redirection**:
+   - Added URL parameters to login/signup links to control the redirect destination
+   - Updated login.js to check for URL parameters and show signup modal when requested
+   - Implemented sessionStorage to persist the redirect URL during the login process
+   - Modified the redirect logic in both login and signup functions
+
+### Next Steps
+- Implement a server-side check for recipe limits for added security
+- Add visual indicators showing how many more recipes can be saved before the limit
+- Consider implementing a "premium" tier with different limits
+- Add social login options for quicker authentication
+
 ## Azure Deployment Preparation - April 2024
 
 ### Task Description
@@ -865,4 +1061,43 @@ The goal was to add a decorative doctor image to the tips page and make it inter
 - Explore making the image interactive (e.g., clickable).
 
 # Project Progress: Authentication Implementation in Tips Page
-// ... rest of the file
+
+## Task: Add Authentication Limit to Meal Planner
+
+### Task Description
+Implement a limit on the number of recipes guests can save (2) and show a sign-in prompt when they try to save more.
+
+### Plan
+[X] Add a function to check if the user is logged in using localStorage credentials
+[X] Modify the handleSaveRecipe function to check login status before saving
+[X] Create an authentication modal in HTML with sign in/sign up options
+[X] Add CSS styles for the authentication modal with responsive design
+[X] Implement JavaScript to show/hide the authentication modal
+[X] Update login.js to automatically show signup modal when redirected from meal planner
+[X] Set up redirect functionality to return to meal planner after login
+[X] Test the feature across different scenarios
+
+### Implementation Details
+1. **Authentication Check Logic**:
+   - Created an `isUserLoggedIn()` function that checks for authToken and currentUser in localStorage
+   - Added a condition in `handleSaveRecipe()` to check login status and saved recipe count
+   - Created modal open/close functions that handle body scrolling
+
+2. **HTML and CSS Implementation**:
+   - Added a modal overlay and container with call-to-action buttons
+   - Used consistent styling with the site's color scheme and button design
+   - Ensured responsive design with appropriate spacing and button layout
+
+3. **Navigation and Redirection**:
+   - Added URL parameters to login/signup links to control the redirect destination
+   - Updated login.js to check for URL parameters and show signup modal when requested
+   - Implemented sessionStorage to persist the redirect URL during the login process
+   - Modified the redirect logic in both login and signup functions
+
+### Next Steps
+- Implement a server-side check for recipe limits for added security
+- Add visual indicators showing how many more recipes can be saved before the limit
+- Consider implementing a "premium" tier with different limits
+- Add social login options for quicker authentication
+
+## Work Log - Doctor Image Proximity Effect (Update)

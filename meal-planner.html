@@ -28,7 +28,7 @@
             <li><a href="index.html">Home</a></li>
             <li><a href="tips.html">Health Tips</a></li>
             <li><a href="meal-planner.html" class="active">Recipes</a></li>
-            <li><a href="#">Fitness</a></li>
+            <li><a href="fitness.html">Fitness</a></li>
             <li><a href="#">Blog</a></li>
             <li><a href="#">About</a></li>
             <li><a href="#">Contact</a></li>
@@ -117,6 +117,29 @@
             </div>
             <div class="no-saved-recipes" id="noSavedRecipes">
                 <p>You have no saved recipes yet. Browse our recipes and click "Save Recipe" to add them here!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Authentication Required Modal -->
+    <div class="modal-overlay" id="authModalOverlay"></div>
+    <div class="modal" id="authModal">
+        <div class="modal-header">
+            <h2>Sign In Required</h2>
+            <button class="modal-close-button" id="authModalCloseButton">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-content auth-modal-content">
+            <div class="auth-message">
+                <i class="fas fa-lock auth-icon"></i>
+                <p>You've saved 2 recipes, which is the maximum for guests.</p>
+                <p>Sign in or create an account to save unlimited recipes and access more features!</p>
+            </div>
+            <div class="auth-buttons">
+                <a href="login.html?redirect=meal-planner.html" class="btn btn-primary auth-btn">Sign In</a>
+                <a href="login.html?signup=true&redirect=meal-planner.html" class="btn btn-secondary auth-btn">Create Account</a>
+                <button class="btn btn-tertiary auth-btn" id="authModalCancelButton">Continue as Guest</button>
             </div>
         </div>
     </div>

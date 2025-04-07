@@ -10,6 +10,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const passwordInput = document.getElementById('password');
     const emailInput = document.getElementById('email');
     
+    // Check for URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const showSignup = urlParams.get('signup') === 'true';
+    const redirectUrl = urlParams.get('redirect');
+    
+    // Store redirect URL in session storage for later use
+    if (redirectUrl) {
+        sessionStorage.setItem('redirectAfterAuth', redirectUrl);
+    }
+    
+    // Show signup modal if the signup parameter is present
+    if (showSignup) {
+        setTimeout(() => {
+            const showSignupBtn = document.getElementById('showSignupBtn');
+            if (showSignupBtn) {
+                showSignupBtn.click();
+            }
+        }, 500); // Small delay to ensure the page is loaded
+    }
+    
     // Image zoom effect elements
     const imageContainer = document.querySelector('.login-image-container');
     const personImage = document.querySelector('.person-image');
@@ -179,8 +199,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Show success message and redirect (in a real app)
                     alert('Login successful! Redirecting...');
                     
-                    // Redirect to main page after successful login
-                    window.location.href = 'index.html';
+                    // Redirect to stored URL or home page after successful login
+                    const redirectTarget = sessionStorage.getItem('redirectAfterAuth') || 'index.html';
+                    sessionStorage.removeItem('redirectAfterAuth'); // Clean up
+                    window.location.href = redirectTarget;
                 },
                 error: function(xhr) {
                     // Parse and display error message
