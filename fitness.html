@@ -52,10 +52,135 @@
         <img src="Media/arrow-circle-down.png" alt="Scroll down arrow" id="scroll-down-arrow">
     </section>
 
-    <!-- Content Section (Empty) -->
+    <!-- Content Section with Frosted Glass Design -->
     <section class="fitness-main">
-        <div class="container">
-            <!-- Empty content to be filled later -->
+        <!-- Decorative background circles -->
+        <div class="bg-circle circle-1"></div>
+        <div class="bg-circle circle-2"></div>
+        <div class="bg-circle circle-3"></div>
+        <div class="bg-circle circle-4"></div>
+        
+        <div class="glass-container">
+            <h2 class="section-title">Find Your Perfect Workout</h2>
+            
+            <!-- Filter Section -->
+            <div class="frosted-glass filter-section">
+                <div class="filter-header">
+                    <h3>Filter Programs</h3>
+                    <div class="saved-programs-button">
+                        <i class="fas fa-bookmark"></i>
+                        <span class="saved-counter">0</span>
+                    </div>
+                </div>
+                
+                <div class="filter-tags">
+                    <div class="filter-tag active" data-category="all">All Programs</div>
+                    <div class="filter-tag" data-category="strength">Strength</div>
+                    <div class="filter-tag" data-category="cardio">Cardio</div>
+                    <div class="filter-tag" data-category="flexibility">Flexibility</div>
+                    <div class="filter-tag" data-category="hiit">HIIT</div>
+                    <div class="filter-tag" data-category="recovery">Recovery</div>
+                    <div class="filter-tag" data-category="beginner">Beginner</div>
+                </div>
+                
+                <div class="active-filters">
+                    <p>Active Filters: <span id="activeFiltersText">All Programs</span></p>
+                    <button id="clearFilters" class="clear-button">Clear All</button>
+                </div>
+            </div>
+            
+            <!-- Fitness Program Cards Grid -->
+            <div class="program-grid">
+                <!-- Program Card 1 -->
+                <div class="frosted-glass program-card" data-categories="strength beginner">
+                    <h3>Strength Foundations</h3>
+                    <p class="program-description">A comprehensive 8-week program to build fundamental strength. Perfect for beginners or those returning to fitness.</p>
+                    <div class="program-details">
+                        <div class="program-stat"><i class="fas fa-calendar"></i> 8 Weeks</div>
+                        <div class="program-stat"><i class="fas fa-dumbbell"></i> Beginner</div>
+                        <div class="program-stat"><i class="fas fa-clock"></i> 30 min/day</div>
+                    </div>
+                    <a href="#" class="program-link">
+                        View Program
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                
+                <!-- Program Card 2 -->
+                <div class="frosted-glass program-card" data-categories="cardio hiit">
+                    <h3>Cardio Blast</h3>
+                    <p class="program-description">High-intensity cardio workouts to improve endurance and burn calories. Designed for all fitness levels with scalable options.</p>
+                    <div class="program-details">
+                        <div class="program-stat"><i class="fas fa-calendar"></i> 6 Weeks</div>
+                        <div class="program-stat"><i class="fas fa-dumbbell"></i> Intermediate</div>
+                        <div class="program-stat"><i class="fas fa-clock"></i> 25 min/day</div>
+                    </div>
+                    <a href="#" class="program-link">
+                        View Program
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                
+                <!-- Program Card 3 -->
+                <div class="frosted-glass program-card" data-categories="flexibility recovery">
+                    <h3>Flexibility & Mobility</h3>
+                    <p class="program-description">Enhance your range of motion, prevent injuries, and improve recovery with this comprehensive mobility program.</p>
+                    <div class="program-details">
+                        <div class="program-stat"><i class="fas fa-calendar"></i> 4 Weeks</div>
+                        <div class="program-stat"><i class="fas fa-dumbbell"></i> All Levels</div>
+                        <div class="program-stat"><i class="fas fa-clock"></i> 20 min/day</div>
+                    </div>
+                    <a href="#" class="program-link">
+                        View Program
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                
+                <!-- Program Card 4 -->
+                <div class="frosted-glass program-card" data-categories="hiit strength">
+                    <h3>Total Body HIIT</h3>
+                    <p class="program-description">Maximize your results with this high-intensity interval training program that combines strength and cardio elements.</p>
+                    <div class="program-details">
+                        <div class="program-stat"><i class="fas fa-calendar"></i> 10 Weeks</div>
+                        <div class="program-stat"><i class="fas fa-dumbbell"></i> Advanced</div>
+                        <div class="program-stat"><i class="fas fa-clock"></i> 40 min/day</div>
+                    </div>
+                    <a href="#" class="program-link">
+                        View Program
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                
+                <!-- Program Card 5 -->
+                <div class="frosted-glass program-card" data-categories="recovery beginner">
+                    <h3>Active Recovery</h3>
+                    <p class="program-description">Gentle exercises designed to improve circulation, reduce muscle soreness, and speed up the recovery process.</p>
+                    <div class="program-details">
+                        <div class="program-stat"><i class="fas fa-calendar"></i> 3 Weeks</div>
+                        <div class="program-stat"><i class="fas fa-dumbbell"></i> Beginner</div>
+                        <div class="program-stat"><i class="fas fa-clock"></i> 15 min/day</div>
+                    </div>
+                    <a href="#" class="program-link">
+                        View Program
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                
+                <!-- Program Card 6 -->
+                <div class="frosted-glass program-card" data-categories="strength cardio">
+                    <h3>Functional Fitness</h3>
+                    <p class="program-description">Build practical strength for everyday movements with this functional training program focused on full-body integration.</p>
+                    <div class="program-details">
+                        <div class="program-stat"><i class="fas fa-calendar"></i> 6 Weeks</div>
+                        <div class="program-stat"><i class="fas fa-dumbbell"></i> Intermediate</div>
+                        <div class="program-stat"><i class="fas fa-clock"></i> 35 min/day</div>
+                    </div>
+                    <a href="#" class="program-link">
+                        View Program
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
         </div>
     </section>
 

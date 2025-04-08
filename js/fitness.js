@@ -8,7 +8,7 @@
  * - Navbar scroll interactions
  * - Button effects
  * - Smooth scrolling
- * - Program card animations
+ * - Program card animations and filtering
  */
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -45,49 +45,59 @@ document.addEventListener('DOMContentLoaded', function() {
     // Ensure all elements are properly loaded before adding animations
     if (!hero || !overlay) {
         console.warn('Hero elements not found, animation not initialized');
-        return;
+    } else {
+        // Initialize hero animations
+        initHeroAnimations();
     }
     
-    // Initialize GSAP animations only if plugin is loaded
-    const isScrollTriggerLoaded = isGsapLoaded && typeof ScrollTrigger !== 'undefined' && ScrollTrigger;
+    // Initialize program card filtering system
+    initProgramFilter();
     
-    if (!isGsapLoaded) {
-        console.warn('GSAP not loaded, animations disabled');
+    // Initialize frosted glass cards
+    animateCards();
+    
+    // ======== Hero Animations ========
+    function initHeroAnimations() {
+        // Initialize GSAP animations only if plugin is loaded
+        const isScrollTriggerLoaded = isGsapLoaded && typeof ScrollTrigger !== 'undefined' && ScrollTrigger;
         
-        // Fallback non-GSAP interactions (simple CSS transitions)
-        if (overlay) {
-            // Simple overlay fallback (basic hover effect only)
-            hero.addEventListener('mousemove', function(e) {
-                const heroRect = hero.getBoundingClientRect();
-                const centerX = heroRect.width / 2;
-                const centerY = heroRect.height / 2;
-                const moveX = (e.clientX - heroRect.left - centerX) / 20;
-                const moveY = (e.clientY - heroRect.top - centerY) / 20;
-                
-                overlay.style.transform = `translate(${moveX}px, ${moveY}px)`;
-            });
+        if (!isGsapLoaded) {
+            console.warn('GSAP not loaded, animations disabled');
             
-            hero.addEventListener('mouseleave', function() {
-                overlay.style.transform = 'translate(0, 0)';
-            });
+            // Fallback non-GSAP interactions (simple CSS transitions)
+            if (overlay) {
+                // Simple overlay fallback (basic hover effect only)
+                hero.addEventListener('mousemove', function(e) {
+                    const heroRect = hero.getBoundingClientRect();
+                    const centerX = heroRect.width / 2;
+                    const centerY = heroRect.height / 2;
+                    const moveX = (e.clientX - heroRect.left - centerX) / 20;
+                    const moveY = (e.clientY - heroRect.top - centerY) / 20;
+                    
+                    overlay.style.transform = `translate(${moveX}px, ${moveY}px)`;
+                });
+                
+                hero.addEventListener('mouseleave', function() {
+                    overlay.style.transform = 'translate(0, 0)';
+                });
+            }
+            
+            // Add simple smooth scrolling for arrow
+            if (scrollDownArrow) {
+                scrollDownArrow.addEventListener('click', function() {
+                    const fitnessSection = document.querySelector('.fitness-main');
+                    if (fitnessSection) {
+                        window.scrollTo({
+                            top: fitnessSection.offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            }
+            return;
         }
         
-        // Add simple smooth scrolling for arrow
-        if (scrollDownArrow) {
-            scrollDownArrow.addEventListener('click', function() {
-                const fitnessSection = document.querySelector('.fitness-main');
-                if (fitnessSection) {
-                    window.scrollTo({
-                        top: fitnessSection.offsetTop,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        }
-    }
-    
-    // ======== Hero Overlay Mouse Animation ========
-    if (hero && overlay && isGsapLoaded) {
+        // ======== Hero Overlay Mouse Animation ========
         try {
             // Register ScrollTrigger plugin
             if (isScrollTriggerLoaded) {
@@ -199,10 +209,11 @@ document.addEventListener('DOMContentLoaded', function() {
             currentX += (targetX - currentX) * config.mouseEasing;
             currentY += (targetY - currentY) * config.mouseEasing;
             
-            // Apply transform with smooth easing
+            // Apply transform with both mouse movement and scroll parallax
             gsap.set(overlay, {
                 x: currentX,
-                y: currentY + scrollY
+                y: currentY,
+                force3D: true
             });
             
             // Continue animation loop
@@ -215,124 +226,168 @@ document.addEventListener('DOMContentLoaded', function() {
         // Add event listeners
         hero.addEventListener('mousemove', handleMouseMove);
         hero.addEventListener('mouseleave', handleMouseLeave);
-        
-        // Set up scroll-based animation
+
+        // Optional: Set up scroll animation if ScrollTrigger is available
         if (isScrollTriggerLoaded) {
-            ScrollTrigger.create({
-                trigger: hero,
-                start: "top top",
-                end: "bottom top",
-                scrub: config.scrollSpeed,
-                invalidateOnRefresh: true,
-                onUpdate: function(self) {
-                    // Update scroll position for overlay movement
-                    scrollY = self.progress * 280; // 280px total movement
+            // Overlay parallax effect on scroll
+            gsap.to(overlay, {
+                y: 100, // Move down when scrolling
+                ease: "none",
+                scrollTrigger: {
+                    trigger: hero,
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: config.scrollSpeed
+                }
+            });
+            
+            // Hero content fade out on scroll
+            gsap.to(heroContent, {
+                opacity: 0,
+                y: -30,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: hero,
+                    start: "center center",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+            
+            // Scroll down arrow fade out
+            gsap.to(scrollDownArrow, {
+                opacity: 0,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: hero,
+                    start: "top top",
+                    end: "center center",
+                    scrub: true
                 }
             });
         }
-    }
-    
-    // ======== Hero Parallax Effects ========
-    if (isGsapLoaded && isScrollTriggerLoaded) {
-        // Hero background parallax
-        if (heroBackground) {
-            // Set initial properties
-            gsap.set(heroBackground, {
-                backgroundAttachment: "fixed",
-                backgroundPosition: "center center",
-                backgroundSize: "cover"
-            });
-            
-            // Create parallax effect
-            ScrollTrigger.create({
-                trigger: hero,
-                start: "top top",
-                end: "bottom top",
-                scrub: true,
-                onUpdate: function(self) {
-                    // Move background position based on scroll
-                    const yPercent = self.progress * 30;
-                    gsap.set(heroBackground, {
-                        backgroundPositionY: `${yPercent}%`
+        
+        // Scroll down arrow click handler
+        if (scrollDownArrow) {
+            scrollDownArrow.addEventListener('click', function() {
+                const fitnessSection = document.querySelector('.fitness-main');
+                
+                if (isScrollTriggerLoaded && ScrollToPlugin) {
+                    // Use GSAP's ScrollToPlugin for smooth scrolling
+                    gsap.to(window, {
+                        duration: 1, 
+                        scrollTo: { y: fitnessSection, offsetY: 30 }, 
+                        ease: "power2.inOut"
+                    });
+                } else {
+                    // Fallback to standard smooth scrolling
+                    window.scrollTo({
+                        top: fitnessSection.offsetTop,
+                        behavior: 'smooth'
                     });
                 }
             });
         }
-        
-        // Hero content fade effect
-        if (heroContent) {
-            gsap.fromTo(heroContent, 
-                { y: 0, opacity: 1 },
-                { 
-                    y: 0, // No vertical movement (stays fixed)
-                    opacity: 0.3, // Just fade out effect
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: hero,
-                        start: "top top",
-                        end: "center top",
-                        scrub: true,
-                        invalidateOnRefresh: true
-                    }
-                }
-            );
-        }
-        
-        // Scroll arrow fadeout
-        if (scrollDownArrow) {
-            // Add pulse animation to make it more visible
-            gsap.to(scrollDownArrow, {
-                y: 10,
-                opacity: 0.7,
-                duration: 1.2,
-                repeat: -1,
-                yoyo: true,
-                ease: "sine.inOut"
-            });
-            
-            // Fade out on scroll
-            gsap.fromTo(scrollDownArrow,
-                { opacity: 1 },
-                {
-                    opacity: 0,
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: hero,
-                        start: "top top",
-                        end: "10% top",
-                        scrub: true
-                    }
-                }
-            );
-        }
     }
     
-    // ======== Smooth Scrolling ========
-    if (isGsapLoaded) {
-        // Check if ScrollToPlugin is registered
-        const hasScrollToPlugin = gsap.core && typeof gsap.core.globals === 'function' && gsap.core.globals('ScrollToPlugin');
+    // ======== Program Card Filter & Animation ========
+    function initProgramFilter() {
+        const filterTags = document.querySelectorAll('.filter-tag');
+        const programCards = document.querySelectorAll('.program-card');
+        const activeFiltersText = document.getElementById('activeFiltersText');
+        const clearFiltersButton = document.getElementById('clearFilters');
         
-        if (scrollDownArrow) {
-            scrollDownArrow.addEventListener('click', function() {
-                const fitnessSection = document.querySelector('.fitness-main');
-                if (fitnessSection) {
-                    if (hasScrollToPlugin) {
-                        gsap.to(window, {
-                            duration: 1,
-                            scrollTo: { y: fitnessSection, offsetY: 0 },
-                            ease: "power2.inOut"
-                        });
+        // Check if elements exist
+        if (!filterTags.length || !programCards.length) {
+            console.warn('Filter tags or program cards not found');
+            return;
+        }
+        
+        // Handle filter tag clicks
+        filterTags.forEach(tag => {
+            tag.addEventListener('click', () => {
+                // Remove active class from all tags
+                filterTags.forEach(t => t.classList.remove('active'));
+                
+                // Add active class to clicked tag
+                tag.classList.add('active');
+                
+                // Get selected category
+                const category = tag.getAttribute('data-category');
+                
+                // Update active filters text
+                if (activeFiltersText) {
+                    activeFiltersText.textContent = tag.textContent;
+                }
+                
+                // Filter program cards
+                programCards.forEach(card => {
+                    const categories = card.getAttribute('data-categories');
+                    
+                    if (category === 'all' || (categories && categories.includes(category))) {
+                        // Show card with animation
+                        gsap ? gsap.to(card, {opacity: 1, scale: 1, duration: 0.3}) 
+                             : card.style.display = 'flex';
                     } else {
-                        // Fallback to native smooth scrolling
-                        fitnessSection.scrollIntoView({ behavior: 'smooth' });
+                        // Hide card with animation
+                        gsap ? gsap.to(card, {opacity: 0, scale: 0.95, duration: 0.3, onComplete: () => card.style.display = 'none'}) 
+                             : card.style.display = 'none';
                     }
-                }
+                });
+            });
+        });
+        
+        // Clear filters button
+        if (clearFiltersButton) {
+            clearFiltersButton.addEventListener('click', () => {
+                // Find and activate the "All" filter tag
+                filterTags.forEach(tag => {
+                    const category = tag.getAttribute('data-category');
+                    if (category === 'all') {
+                        tag.click();
+                    }
+                });
             });
         }
     }
     
-    // ======== Initialize Program Cards ========
-    initProgramCards();
+    // Animate cards on scroll
+    function animateCards() {
+        const programCards = document.querySelectorAll('.program-card');
+        
+        if (!programCards.length) {
+            console.warn('Program cards not found for animation');
+            return;
+        }
+        
+        if (isGsapLoaded && typeof ScrollTrigger !== 'undefined') {
+            // GSAP animation for cards
+            gsap.from(programCards, {
+                y: 50,
+                opacity: 0,
+                duration: 0.7,
+                stagger: 0.1,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: '.program-grid',
+                    start: "top bottom-=100",
+                    toggleActions: "play none none none"
+                }
+            });
+        } else {
+            // Fallback animation without GSAP
+            programCards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(50px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 100 + (index * 100));
+            });
+        }
+    }
 });
 
 /**

@@ -18,16 +18,16 @@ body {
 /* CSS Variables for Fitness Theme Colors */
 :root {
     /* Primary theme colors - updated to match index.html */
-    --fitness-primary: #FF6B35;     /* Orange - main accent color */
-    --fitness-secondary: #ff8552;    /* Lighter orange for hover states */
+    --fitness-primary: #4CAF50;     /* Orange - main accent color */
+    --fitness-secondary: #45a049;    /* Lighter orange for hover states */
     --fitness-dark: #cc5429;        /* Darker orange */
     --fitness-light: #ffe2d7;       /* Light orange */
     --fitness-accent: #FF6B35;      /* Same as primary for consistency */
     
     /* Background and foreground colors */
     --fitness-bg-light: #fff;
-    --fitness-bg-dark: #2f2b32;     /* Dark background from index.html */
-    --fitness-text-light: #f0f0f0;  /* Light text color from index.html */
+    --fitness-bg-dark: #000;     /* Dark background from index.html */
+    --fitness-text-light: #ffffff;  /* Light text color from index.html */
     --fitness-text-dark: #212121;   /* Dark text color */
     
     /* Button colors */
@@ -37,6 +37,15 @@ body {
     /* Gradient backgrounds */
     --fitness-gradient-main: linear-gradient(135deg, #cc5429 0%, #FF6B35 50%, #ff8552 100%);
     --fitness-gradient-accent: linear-gradient(135deg, #FF6B35 0%, #ff8552 100%);
+    
+    /* Frosted Glass Variables - Enhanced */
+    --card-blur: 70px; /* Adjusted blur */
+    --card-bg-opacity: 0.15; /* Adjusted opacity */
+    --card-border-opacity: 0.1; /* Adjusted border opacity */
+
+    /* REMOVED Animated Circle Gradient Variables */
+
+    /* REMOVED Deprecated Solid Colors */
 }
 
 /* Navigation Styles */
@@ -171,6 +180,7 @@ body {
     height: 100%;
     background-size: cover;
     background-position: center center;
+    background-repeat: no-repeat;
     z-index: 0;
 }
 
@@ -252,74 +262,298 @@ body {
     padding: 0;
 }
 
-/* Fitness Main Section Styles */
+/* Fitness Main Section Styles - Updated with Frosted Glass */
 .fitness-main {
-    padding: 100px 0 80px;
-    background: linear-gradient(135deg, #f6f9fc 0%, #e9ecef 100%);
+    padding: 80px 0;
     position: relative;
     overflow: hidden;
+    min-height: 100vh;
+    background-color: var(--fitness-bg-dark);
 }
 
-/* Program Cards Grid */
+/* Decorative background circles - Updated with reduced opacity AND ANIMATION */
+.bg-circle {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(20px);
+    z-index: 0;
+    opacity: 0.4; /* Slightly increased opacity for visibility */
+    will-change: transform, border-radius; /* Optimize animation */
+}
+
+.circle-1 {
+    width: 300px;
+    height: 300px;
+    /* background-color: rgba(173, 216, 230, 0.2); REMOVED */
+    background: linear-gradient(45deg, #FF6B35 0%, #FF0000 100%); /* Gradient 1 */
+    top: 15%;
+    left: 10%;
+    animation: morphBgCircle1 20s infinite linear alternate;
+}
+
+.circle-2 {
+    width: 400px;
+    height: 400px;
+    /* background-color: rgba(144, 238, 144, 0.15); REMOVED */
+    background: linear-gradient(135deg, #4CAF50 0%, #00BCD4 100%); /* Gradient 2 */
+    top: 60%;
+    right: 5%;
+    animation: morphBgCircle2 25s infinite linear alternate;
+    animation-delay: -5s; /* Offset animation */
+}
+
+.circle-3 {
+    width: 350px;
+    height: 350px;
+    /* background-color: rgba(255, 182, 193, 0.2); REMOVED */
+    background: linear-gradient(225deg, #FFC107 0%, #E91E63 100%); /* Gradient 3 */
+    bottom: 10%;
+    left: 20%;
+    animation: morphBgCircle3 22s infinite linear alternate;
+    animation-delay: -10s; /* Offset animation */
+}
+
+/* New background circle for fitness-main */
+.circle-4 {
+    width: 250px;
+    height: 250px;
+    /* background-color: rgba(100, 200, 255, 0.15); REMOVED */
+    background: linear-gradient(315deg, #9C27B0 0%, #3F51B5 100%); /* Gradient 4 */
+    top: 40%;
+    left: 75%;
+    animation: morphBgCircle4 18s infinite linear alternate;
+    animation-delay: -15s; /* Offset animation */
+}
+
+/* Frosted glass container */
+.glass-container {
+    position: relative;
+    z-index: 10;
+    padding: 2rem;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    text-align: center;
+    color: var(--fitness-text-light);
+}
+
+/* Optimized frosted glass filter */
+.frosted-glass {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1rem;
+    background-color: rgba(255, 255, 255, var(--card-bg-opacity));
+    border: 1px solid rgba(255, 255, 255, var(--card-border-opacity));
+}
+
+.frosted-glass::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    height: 200%;
+    backdrop-filter: blur(var(--card-blur));
+    -webkit-backdrop-filter: blur(var(--card-blur));
+    mask-image: linear-gradient(
+        to bottom,
+        black 0% 50%,
+        transparent 50% 100%
+    );
+    -webkit-mask-image: linear-gradient(
+        to bottom,
+        black 0% 50%,
+        transparent 50% 100%
+    );
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Filter component */
+.filter-section {
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.filter-header h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--fitness-text-light);
+}
+
+.saved-programs-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--fitness-primary);
+    color: white;
+    padding: 0.7rem 1.2rem;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.saved-programs-button:hover {
+    background-color: var(--fitness-secondary);
+    transform: translateY(-2px);
+}
+
+.saved-counter {
+    background-color: rgba(255, 255, 255, 0.3);
+    color: white;
+    font-weight: 700;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.filter-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.filter-tag {
+    padding: 0.6rem 1.2rem;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--fitness-text-light);
+}
+
+.filter-tag:hover, .filter-tag.active {
+    background-color: var(--fitness-primary);
+    transform: translateY(-2px);
+}
+
+.active-filters {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--fitness-text-light);
+}
+
+.clear-button {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: var(--fitness-text-light);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.clear-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Program Grid - Updated with better spacing */
 .program-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-    margin-top: 40px;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
+    padding: 1rem;
 }
 
+/* Program Card - Updated with ENHANCED frosted glass effect */
 .program-card {
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    transition: all 0.4s cubic-bezier(0.215, 0.610, 0.355, 1.000);
+    position: relative; /* Needed for absolute positioning of children */
+    overflow: hidden;   /* Clip the circles */
+    border-radius: 1rem;
+    padding: 2rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.05); 
+    border: 1px solid rgba(255, 255, 255, var(--card-border-opacity));
+}
+
+/* Ensure card content is above the absolutely positioned circles */
+.program-card > * {
     position: relative;
+}
+
+/* Styles for Circles INSIDE program cards */
+
+/* Hover effect for circles inside cards */
+
+/* The pseudo-element creates the actual frosted glass layer */
+.program-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit; /* Match parent's border-radius */
+    /* Apply the background color with opacity for the glass tint */
+    background-color: rgba(255, 255, 255, var(--card-bg-opacity)); 
+    /* Apply the backdrop filter */
+    backdrop-filter: blur(var(--card-blur));
+    -webkit-backdrop-filter: blur(var(--card-blur));
+    /* Use mask technique for better edge blending (optional but recommended) */
+    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    z-index: 0; /* Adjust z-index to be below circles */
+    pointer-events: none; /* Make it non-interactive */
+    transition: background-color 0.3s ease; /* Smooth hover transition */
 }
 
 .program-card:hover {
-    transform: translateY(-15px);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
-    border-color: var(--fitness-primary);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.3); /* Slightly stronger border on hover */
 }
 
-.program-image {
-    width: 100%;
-    height: 220px;
-    object-fit: cover;
-}
-
-.program-content {
-    padding: 25px;
+/* Optional: Slightly change pseudo-element background on hover */
+.program-card:hover::before {
+     background-color: rgba(255, 255, 255, calc(var(--card-bg-opacity) + 0.05));
 }
 
 .program-card h3 {
-    font-size: 1.6rem;
-    margin-bottom: 15px;
-    color: var(--fitness-dark);
-    font-weight: 700;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--fitness-text-light);
 }
 
-.program-card p {
-    margin-bottom: 25px;
-    line-height: 1.7;
-    color: #444;
-    font-size: 1.05rem;
+.program-description {
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+    flex-grow: 1;
+    color: rgba(255, 255, 255, 0.9);
 }
 
 .program-details {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    margin-bottom: 20px;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
 }
 
 .program-stat {
+    font-size: 0.9rem;
     display: flex;
     align-items: center;
-    gap: 8px;
-    color: #777;
-    font-size: 0.9rem;
+    gap: 0.5rem;
+    color: var(--fitness-text-light);
 }
 
 .program-stat i {
@@ -328,21 +562,21 @@ body {
 
 .program-link {
     color: var(--fitness-primary);
-    font-weight: 600;
+    font-weight: 500;
     text-decoration: none;
-    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
     transition: all 0.3s ease;
-    padding: 8px 20px;
-    border-radius: 30px;
-    background-color: rgba(255, 107, 53, 0.1);
-    display: inline-block;
+    align-self: flex-start;
+    margin-top: auto;
+    /* Make sure link is above circles */
 }
 
 .program-link:hover {
-    color: white;
-    background-color: var(--fitness-primary);
-    box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
-    transform: translateY(-3px);
+    color: var(--fitness-secondary);
+    transform: translateX(5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 /* Footer Styles */
@@ -474,16 +708,16 @@ body {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
-/* Responsive styles */
+/* Responsive design */
 @media (max-width: 1200px) {
     .program-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     }
 }
 
 @media (max-width: 991px) {
     .hero h1 {
-        font-size: 2.8rem;
+        font-size: 3rem;
     }
     
     .hero p {
@@ -495,12 +729,13 @@ body {
     }
     
     .program-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     }
     
-    .footer-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 30px;
+    .filter-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
     }
 }
 
@@ -514,23 +749,32 @@ body {
     }
     
     .program-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     }
     
     .program-card h3 {
-        font-size: 1.4rem;
+        font-size: 1.3rem;
+    }
+    
+    .program-details {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
     }
 }
 
 @media (max-width: 576px) {
-    .footer-grid {
+    .program-grid {
         grid-template-columns: 1fr;
-        text-align: center;
     }
     
-    .social-icons {
-        justify-content: center;
+    .filter-tags {
+        gap: 0.5rem;
+    }
+    
+    .filter-tag {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
     }
     
     .hero h1 {
@@ -545,4 +789,25 @@ body {
         padding: 0.8rem 1.5rem;
         font-size: 1rem;
     }
+}
+
+/* Keyframes for Background Morphing Animations */
+@keyframes morphBgCircle1 {
+    0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; transform: translate(0, 0) rotate(0deg); }
+    50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; transform: translate(20px, -10px) rotate(10deg); }
+}
+
+@keyframes morphBgCircle2 {
+    0%, 100% { border-radius: 40% 60% 70% 30% / 40% 70% 30% 60%; transform: translate(0, 0) rotate(0deg); }
+    50% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; transform: translate(-15px, 15px) rotate(-15deg); }
+}
+
+@keyframes morphBgCircle3 {
+    0%, 100% { border-radius: 50% 50% 35% 65% / 60% 40% 60% 40%; transform: translate(0, 0) rotate(0deg); }
+    50% { border-radius: 35% 65% 40% 60% / 50% 60% 40% 50%; transform: translate(10px, 25px) rotate(5deg); }
+}
+
+@keyframes morphBgCircle4 {
+    0%, 100% { border-radius: 65% 35% 55% 45% / 60% 50% 50% 40%; transform: translate(0, 0) rotate(0deg); }
+    50% { border-radius: 35% 65% 45% 55% / 50% 40% 60% 50%; transform: translate(-25px, -5px) rotate(20deg); }
 } 
