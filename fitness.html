@@ -59,6 +59,9 @@
         <div class="bg-circle circle-2"></div>
         <div class="bg-circle circle-3"></div>
         <div class="bg-circle circle-4"></div>
+        <div class="bg-circle circle-5"></div>
+        <div class="bg-circle circle-6"></div>
+        <div class="bg-circle circle-7"></div>
         
         <div class="glass-container">
             <h2 class="section-title">Find Your Perfect Workout</h2>
@@ -247,5 +250,62 @@
     <script src="js/auth-ui.js"></script>
     <script src="js/main.js"></script>
     <script src="js/fitness.js"></script>
+
+    <!-- Program Detail Modal -->
+    <div id="programModal" class="program-modal-overlay hidden">
+        <div class="program-modal-content frosted-glass">
+            <!-- Header -->
+            <div class="program-modal-header">
+                <h3 id="modalProgramTitle">Program Title</h3>
+                <span id="modalWeekCounter">Week X of Y</span>
+                <div class="modal-header-buttons">
+                    <button id="modalSaveBtn" class="modal-save-btn" title="Save Program"><i class="far fa-bookmark"></i></button>
+                    <button id="modalResetBtn" class="modal-reset-btn" title="Reset Progress"><i class="fas fa-undo"></i></button>
+                    <button id="modalCloseBtn" class="modal-close-btn">&times;</button>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="program-modal-main">
+                <button class="modal-nav-arrow prev" id="modalPrevDayBtn"><i class="fas fa-chevron-left"></i></button>
+                <div class="modal-image-container">
+                    <img id="modalWorkoutImage" src="" alt="Daily Workout Image">
+                    <div id="modalDayIndicators" class="modal-day-indicators">
+                        <!-- Day indicator circles will be generated here -->
+                    </div>
+                </div>
+                <button class="modal-nav-arrow next" id="modalNextDayBtn"><i class="fas fa-chevron-right"></i></button>
+            </div>
+
+            <!-- Footer/Progress -->
+            <div class="program-modal-footer">
+                <div class="progress-container">
+                    <div class="progress-bar-wrapper">
+                        <div id="modalProgressBar" class="progress-bar"></div>
+                    </div>
+                    <span id="modalProgressText">X/Y Days Completed</span>
+                </div>
+                <button id="modalCompleteDayBtn" class="btn btn-primary">Complete Day</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Saved Programs Modal -->
+    <div id="savedProgramsModal" class="program-modal-overlay hidden">
+        <div class="saved-programs-modal-content frosted-glass">
+            <!-- Header -->
+            <div class="program-modal-header">
+                <h3>Saved Programs</h3>
+                <button id="savedProgramsCloseBtn" class="modal-close-btn">&times;</button>
+            </div>
+
+            <!-- Saved Programs Grid -->
+            <div id="savedProgramsGrid" class="program-grid saved-grid">
+                <!-- Saved program cards will be dynamically inserted here -->
+                <p class="empty-saved-message hidden">You haven't saved any programs yet.</p>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html> 

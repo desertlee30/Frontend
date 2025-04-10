@@ -9,6 +9,34 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Montserrat', sans-serif;
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: rgba(255, 255, 255, 0.3) rgba(0, 0, 0, 0.1); /* Firefox */
+}
+
+/* Custom scrollbar styles for WebKit browsers */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* Hide scrollbar when not needed */
+::-webkit-scrollbar-thumb:vertical:only-of-type {
+    background: transparent;
 }
 
 body {
@@ -284,45 +312,66 @@ body {
 .circle-1 {
     width: 300px;
     height: 300px;
-    /* background-color: rgba(173, 216, 230, 0.2); REMOVED */
     background: linear-gradient(45deg, #FF6B35 0%, #FF0000 100%); /* Gradient 1 */
     top: 15%;
     left: 10%;
-    animation: morphBgCircle1 20s infinite linear alternate;
+    /* animation: morphBgCircle1 10s infinite linear alternate; */ /* REMOVED */
 }
 
 .circle-2 {
     width: 400px;
     height: 400px;
-    /* background-color: rgba(144, 238, 144, 0.15); REMOVED */
     background: linear-gradient(135deg, #4CAF50 0%, #00BCD4 100%); /* Gradient 2 */
     top: 60%;
     right: 5%;
-    animation: morphBgCircle2 25s infinite linear alternate;
-    animation-delay: -5s; /* Offset animation */
+    /* animation: morphBgCircle2 12s infinite linear alternate; */ /* REMOVED */
+    /* animation-delay: -3s; */ /* REMOVED */
 }
 
 .circle-3 {
     width: 350px;
     height: 350px;
-    /* background-color: rgba(255, 182, 193, 0.2); REMOVED */
     background: linear-gradient(225deg, #FFC107 0%, #E91E63 100%); /* Gradient 3 */
     bottom: 10%;
     left: 20%;
-    animation: morphBgCircle3 22s infinite linear alternate;
-    animation-delay: -10s; /* Offset animation */
+    /* animation: morphBgCircle3 11s infinite linear alternate; */ /* REMOVED */
+    /* animation-delay: -6s; */ /* REMOVED */
 }
 
 /* New background circle for fitness-main */
 .circle-4 {
     width: 250px;
     height: 250px;
-    /* background-color: rgba(100, 200, 255, 0.15); REMOVED */
     background: linear-gradient(315deg, #9C27B0 0%, #3F51B5 100%); /* Gradient 4 */
     top: 40%;
     left: 75%;
-    animation: morphBgCircle4 18s infinite linear alternate;
-    animation-delay: -15s; /* Offset animation */
+    /* animation: morphBgCircle4 9s infinite linear alternate; */ /* REMOVED */
+    /* animation-delay: -9s; */ /* REMOVED */
+}
+
+/* Added Background Circles */
+.circle-5 {
+    width: 280px;
+    height: 280px;
+    background: linear-gradient(60deg, #00bcd4 0%, #ffeb3b 100%); /* Cyan to Yellow */
+    top: 80%;
+    left: 70%;
+}
+
+.circle-6 {
+    width: 320px;
+    height: 320px;
+    background: linear-gradient(180deg, #e91e63 0%, #9c27b0 100%); /* Pink to Purple */
+    top: 5%;
+    right: 25%;
+}
+
+.circle-7 {
+    width: 200px;
+    height: 200px;
+    background: linear-gradient(270deg, #4caf50 0%, #ff9800 100%); /* Green to Orange */
+    bottom: 5%;
+    right: 40%;
 }
 
 /* Frosted glass container */
@@ -482,9 +531,24 @@ body {
     height: 100%;
     display: flex;
     flex-direction: column;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* Add transition for filter effect */
+    transition: transform 0.3s ease, 
+                box-shadow 0.3s ease, 
+                opacity 0.4s ease, 
+                filter 0.4s ease; 
     background-color: rgba(255, 255, 255, 0.05); 
     border: 1px solid rgba(255, 255, 255, var(--card-border-opacity));
+    /* Ensure initial state is not filtered */
+    opacity: 1;
+    filter: blur(0px);
+}
+
+/* Style for cards that are filtered out */
+.program-card.filtered-out {
+    opacity: 0.6;
+    filter: blur(4px); /* Adjust blur amount as needed */
+    transform: scale(0.98); /* Optional: slightly shrink */
+    /* pointer-events: none; Optional: prevent interaction */
 }
 
 /* Ensure card content is above the absolutely positioned circles */
@@ -791,23 +855,457 @@ body {
     }
 }
 
-/* Keyframes for Background Morphing Animations */
-@keyframes morphBgCircle1 {
-    0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; transform: translate(0, 0) rotate(0deg); }
-    50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; transform: translate(20px, -10px) rotate(10deg); }
+/* REMOVED Keyframes for Background Morphing Animations */
+/* @keyframes morphBgCircle1 { ... } */
+/* @keyframes morphBgCircle2 { ... } */
+/* @keyframes morphBgCircle3 { ... } */
+/* @keyframes morphBgCircle4 { ... } */ 
+
+/* --- Program Detail Modal Styles --- */
+.program-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.7); /* Dark overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1001; /* Above navbar */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
 }
 
-@keyframes morphBgCircle2 {
-    0%, 100% { border-radius: 40% 60% 70% 30% / 40% 70% 30% 60%; transform: translate(0, 0) rotate(0deg); }
-    50% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; transform: translate(-15px, 15px) rotate(-15deg); }
+.program-modal-overlay:not(.hidden) {
+    opacity: 1;
+    visibility: visible;
 }
 
-@keyframes morphBgCircle3 {
-    0%, 100% { border-radius: 50% 50% 35% 65% / 60% 40% 60% 40%; transform: translate(0, 0) rotate(0deg); }
-    50% { border-radius: 35% 65% 40% 60% / 50% 60% 40% 50%; transform: translate(10px, 25px) rotate(5deg); }
+/* Adjust body scrolling when modal is open */
+body.modal-open {
+    overflow: hidden;
 }
 
-@keyframes morphBgCircle4 {
-    0%, 100% { border-radius: 65% 35% 55% 45% / 60% 50% 50% 40%; transform: translate(0, 0) rotate(0deg); }
-    50% { border-radius: 35% 65% 45% 55% / 50% 40% 60% 50%; transform: translate(-25px, -5px) rotate(20deg); }
+.program-modal-content {
+    width: 90%;
+    max-width: 1120px; 
+    max-height: 90vh;
+    padding: 0; 
+    display: flex;
+    flex-direction: column;
+    transform: scale(0.7);
+    opacity: 0;
+    border-radius: 1rem;
+    background-color: rgba(50, 50, 50, var(--card-bg-opacity)); 
+	border: 1px solid rgba(255, 255, 255, var(--card-border-opacity));
+    overflow: hidden; /* Hide overflow scrollbar */
+}
+
+.program-modal-content::before { 
+    content: "";
+    position: absolute;
+    inset: 0;
+    height: 200%;
+    backdrop-filter: blur(var(--card-blur));
+    -webkit-backdrop-filter: blur(var(--card-blur));
+    mask-image: linear-gradient(
+        to bottom,
+        black 0% 50%,
+        transparent 50% 100%
+    );
+    -webkit-mask-image: linear-gradient(
+        to bottom,
+        black 0% 50%,
+        transparent 50% 100%
+    );
+    z-index: -1;
+    pointer-events: none;
+    border-radius: inherit;
+}
+
+.program-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--fitness-text-light);
+    flex-shrink: 0; /* Prevent header from shrinking */
+}
+
+.program-modal-header h3 {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+#modalWeekCounter {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.modal-header-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem; /* Space between buttons */
+}
+
+.modal-save-btn, /* Combined styles */
+.modal-reset-btn {
+    background: none;
+    border: none;
+    color: var(--fitness-text-light);
+    font-size: 1.2rem; /* Adjust size */
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s ease, color 0.2s ease;
+    padding: 0.2rem; /* Add some padding */
+    line-height: 1;
+}
+.modal-save-btn:hover, /* Combined styles */
+.modal-reset-btn:hover {
+    opacity: 1;
+    color: var(--fitness-primary); /* Highlight on hover */
+}
+
+/* Style for when program is saved */
+.modal-save-btn.saved i {
+    font-weight: 900; /* Use solid icon (fas) */
+    color: var(--fitness-primary); /* Highlight saved state */
+}
+
+.modal-close-btn {
+    background: none;
+    border: none;
+    color: var(--fitness-text-light);
+    font-size: 2rem;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.modal-close-btn:hover {
+    opacity: 1;
+}
+
+.program-modal-main {
+    display: flex;
+    align-items: center;
+    padding: 1.5rem;
+    flex-grow: 1; 
+    overflow-y: auto; /* Keep overflow scroll here */
+    gap: 1rem;
+    /* Custom scrollbar just for the modal main area */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) rgba(0, 0, 0, 0.1);
+}
+
+.modal-image-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    min-width: 0; 
+    min-height: 0; /* Added min-height */
+}
+
+#modalWorkoutImage {
+    display: block;
+    width: 100%;
+    max-height: 48vh; /* Further reduced by 3% */
+    object-fit: contain; 
+    border-radius: 8px;
+    background-color: rgba(0,0,0,0.2); 
+    flex-shrink: 1; /* Allow image to shrink if needed */
+}
+
+.modal-day-indicators {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+    width: 100%; 
+    max-height: 100px; 
+    overflow-y: auto; /* Keep scrollable */
+    flex-shrink: 0; /* Prevent indicators section from shrinking excessively */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.modal-day-indicators::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.modal-day-indicators::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.modal-day-indicators::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+}
+
+.day-indicator {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: var(--fitness-text-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.day-indicator:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+    border-color: var(--fitness-primary);
+}
+
+.day-indicator.active {
+    background-color: var(--fitness-primary);
+    border-color: var(--fitness-primary);
+    transform: scale(1.1);
+}
+
+.day-indicator.completed {
+    background-color: var(--fitness-secondary); /* Greenish */
+    border-color: var(--fitness-secondary);
+    color: rgba(255,255,255,0.8);
+}
+.day-indicator.completed::after { /* Optional checkmark */
+    content: '\2713';
+    font-size: 0.7rem;
+    position: absolute;
+}
+
+.modal-nav-arrow {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--fitness-text-light);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0; /* Prevent arrows from shrinking */
+}
+.modal-nav-arrow:hover {
+    background: var(--fitness-primary);
+}
+.modal-nav-arrow.disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.program-modal-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    flex-shrink: 0; /* Prevent footer from shrinking */
+}
+
+.progress-container {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-width: 200px; /* Ensure it doesn't get too small */
+}
+
+.progress-bar-wrapper {
+    flex-grow: 1;
+    height: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%; /* Updated by JS */
+    background-color: var(--fitness-primary);
+    border-radius: 5px;
+    transition: width 0.5s ease;
+}
+
+#modalProgressText {
+    font-size: 0.9rem;
+    color: var(--fitness-text-light);
+    white-space: nowrap;
+}
+
+#modalCompleteDayBtn {
+    padding: 0.8rem 1.5rem; /* Adjust padding */
+}
+#modalCompleteDayBtn.completed {
+    background-color: var(--fitness-secondary); /* Green */
+    cursor: default;
+}
+#modalCompleteDayBtn.completed:hover {
+    background-color: var(--fitness-secondary);
+    transform: none;
+    box-shadow: none;
+}
+
+/* Responsive adjustments for modal */
+@media (max-width: 600px) {
+    .program-modal-content {
+        width: 95%;
+        max-height: 95vh;
+    }
+    .program-modal-header h3 {
+        font-size: 1.2rem;
+    }
+    .program-modal-main {
+        padding: 1rem;
+        flex-direction: column; /* Stack main content */
+    }
+     .modal-nav-arrow {
+        position: absolute; /* Position arrows absolutely */
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 2;
+    }
+     .modal-nav-arrow.prev { left: 5px; }
+     .modal-nav-arrow.next { right: 5px; }
+     .modal-image-container { width: 100%; order: 1; } /* Image first */
+     #modalWorkoutImage { max-height: 35vh; }
+     .modal-day-indicators { order: 2; }
+     .program-modal-footer { flex-direction: column; align-items: stretch; gap: 1rem; }
+     #modalCompleteDayBtn { width: 100%; }
+} 
+
+/* --- Saved Programs Modal Styles --- */
+.saved-programs-modal-content {
+    width: 90%;
+    max-width: 1120px; /* Match detail modal */
+    max-height: 85vh; /* Slightly less height than detail */
+    padding: 0; /* Remove default padding */
+    display: flex;
+    flex-direction: column;
+    /* GSAP handles initial transform */
+    transform: scale(0.7);
+    opacity: 0;
+    /* Frosted glass */
+    border-radius: 1rem;
+    background-color: rgba(50, 50, 50, var(--card-bg-opacity)); 
+	border: 1px solid rgba(255, 255, 255, var(--card-border-opacity));
+    overflow: hidden; /* Prevent content overflow before scroll */
+}
+.saved-programs-modal-content::before { /* Ensure pseudo-element is set up */
+    content: "";
+    position: absolute;
+    inset: 0;
+    height: 200%;
+    backdrop-filter: blur(var(--card-blur));
+    -webkit-backdrop-filter: blur(var(--card-blur));
+    mask-image: linear-gradient(to bottom, black 0% 50%, transparent 50% 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 0% 50%, transparent 50% 100%);
+    z-index: -1;
+    pointer-events: none;
+    border-radius: inherit;
+}
+
+/* Shared header style from detail modal */
+/* .program-modal-header { ... } */
+
+/* Grid for saved programs */
+#savedProgramsGrid {
+    padding: 1.5rem;
+    overflow-y: auto;
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    /* Custom scrollbar */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) rgba(0, 0, 0, 0.1);
+}
+
+#savedProgramsGrid::-webkit-scrollbar {
+    width: 8px;
+}
+
+#savedProgramsGrid::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}
+
+#savedProgramsGrid::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+}
+
+#savedProgramsGrid::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* Styling for cards inside the saved modal */
+#savedProgramsGrid .program-card {
+    /* Reuse existing card styles, maybe add minor adjustments if needed */
+    position: relative; /* Needed for the unsave button */
+    margin-bottom: 0; /* Remove extra margin if grid gap handles spacing */
+}
+
+/* Unsave button style */
+.unsave-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(255, 0, 0, 0.6);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    opacity: 0.8;
+    z-index: 5; /* Ensure it's above card content */
+}
+
+.unsave-button:hover {
+    background: rgba(255, 0, 0, 0.8);
+    transform: scale(1.1);
+    opacity: 1;
+}
+
+/* Empty state message */
+.empty-saved-message {
+    grid-column: 1 / -1; /* Span full width */
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+    padding: 3rem 1rem;
+    font-size: 1.1rem;
+}
+
+/* Responsive adjustments for saved modal */
+@media (max-width: 600px) {
+    .saved-programs-modal-content {
+        width: 95%;
+        max-height: 90vh;
+    }
+    #savedProgramsGrid {
+        grid-template-columns: 1fr; /* Stack cards on small screens */
+        padding: 1rem;
+    }
 } 

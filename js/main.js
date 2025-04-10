@@ -139,43 +139,31 @@ function initScrollArrow() {
     });
 }
 
-// Section images parallax effect
+// Initialize parallax for section images
 function initSectionParallax() {
-    if (!isGsapLoaded || !isScrollTriggerLoaded) return; // Check GSAP/ScrollTrigger
-    console.log('Initializing section parallax');
-    const parallaxContainers = gsap.utils.toArray('.image-parallax-container');
+    const imageContainers = document.querySelectorAll('.image-parallax-container');
     
-    if (parallaxContainers.length === 0) {
-        console.warn("No image-parallax-container elements found. Parallax won't work.");
-        return;
-    }
-    
-    console.log(`Found ${parallaxContainers.length} parallax containers`);
-    
-    parallaxContainers.forEach((container, index) => {
-        const image = container.querySelector('img');
-        if (!image) {
-            console.warn(`No image found in parallax container ${index+1}`);
-            return;
-        }
-        
-        console.log(`Setting up parallax for container ${index+1}`);
-        
-        gsap.fromTo(image, 
-            { yPercent: -50 },
-            {   
-                yPercent: 0,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: container,
-                    start: "top bottom",
-                    end: "bottom top",
-                    scrub: 0.60,
-                    // markers: true,  // Uncomment for debugging
-                    onEnter: () => console.log(`Parallax ${index+1} entered`),
-                    onLeave: () => console.log(`Parallax ${index+1} left`)
-                }
+    if (imageContainers.length > 0) {
+        console.log("Initializing section parallax for", imageContainers.length, "containers.");
+        imageContainers.forEach(container => {
+            // Select the direct img child instead of looking for a specific class
+            const img = container.querySelector('img'); 
+            if (img) {
+                gsap.to(img, {
+                    yPercent: -20, 
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: container,
+                        start: "top bottom", 
+                        end: "bottom top", 
+                        scrub: 0.5
+                    }
+                });
+            } else {
+                console.warn("Parallax image (img tag) not found inside container:", container);
             }
-        );
-    });
+        });
+    } else {
+        // console.log("No image-parallax-container elements found. Skipping section parallax initialization.");
+    }
 } 
