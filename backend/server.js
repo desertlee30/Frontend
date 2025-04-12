@@ -20,9 +20,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-producti
 
 // Set up middleware for handling CORS
 app.use(cors({
-    origin: ['http://localhost:3000', 'http://localhost:5500', 'http://127.0.0.1:5500'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true
+    
 }));
 
 // Use JSON body parser middleware

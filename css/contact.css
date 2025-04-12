@@ -5,59 +5,60 @@
     box-sizing: border-box;
     font-family: 'Montserrat', sans-serif;
 }
-html, body {
+html,
+body {
     width: 100%;
-    height: 100%;
+    /* Use min-height for body to allow content growth */
+    min-height: 100%; 
     margin: 0;
     padding: 0;
 }
 
-body {
+body.contact-page {
     background-color: #121212;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow-x: hidden;
-    font-family: 'Montserrat', sans-serif;
-    overflow-x: hidden ;
+    overflow-x: hidden; 
+    color: #ffffff;
 }
 
 /* Main container */
 .contact-container {
-    padding: 0 2rem;
+    padding: 0 2rem; /* Horizontal padding */
     background-color: #121212;
-    color: #ffffff;
-    flex: 1 0 auto;
-    padding-top: 120px;
-    padding-bottom: 40px;
+    flex: 1 0 auto; /* Allow container to grow and shrink */
+    padding-top: 120px; /* Space for fixed navbar */
+    padding-bottom: 60px; /* Space before footer */
     width: 100%;
     box-sizing: border-box;
 }
 
-/* Inner container */
+/* Inner container for centering content */
 .container {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    position: relative;
 }
 
-/* Contact wrapper */
+/* Contact wrapper using Grid */
 .contact-wrapper {
     display: grid;
-    grid-template-columns: 1fr 1.5fr;
-    gap: 3rem;
+    /* Adjusted columns for better balance */
+    grid-template-columns: 1fr 1.2fr; 
+    gap: 3rem; /* Increased gap */
     width: 100%;
 }
 
 /* Contact Info Box */
 .contact-info {
     padding: 2.5rem;
-    background: linear-gradient(135deg, rgba(255, 107, 53, 0.15) 0%, rgba(255, 107, 53, 0.05) 100%);
+    /* Simplified background */
+    background: #1e1e1e; 
     border-radius: 16px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    height: fit-content;
+    height: fit-content; /* Fit to content height */
 }
 
 .contact-title {
@@ -65,7 +66,7 @@ body {
     font-weight: 700;
     margin-bottom: 1rem;
     position: relative;
-    display: inline-block;
+    display: inline-block; 
 }
 
 .contact-title::after {
@@ -83,6 +84,7 @@ body {
     font-size: 1.1rem;
     line-height: 1.6;
     color: #bbbbbb;
+    margin-top: 1.5rem; /* Added margin top */
     margin-bottom: 2.5rem;
 }
 
@@ -96,7 +98,7 @@ body {
 
 .contact-detail {
     display: flex;
-    align-items: flex-start;
+    align-items: flex-start; /* Align items to the start */
     gap: 1rem;
 }
 
@@ -110,6 +112,7 @@ body {
     align-items: center;
     font-size: 1.2rem;
     color: #FF6B35;
+    flex-shrink: 0; /* Prevent icon from shrinking */
 }
 
 .detail-content h3 {
@@ -121,6 +124,7 @@ body {
 .detail-content p {
     font-size: 1rem;
     color: #bbbbbb;
+    line-height: 1.4; /* Adjusted line height */
 }
 
 /* Social links */
@@ -141,10 +145,12 @@ body {
     color: white;
     font-size: 1rem;
     text-decoration: none;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 .social-link:hover {
     background-color: #FF6B35;
+    transform: translateY(-2px);
 }
 
 /* Contact Form Styles */
@@ -153,16 +159,13 @@ body {
     border-radius: 16px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
     border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.contact-form {
-    padding: 2.5rem;
+    padding: 2.5rem; /* Add padding directly here */
 }
 
 .contact-form h2 {
     font-size: 1.8rem;
     font-weight: 700;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem; /* Increased margin */
     text-align: center;
     position: relative;
 }
@@ -184,94 +187,114 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1.5rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0; /* Remove bottom margin here, handled by form-group */
 }
 
 .form-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.5rem; /* Standard margin for form groups */
     position: relative;
+    display: flex; /* Use flex for label alignment */
+    flex-direction: column; /* Stack label and input */
 }
 
 .form-group label {
-    display: block;
     margin-bottom: 0.5rem;
     font-size: 0.9rem;
     font-weight: 500;
+    color: #cccccc; /* Lighter label color */
 }
 
 .form-group .required {
     color: #FF6B35;
+    margin-left: 2px;
 }
 
-.form-group input,
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
 .form-group textarea {
     width: 100%;
     padding: 12px 16px;
-    border: 1px solid #333;
+    border: 1px solid #444; /* Slightly lighter border */
     border-radius: 8px;
     background-color: rgba(255, 255, 255, 0.05);
     color: white;
     font-size: 1rem;
-    box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-.form-group input:focus,
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group input[type="tel"]:focus,
 .form-group textarea:focus {
     outline: none;
     border-color: #FF6B35;
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2);
 }
 
-/* Phone Dropdown Special Overrides - Complete Fix */
+.form-group textarea {
+    resize: vertical; /* Allow vertical resize */
+    min-height: 100px;
+}
+
+/* Phone Input Specific Styles */
+.phone-input-wrapper .phone-container {
+    position: relative; /* Needed for intl-tel-input positioning */
+    width: 100%;
+}
+
+#phone {
+    /* padding-left is handled by the script and !important styles below */
+    width: 100%; 
+}
+
 .iti {
     width: 100% !important;
-    position: relative !important;
-    display: block !important;
-    z-index: 200 !important;
+    display: block !important; /* Ensure it takes full width */
 }
 
+/* Keep critical phone dropdown overrides */
 .iti__flag-container {
     position: absolute !important;
     top: 0 !important;
     bottom: 0 !important;
     left: 0 !important;
-    z-index: 220 !important;
+    z-index: 10 !important; /* Lower z-index unless dropdown is open */
 }
 
 .iti__selected-flag {
-    position: relative !important;
-    display: flex !important;
-    align-items: center !important;
-    height: 100% !important;
-    padding: 0 12px 0 15px !important;
-    z-index: 221 !important;
-    background-color: #1e1e1e !important;
-    color: #fff !important;
-    border-radius: 4px 0 0 4px !important;
-    cursor: pointer !important;
+    /* Basic styling, avoid !important where possible */
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 12px 0 15px;
+    background-color: #2a2a2a;
+    border-radius: 8px 0 0 8px;
+    cursor: pointer;
 }
 
 .iti__country-list {
-    position: absolute !important;
-    z-index: 9999 !important;
+    position: absolute !important; /* Keep absolute positioning */
+    z-index: 9999 !important; /* High z-index for visibility */
     list-style: none !important;
     padding: 0 !important;
-    margin: 0 0 0 -1px !important;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4) !important;
-    background-color: #1e1e1e !important;
+    margin: 2px 0 0 -1px !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3) !important;
+    background-color: #2a2a2a !important;
     color: #fff !important;
     border: 1px solid #444 !important;
-    white-space: nowrap !important;
     max-height: 200px !important;
     overflow-y: auto !important;
-    width: 300px !important;
-    margin-top: 2px !important;
-    left: 0 !important;
-    border-radius: 4px !important;
-    -webkit-overflow-scrolling: touch !important;
+    width: 300px !important; /* Fixed width */
+    border-radius: 8px !important;
+    display: none; /* Initially hidden */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
 }
 
-.iti__country-list--dropdown {
-    display: block !important;
+.iti__country-list.iti__country-list--dropdown {
+    display: block !important; /* Show when class is added */
     opacity: 1 !important;
     visibility: visible !important;
 }
@@ -285,7 +308,7 @@ body {
 }
 
 .iti__country:hover {
-    background-color: #333 !important;
+    background-color: #3b3b3b !important;
 }
 
 .iti__country-name {
@@ -298,181 +321,127 @@ body {
     margin-left: 5px !important;
 }
 
-.iti__arrow {
-    border-left: 4px solid transparent !important;
-    border-right: 4px solid transparent !important;
-    border-top: 5px solid #fff !important;
-    margin-left: 10px !important;
-}
-
 #phone {
-    padding-left: 90px !important;
-    text-indent: 0 !important;
+    padding-left: 90px !important; /* Keep this for spacing */
 }
 
-/* Fix for general layout on contact page */
-.contact-wrapper {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 40px !important;
-    max-width: 1200px !important;
-    margin: 0 auto !important;
-    padding: 20px !important;
-}
-
-.contact-form {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 20px !important;
-}
-
-.input-group {
-    position: relative !important;
-    margin-bottom: 10px !important;
-}
-
-/* Override any conflicting styles */
-.iti-container {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    z-index: 9999 !important;
-    pointer-events: none !important;
-}
-
-/* Page structure reinforcement */
-html, body {
-    min-height: 100% !important;
-    height: auto !important;
-    overflow-x: hidden !important;
-    background-color: #121212 !important;
-}
-
-body.contact-page {
-    display: flex !important;
-    flex-direction: column !important;
-    min-height: 100vh !important;
-}
-
-/* General fixes for consistent contact page display */
-.contact-page body {
-    min-height: 100vh !important;
-    display: flex !important;
-    flex-direction: column !important;
-    background-color: #121212 !important;
-}
-
-.contact-container {
-    flex: 1 0 auto !important;
-    display: flex !important;
-    flex-direction: column !important;
-    width: 100% !important;
-    padding-top: 120px !important;
-    position: relative !important;
-    z-index: 1 !important;
-}
-
-.contact-form {
-    padding: 30px !important;
-    background-color: rgba(255, 255, 255, 0.03) !important;
-    border-radius: 10px !important;
-    border: 1px solid rgba(255, 255, 255, 0.05) !important;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
-    backdrop-filter: blur(10px) !important;
-    -webkit-backdrop-filter: blur(10px) !important;
-}
-
-/* Modal Fix */
-.modal {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    background-color: rgba(0, 0, 0, 0.7) !important;
-    display: none !important;
-    justify-content: center !important;
-    align-items: center !important;
-    z-index: 9999 !important;
-}
-
-.modal-content {
-    background-color: #1e1e1e !important;
-    padding: 40px !important;
-    border-radius: 10px !important;
-    text-align: center !important;
-    max-width: 400px !important;
-    width: 90% !important;
-    position: relative !important;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3) !important;
-    transform: scale(1) !important;
-    opacity: 1 !important;
-    transition: transform 0.3s, opacity 0.3s !important;
-}
-
-/* Overflow handling */
-html, body {
-    overflow-x: hidden !important;
-    width: 100% !important;
-}
-
-/* Fix for error messages */
+/* Error message styling */
 .error-message {
-    color: #ff6b6b !important;
-    font-size: 12px !important;
-    margin-top: 5px !important;
-    display: none;
+    color: #ff6b6b;
+    font-size: 0.8rem;
+    margin-top: 5px;
+    display: none; /* Hidden by default */
+    min-height: 1em; /* Prevent layout shift */
 }
 
-input.error, textarea.error {
+/* Style inputs with error */
+.form-group input.error,
+.form-group textarea.error {
     border-color: #ff6b6b !important;
 }
 
-/* Focus states */
-input:focus, textarea:focus {
-    border-color: #5d9cec !important;
-    outline: none !important;
-    box-shadow: 0 0 0 2px rgba(93, 156, 236, 0.2) !important;
-}
-
-/* Ensure form container fits properly */
-.contact-form-container {
-    width: 100% !important;
-}
-
-/* Ensure form fields flex properly */
-.form-group {
-    margin-bottom: 20px !important;
-    display: flex !important;
-    flex-direction: column !important;
-}
-
+/* Submit Button */
 .submit-btn {
-    margin-top: 10px !important;
+    width: 100%;
+    padding: 14px;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 1rem; /* Add space above button */
 }
 
-/* Footer Grid Layout - Match with global styles */
-.footer .footer-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 40px;
-    margin-bottom: 40px;
+/* Success Modal */
+.modal-overlay {
+    /* ... existing modal styles ... */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
     justify-content: center;
+    align-items: center;
+    z-index: 10000; /* Ensure modal is above everything */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-@media (max-width: 991px) {
-    .footer .footer-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 30px;
+.modal-overlay:not(.hidden) {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-container {
+    background-color: #1e1e1e;
+    padding: 2.5rem;
+    border-radius: 12px;
+    text-align: center;
+    max-width: 450px;
+    width: 90%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
+
+.modal-overlay:not(.hidden) .modal-container {
+    transform: scale(1);
+}
+
+.success-icon {
+    font-size: 3.5rem;
+    color: #2ecc71;
+    margin-bottom: 1.5rem;
+}
+
+.success-modal h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+.success-modal p {
+    color: #bbbbbb;
+    margin-bottom: 2rem;
+}
+
+#closeModal {
+    padding: 10px 25px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .contact-wrapper {
+        grid-template-columns: 1fr; /* Stack columns */
+        gap: 2rem;
     }
+}
+
+@media (max-width: 768px) {
+    .contact-container {
+        padding: 0 1rem; /* Reduce padding */
+        padding-top: 100px;
+    }
+    .form-row {
+        grid-template-columns: 1fr; /* Stack first/last name */
+        gap: 1.5rem; /* Keep gap */
+        margin-bottom: 0;
+    }
+    .contact-info, .contact-form-container {
+        padding: 2rem;
+    }
+}
+
+/* Footer Grid Layout - Reuse global styles */
+.footer .footer-grid { 
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-bottom: 40px;
+    padding: 0; 
 }
 
 @media (max-width: 576px) {
     .footer .footer-grid {
-        grid-template-columns: 1fr;
-        gap: 30px;
         text-align: center;
     }
 } 

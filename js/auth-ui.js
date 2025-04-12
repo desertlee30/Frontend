@@ -28,7 +28,7 @@ function updateAuthUI() {
     // Elements to hide when logged in
     const loggedOutElements = document.querySelectorAll('.hide-when-logged-in');
     
-    // Elements to disable when logged in
+    // Elements to disable when logged in (specifically the side navigation, NOT the logout button)
     const disableElements = document.querySelectorAll('.side-nav-disabled-when-logged-in');
     
     if (isLoggedIn) {
@@ -49,12 +49,27 @@ function updateAuthUI() {
             el.classList.add('hidden');
         });
         
-        // Disable elements
+        // Disable ONLY the side navigation elements, NOT logout button
         disableElements.forEach(el => {
-            el.classList.add('disabled');
-            el.setAttribute('disabled', 'true'); // Ensure button is actually disabled
-            el.setAttribute('aria-disabled', 'true');
+            // Check if the element is not the logout button
+            if (!el.classList.contains('logout-btn')) {
+                el.classList.add('disabled');
+                // Only add disabled attribute for actual buttons/inputs, not links
+                if (el.tagName === 'BUTTON' || el.tagName === 'INPUT') {
+                    el.setAttribute('disabled', 'true');
+                    el.setAttribute('aria-disabled', 'true');
+                }
+            }
         });
+        
+        // Ensure logout button is active and visible
+        const logoutBtn = document.querySelector('.logout-btn');
+        if (logoutBtn) {
+            logoutBtn.classList.remove('disabled');
+            logoutBtn.removeAttribute('disabled');
+            logoutBtn.setAttribute('aria-disabled', 'false');
+            logoutBtn.style.display = '';
+        }
         
         // Update user-specific elements (like navbar login button text)
         const loginLink = document.querySelector('.login-link'); // The main Login In button
