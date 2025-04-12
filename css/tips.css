@@ -7,6 +7,11 @@
 
 body {
     overflow-x: hidden;
+    background-color: #121212;
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+    color: #ffffff;
 }
 
 /* Navigation Styles */
@@ -65,14 +70,32 @@ body {
     text-decoration: none;
     font-weight: 500;
     transition: color 0.3s ease;
+    position: relative;
 }
 
 .nav-menu li a:hover {
-    color: #FF6B35;
+    color: #E53E3E;
 }
 
 .nav-menu li a.active {
-    color: #FF6B35;
+    color: #E53E3E;
+}
+
+/* Ensure hover underline effect is present */
+.nav-menu a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #E53E3E; /* Match hover color */
+    transition: width 0.3s ease;
+}
+
+.nav-menu a:hover::after,
+.nav-menu a.active::after {
+    width: 100%;
 }
 
 .nav-buttons {
@@ -440,20 +463,20 @@ body {
 .tip-icon {
     width: 80px;
     height: 80px;
-    background-color: #FF6B35;
-    background: linear-gradient(135deg, #FF6B35, #ff8552);
+    background-color: #E53E3E;
+    background: linear-gradient(135deg, #E53E3E, #FC8181);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
-    box-shadow: 0 8px 15px rgba(255, 107, 53, 0.25);
+    box-shadow: 0 8px 15px rgba(229, 62, 62, 0.25);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .tip-card:hover .tip-icon {
     transform: scale(1.05);
-    box-shadow: 0 10px 20px rgba(255, 107, 53, 0.3);
+    box-shadow: 0 10px 20px rgba(229, 62, 62, 0.3);
 }
 
 .tip-icon i {
@@ -477,14 +500,14 @@ body {
 }
 
 .tip-link {
-    color: #FF6B35;
+    color: #E53E3E;
     font-weight: 600;
     text-decoration: none;
     position: relative;
     transition: all 0.3s ease;
     padding: 8px 20px;
     border-radius: 30px;
-    background-color: rgba(255, 107, 53, 0.1);
+    background-color: rgba(229, 62, 62, 0.1);
     display: inline-block;
 }
 
@@ -494,8 +517,8 @@ body {
 
 .tip-link:hover {
     color: white;
-    background-color: #FF6B35;
-    box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+    background-color: #E53E3E;
+    box-shadow: 0 5px 15px rgba(229, 62, 62, 0.3);
     transform: translateY(-3px);
 }
 
@@ -504,13 +527,22 @@ body {
     background-color: #2f2b32;
     color: #f0f0f0;
     padding: 60px 0 30px;
+    text-align: center;
+    width: 100%;
+}
+
+.footer .container {
+    width: 95%;
+    max-width: 1600px;
+    margin: 0 auto;
 }
 
 .footer-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 40px;
     margin-bottom: 40px;
+    justify-content: center;
 }
 
 .footer-brand h3 {
@@ -544,7 +576,7 @@ body {
 }
 
 .social-icons a:hover {
-    background-color: #FF6B35;
+    background-color: #E53E3E;
     transform: translateY(-3px);
 }
 
@@ -571,7 +603,7 @@ body {
 }
 
 .footer ul li a:hover {
-    color: #FF6B35;
+    color: #E53E3E;
 }
 
 .footer-bottom {
@@ -676,6 +708,7 @@ body {
 @media (max-width: 576px) {
     .footer-grid {
         grid-template-columns: 1fr;
+        gap: 30px;
         text-align: center;
     }
     
@@ -790,7 +823,7 @@ body {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: rgba(255, 107, 53, 0.8);
+    background-color: rgba(229, 62, 62, 0.8);
     color: white;
     display: flex;
     align-items: center;
@@ -805,7 +838,7 @@ body {
 
 .modal-close-btn:hover, 
 .modal-close-btn:focus {
-    background-color: #FF6B35;
+    background-color: #E53E3E;
     transform: scale(1.05);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }

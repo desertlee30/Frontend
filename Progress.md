@@ -1261,6 +1261,110 @@ Implement the frosted glass card design in the fitness.html content section, ada
 - Add save/bookmark functionality for favorite programs
 - Add sorting options by difficulty, duration, etc.
 
-## Task: Create Frosted Glass Cards with Backdrop Filter Effect
+## Task: Create Blog Page with Card Grid and Modal Popup
 
-// ... existing content ...
+### Overview
+Creating a blog page that:
+- Uses the same header and footer as index.html (without side button and news section)
+- Implements a grid of blog post cards similar to the design in Image 1
+- Adds a modal popup when clicking on cards (design from Image 2)
+- Includes social media sharing functionality in the modal (from Image 3)
+- Maintains login/logout functionality
+
+### Implementation Plan
+- [X] Create blog.html with header and footer from index.html
+- [X] Remove side button from the header
+- [X] Create blog grid layout with card design
+- [X] Implement modal popup structure
+- [X] Style cards and modal with CSS
+- [X] Implement JavaScript functionality for:
+  - [X] Opening/closing modal
+  - [X] Populating modal with content
+  - [X] Social media sharing
+  - [X] Keyboard accessibility
+- [X] Ensure login/logout function works
+- [X] Adjust blog container position (5% lower)
+- [X] Add like functionality for blog posts
+- [X] Fix white space at the top of the page
+
+### Implementation Details
+
+#### HTML (blog.html)
+- Created the overall structure with header and footer from index.html
+- Set up a grid of blog post cards
+- Created a hidden modal element with:
+  - Close button in top right
+  - Title, subtitle, and content area
+  - Social sharing buttons
+  - Blog stats (views, comments, likes)
+
+#### CSS (blog.css)
+- Styled the blog grid and cards with dark theme
+- Added hover effects for cards
+- Designed the modal popup with responsive layout
+- Styled social sharing buttons with platform-specific colors
+- Added utility classes for hiding/showing elements
+- Ensured responsive behavior for different screen sizes
+- Fixed white space at the top by extending the dark background color to the body and adding appropriate padding to accommodate the fixed navbar
+
+#### JavaScript (blog.js)
+- Added sample blog post data (in a real app this would come from a database/API)
+- Implemented click handlers for blog cards to open the modal
+- Added functionality to populate the modal with post content
+- Created social sharing URLs for different platforms
+- Added accessibility features (keyboard navigation, aria-labels)
+- Implemented URL parameters to allow direct linking to posts
+- Added like functionality that:
+  - Allows users to like/unlike posts from both the card view and modal view
+  - Updates the heart icon visually (toggles between filled and unfilled)
+  - Provides a nice animation effect when liking a post
+  - Keeps the like state consistent between card and modal views
+
+The blog page now displays a grid of cards that, when clicked, open a detailed modal view of the blog post with social sharing capabilities and like functionality.
+
+## Task: Create Contact Us Page
+
+### Overview
+Creating a Contact Us page that:
+- Uses the same header and footer as other pages
+- Includes a form to collect user information (first name, last name, email, phone with country selection, comments)
+- Features an enhanced design with modern visual effects
+- Implements form validation and feedback
+- Includes a success modal
+
+### Implementation Plan
+- [X] Create contact.html with the same header and footer structure
+- [X] Design a two-column layout (contact info + form)
+- [X] Implement international phone number input with country selection
+- [X] Add CSS animations and visual effects
+- [X] Implement form validation
+- [X] Create a success modal
+- [X] Add GSAP animations for enhanced user experience
+
+### Implementation Details
+
+#### HTML (contact.html)
+- Created the overall structure with header and footer from index.html
+- Designed a two-column layout with contact info and form
+- Added contact details with icons (location, phone, email, hours)
+- Created a form with fields for first name, last name, email, phone, and comments
+- Implemented a success modal for submission feedback
+- Added social media links
+
+#### CSS (contact.css)
+- Applied a modern aesthetic with gradient backgrounds
+- Added hover effects on interactive elements
+- Created animation effects for form fields
+- Used backdrop-filter for a frosted glass effect
+- Implemented a responsive design that adapts to different screen sizes
+- Added transition effects for a polished user experience
+
+#### JavaScript (contact.js)
+- Integrated international telephone input library for country selection
+- Added form validation for required fields and phone format
+- Implemented animations using GSAP
+- Created modal functionality for success feedback
+- Added keyboard support (Escape key to close modal)
+- Implemented loading state during form submission
+
+The Contact Us page now provides an engaging user experience with smooth animations, intuitive form layout, and clear feedback mechanisms.

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WellnessWave - Blog</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/blog.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha512-onMTRKJBKz8M1TnqqDuGBlowlH0ohFzMXYRNebz+yOcc5TQr/zAKsthzhuv0hiyUKEiQEQXEynnXCvNTOk50dg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="index.html">
+            <img src="Media/logo.png" alt="WellnessWave Logo" class="logo">
+        </a>
+        
+        <ul class="nav-menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="tips.html">Health Tips</a></li>
+            <li><a href="meal-planner.html">Recipes</a></li>
+            <li><a href="fitness.html">Fitness</a></li>
+            <li><a href="blog.html" class="active">Blog</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        
+        <div class="nav-buttons">
+            <a href="login.html" class="btn btn-primary login-link hide-when-logged-in">Login In</a>
+            <a href="#" class="btn btn-secondary logout-btn show-when-logged-in">Logout</a>
+        </div>
+    </nav>
+
+    <!-- Blog Content -->
+    <main class="blog-container">
+        <div class="container">
+            <h1 class="blog-title">Health & Fitness Insights</h1>
+            <p class="blog-intro">Expert advice, science-backed information, and practical tips to help you optimize your health, fitness, and overall wellbeing</p>
+            
+            <!-- Blog Grid -->
+            <div class="blog-grid">
+                <!-- Blog Card 1 -->
+                <div class="blog-card" data-id="1">
+                    <div class="blog-card-date">May 31, 2023 · 3 min read</div>
+                    <h2 class="blog-card-title">8 Fitness Trends That Will Dominate This Year</h2>
+                    <p class="blog-card-subtitle">Stay ahead of the curve with these emerging workout styles and health technologies that are changing how we approach fitness.</p>
+                    <div class="blog-card-stats">
+                        <span><i class="far fa-eye"></i> 0</span>
+                        <span><i class="far fa-comment"></i> 0</span>
+                        <span class="blog-card-likes"><i class="far fa-heart"></i> 15</span>
+                    </div>
+                </div>
+
+                <!-- Blog Card 2 -->
+                <div class="blog-card" data-id="2">
+                    <div class="blog-card-date">April 15, 2023 · 4 min read</div>
+                    <h2 class="blog-card-title">The Science of Nutrition: Beyond Calories</h2>
+                    <p class="blog-card-subtitle">Discover how the quality of your food matters more than simple calorie counts, and how nutrient timing can optimize your results.</p>
+                    <div class="blog-card-stats">
+                        <span><i class="far fa-eye"></i> 0</span>
+                        <span><i class="far fa-comment"></i> 0</span>
+                        <span class="blog-card-likes"><i class="far fa-heart"></i> 26</span>
+                    </div>
+                </div>
+
+                <!-- Blog Card 3 -->
+                <div class="blog-card" data-id="3">
+                    <div class="blog-card-date">March 20, 2023 · 3 min read</div>
+                    <h2 class="blog-card-title">Recovery Strategies: The Missing Link in Your Fitness Journey</h2>
+                    <p class="blog-card-subtitle">Learn why proper recovery might be the most underrated component of fitness success and how to implement effective recovery protocols.</p>
+                    <div class="blog-card-stats">
+                        <span><i class="far fa-eye"></i> 0</span>
+                        <span><i class="far fa-comment"></i> 0</span>
+                        <span class="blog-card-likes"><i class="far fa-heart"></i> 14</span>
+                    </div>
+                </div>
+
+                <!-- Blog Card 4 -->
+                <div class="blog-card" data-id="4">
+                    <div class="blog-card-date">February 10, 2023 · 3 min read</div>
+                    <h2 class="blog-card-title">Strength Training for Longevity: Why Everyone Should Lift Weights</h2>
+                    <p class="blog-card-subtitle">Discover how resistance training benefits go far beyond aesthetics, potentially adding years to your life and significantly improving health outcomes.</p>
+                    <div class="blog-card-stats">
+                        <span><i class="far fa-eye"></i> 0</span>
+                        <span><i class="far fa-comment"></i> 0</span>
+                        <span class="blog-card-likes"><i class="far fa-heart"></i> 19</span>
+                    </div>
+                </div>
+
+                <!-- Blog Card 5 -->
+                <div class="blog-card" data-id="5">
+                    <div class="blog-card-date">January 18, 2023 · 4 min read</div>
+                    <h2 class="blog-card-title">Mindfulness and Exercise: The Perfect Performance Partnership</h2>
+                    <p class="blog-card-subtitle">Learn how mindfulness practices can enhance athletic performance, improve mind-muscle connection, and accelerate recovery.</p>
+                    <div class="blog-card-stats">
+                        <span><i class="far fa-eye"></i> 0</span>
+                        <span><i class="far fa-comment"></i> 0</span>
+                        <span class="blog-card-likes"><i class="far fa-heart"></i> 12</span>
+                    </div>
+                </div>
+
+                <!-- Blog Card 6 -->
+                <div class="blog-card" data-id="6">
+                    <div class="blog-card-date">December 5, 2022 · 5 min read</div>
+                    <h2 class="blog-card-title">Nutrition Myths Debunked: What Science Really Says</h2>
+                    <p class="blog-card-subtitle">Cut through the confusion with evidence-based answers to common nutrition questions that might be sabotaging your health goals.</p>
+                    <div class="blog-card-stats">
+                        <span><i class="far fa-eye"></i> 0</span>
+                        <span><i class="far fa-comment"></i> 0</span>
+                        <span class="blog-card-likes"><i class="far fa-heart"></i> 22</span>
+                    </div>
+                </div>
+
+                <!-- Blog Card 7 -->
+                <div class="blog-card" data-id="7">
+                    <div class="blog-card-date">November 14, 2022 · 4 min read</div>
+                    <h2 class="blog-card-title">Sleep Optimization: The Ultimate Performance Enhancer</h2>
+                    <p class="blog-card-subtitle">Discover why sleep might be the most important factor in your fitness journey and how to improve your sleep quality for better results.</p>
+                    <div class="blog-card-stats">
+                        <span><i class="far fa-eye"></i> 0</span>
+                        <span><i class="far fa-comment"></i> 0</span>
+                        <span class="blog-card-likes"><i class="far fa-heart"></i> 17</span>
+                    </div>
+                </div>
+
+                <!-- Blog Card 8 -->
+                <div class="blog-card" data-id="8">
+                    <div class="blog-card-date">October 22, 2022 · 3 min read</div>
+                    <h2 class="blog-card-title">Functional Movement: Train for Life, Not Just the Gym</h2>
+                    <p class="blog-card-subtitle">Learn how functional training can improve daily life activities, prevent injuries, and create balanced, sustainable fitness for the long term.</p>
+                    <div class="blog-card-stats">
+                        <span><i class="far fa-eye"></i> 0</span>
+                        <span><i class="far fa-comment"></i> 0</span>
+                        <span class="blog-card-likes"><i class="far fa-heart"></i> 14</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Blog Post Modal -->
+    <div id="blog-modal" class="modal-overlay hidden">
+        <div class="modal-container">
+            <button id="modal-close" class="modal-close" aria-label="Close modal">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="modal-content">
+                <div class="modal-date">March 20, 2023 · <span id="modal-read-time">3 min read</span></div>
+                
+                <h1 id="modal-title" class="modal-title">Recovery Strategies: The Missing Link in Your Fitness Journey</h1>
+                
+                <div id="modal-subtitle" class="modal-subtitle">
+                    Learn why proper recovery might be the most underrated component of fitness success and how to implement effective recovery protocols.
+                </div>
+                
+                <div id="modal-body" class="modal-body">
+                    <p>In the pursuit of fitness goals, many enthusiasts focus primarily on training intensity and nutrition while overlooking the critical role of recovery in performance and results.</p>
+                    
+                    <h2>Why Recovery Matters</h2>
+                    
+                    <blockquote>
+                        "You don't get stronger during your workout—you get stronger during recovery when your body adapts to the training stress." - Alex Hutchinson, Exercise Science Author
+                    </blockquote>
+                    
+                    <p>Proper recovery isn't just about rest days. It encompasses sleep quality, stress management, nutrition, hydration, and active recovery techniques that help your body repair damaged tissues and adapt to training stimuli.</p>
+                    
+                    <blockquote>
+                        "Sleep is the most powerful recovery tool available to athletes, yet it's often the first thing sacrificed in busy schedules."
+                    </blockquote>
+                    
+                    <p>Research shows that insufficient recovery not only hampers performance but can lead to increased injury risk, hormonal imbalances, and psychological burnout that can derail your fitness journey entirely.</p>
+                    
+                    <h2>Effective Recovery Protocols</h2>
+                    
+                    <p>Implementing strategic recovery techniques like contrast therapy (alternating hot and cold exposure), compression, proper sleep hygiene, and mobility work can dramatically improve your body's ability to recover between training sessions and continue making progress toward your goals.</p>
+                </div>
+                
+                <div class="modal-social">
+                    <button class="social-btn" data-platform="facebook" aria-label="Share on Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </button>
+                    <button class="social-btn" data-platform="twitter" aria-label="Share on Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </button>
+                    <button class="social-btn" data-platform="linkedin" aria-label="Share on LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </button>
+                    <button class="social-btn" data-platform="link" aria-label="Copy link">
+                        <i class="fas fa-link"></i>
+                    </button>
+                </div>
+                
+                <div class="modal-stats">
+                    <span><i class="far fa-eye"></i> <span id="modal-views">0</span> views</span>
+                    <span><i class="far fa-comment"></i> <span id="modal-comments">0</span> comments</span>
+                    <span id="modal-likes-container"><i class="far fa-heart"></i> <span id="modal-likes">14</span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Brand Column -->
+                <div class="footer-brand">
+                    <h3>WellnessWave</h3>
+                    <p>123 Fitness Street, Healthyville, HV 12345</p>
+                    <p>+1 (555) 123-4567</p>
+                </div>
+                
+                <!-- Information Column -->
+                <div class="footer-info">
+                    <h4>Information</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Resources Column (formerly Support) -->
+                <div class="footer-support">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="fitness.html">Fitness</a></li>
+                        <li><a href="meal-planner.html">Recipes</a></li>
+                        <li><a href="tips.html">Health Tips</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 WellnessWave. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/script.js"></script>
+    <script src="js/auth-ui.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/blog.js"></script>
+</body>
+</html>

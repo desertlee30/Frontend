@@ -68,7 +68,13 @@ document.addEventListener('DOMContentLoaded', function() {
         console.warn("GSAP not loaded - falling back to CSS class toggle for navbar");
         // Fallback to original CSS class logic if GSAP isn't available
         let lastScrollTop = 0;
+        // Ensure the transition is set on the navbar element directly for the fallback
+        if (navbar) {
+            navbar.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+        }
+        
         window.addEventListener('scroll', function() {
+            if (!navbar) return; // Check if navbar exists
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
             if (scrollTop > lastScrollTop && scrollTop > 100) {
                 navbar.classList.add('hidden');

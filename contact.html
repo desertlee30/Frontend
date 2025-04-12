@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>WellnessWave - Contact Us</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/contact.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/css/intlTelInput.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha512-onMTRKJBKz8M1TnqqDuGBlowlH0ohFzMXYRNebz+yOcc5TQr/zAKsthzhuv0hiyUKEiQEQXEynnXCvNTOk50dg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="index.html">
+            <img src="Media/logo.png" alt="WellnessWave Logo" class="logo">
+        </a>
+        
+        <ul class="nav-menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="tips.html">Health Tips</a></li>
+            <li><a href="meal-planner.html">Recipes</a></li>
+            <li><a href="fitness.html">Fitness</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html" class="active">Contact</a></li>
+        </ul>
+        
+        <div class="nav-buttons">
+            <a href="login.html" class="btn btn-primary login-link hide-when-logged-in">Login In</a>
+            <a href="#" class="btn btn-secondary logout-btn show-when-logged-in">Logout</a>
+        </div>
+    </nav>
+
+    <!-- Contact Us Content -->
+    <main class="contact-container">
+        <div class="container">
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <h1 class="contact-title">Get in Touch</h1>
+                    <p class="contact-intro">We'd love to hear from you! Fill out the form and we'll respond as soon as possible.</p>
+                    
+                    <div class="contact-details">
+                        <div class="contact-detail">
+                            <div class="icon-wrapper">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="detail-content">
+                                <h3>Our Location</h3>
+                                <p>123 Fitness Street, Healthyville, HV 12345</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-detail">
+                            <div class="icon-wrapper">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            <div class="detail-content">
+                                <h3>Phone Number</h3>
+                                <p>+1 (555) 123-4567</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-detail">
+                            <div class="icon-wrapper">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="detail-content">
+                                <h3>Email Address</h3>
+                                <p>info@wellnesswave.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-detail">
+                            <div class="icon-wrapper">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="detail-content">
+                                <h3>Working Hours</h3>
+                                <p>Monday - Friday: 9AM - 6PM</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="contact-form-container">
+                    <form id="contactForm" class="contact-form">
+                        <h2>Send us a Message</h2>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">First Name <span class="required">*</span></label>
+                                <input type="text" id="firstName" name="firstName" required>
+                                <div class="error-message">Please enter your first name</div>
+                                <div class="field-animation"></div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="lastName">Last Name <span class="required">*</span></label>
+                                <input type="text" id="lastName" name="lastName" required>
+                                <div class="error-message">Please enter your last name</div>
+                                <div class="field-animation"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address <span class="required">*</span></label>
+                            <input type="email" id="email" name="email" required>
+                            <div class="error-message">Please enter a valid email address</div>
+                            <div class="field-animation"></div>
+                        </div>
+                        
+                        <div class="form-group phone-input-container">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone">
+                            <div class="error-message">Please enter a valid phone number</div>
+                            <div class="field-animation"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Message <span class="required">*</span></label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                            <div class="error-message">Please enter your message</div>
+                            <div class="field-animation"></div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary submit-btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal-overlay hidden">
+        <div class="modal-container success-modal">
+            <div class="modal-content">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h2>Message Sent!</h2>
+                <p>Thank you for reaching out. We'll get back to you as soon as possible.</p>
+                <button id="closeModal" class="btn btn-primary">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Brand Column -->
+                <div class="footer-brand">
+                    <h3>WellnessWave</h3>
+                    <p>123 Fitness Street, Healthyville, HV 12345</p>
+                    <p>+1 (555) 123-4567</p>
+                </div>
+                
+                <!-- Information Column -->
+                <div class="footer-info">
+                    <h4>Information</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Resources Column (formerly Support) -->
+                <div class="footer-support">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="fitness.html">Fitness</a></li>
+                        <li><a href="meal-planner.html">Recipes</a></li>
+                        <li><a href="tips.html">Health Tips</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 WellnessWave. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/script.js"></script>
+    <script src="js/auth-ui.js"></script>
+    <script src="js/main.js"></script>
+    
+    <!-- Phone input script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/intlTelInput.min.js"></script>
+    <!-- Contact-specific script -->
+    <script src="js/contact.js"></script>
+</body>
+</html> 

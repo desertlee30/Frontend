@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WellnessWave - About Us</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/about.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Added GSAP and ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha512-onMTRKJBKz8M1TnqqDuGBlowlH0ohFzMXYRNebz+yOcc5TQr/zAKsthzhuv0hiyUKEiQEQXEynnXCvNTOk50dg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="index.html">
+            <img src="Media/logo.png" alt="WellnessWave Logo" class="logo">
+        </a>
+        
+        <ul class="nav-menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="tips.html">Health Tips</a></li>
+            <li><a href="meal-planner.html">Recipes</a></li>
+            <li><a href="fitness.html">Fitness</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="about.html" class="active">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        
+        <div class="nav-buttons">
+            <a href="login.html" class="btn btn-primary login-link hide-when-logged-in">Login In</a>
+            <a href="#" class="btn btn-secondary logout-btn show-when-logged-in">Logout</a>
+        </div>
+    </nav>
+
+    <!-- About Us Content -->
+    <main class="about-container">
+        <div class="hero-section">
+            <div class="container">
+                <h1 class="about-title">About WellnessWave</h1>
+                <p class="about-subtitle">Empowering your journey to optimal health and wellness</p>
+            </div>
+        </div>
+
+        <section class="mission-vision-section">
+            <div class="container">
+                <div class="mission-vision-grid">
+                    <div class="mission-card">
+                        <div class="card-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h2>Our Mission</h2>
+                        <p>To democratize access to evidence-based health and fitness information, providing tools and resources that empower individuals to take control of their wellbeing. We strive to cut through misinformation and make the path to a healthier lifestyle clear, sustainable, and enjoyable for everyone, regardless of their starting point.</p>
+                    </div>
+                    
+                    <div class="vision-card">
+                        <div class="card-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h2>Our Vision</h2>
+                        <p>We envision a world where preventative health practices are the norm, not the exception. Where individuals are equipped with the knowledge, motivation, and practical tools to make informed decisions about their physical and mental wellbeing. WellnessWave aims to be the catalyst for a global shift toward proactive health management and sustainable fitness habits.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="story-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Our Story</h2>
+                    <div class="divider"></div>
+                </div>
+                
+                <div class="story-content">
+                    <p>WellnessWave began with a simple observation: despite the abundance of health information available online, people were struggling more than ever to achieve their wellness goals. The problem wasn't a lack of information—it was too much conflicting, complicated, and often commercially-motivated advice.</p>
+                    
+                    <p>Founded in 2022, our platform was created to address this gap by providing clear, science-backed guidance on nutrition, fitness, and mental wellbeing. We believe that everyone deserves access to reliable health information and practical tools that make wellness accessible and sustainable.</p>
+                    
+                    <p>What sets WellnessWave apart is our holistic approach. We understand that true wellness encompasses not just physical fitness, but also nutrition, recovery, stress management, and mental health. Our integrated platform brings together these essential components in one user-friendly ecosystem designed to support your complete wellness journey.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="leadership-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Our Leadership</h2>
+                    <div class="divider"></div>
+                </div>
+                
+                <div class="leadership-profile">
+                    <div class="profile-image-container">
+                        <img src="Media/2204664.jpg.jpg" alt="Mr. Tan Jun Yang - CEO & Founder" class="profile-image">
+                        <div class="social-links">
+                            <a href="#" class="social-link" aria-label="LinkedIn">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="#" class="social-link" aria-label="Twitter">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-content">
+                        <h3>Mr. Tan Jun Yang</h3>
+                        <p class="profile-title">Founder & CEO</p>
+                        
+                        <p class="profile-bio">With over 15 years of experience in the health and wellness industry, Tan Jun Yang founded WellnessWave with a clear vision: to cut through the noise and provide people with evidence-based health solutions that actually work.</p>
+                        
+                        <p class="profile-bio">Prior to establishing WellnessWave, Jun Yang served as a health consultant for international fitness organizations and contributed to several research studies on sustainable fitness practices. His approach combines scientific rigor with practical, real-world applications.</p>
+                        
+                        <p class="profile-bio">"My goal is to transform how people approach their health. Too many are caught in cycles of extreme dieting, unsustainable workout regimens, and information overload. At WellnessWave, we're building a platform that meets people where they are and guides them toward lasting health with compassion, clarity, and credibility."</p>
+                        
+                        <div class="profile-stats">
+                            <div class="stat">
+                                <span class="stat-number">15+</span>
+                                <span class="stat-label">Years Experience</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">30k+</span>
+                                <span class="stat-label">Lives Impacted</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">12</span>
+                                <span class="stat-label">Research Papers</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="values-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Our Core Values</h2>
+                    <div class="divider"></div>
+                </div>
+                
+                <div class="values-grid">
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h3>Evidence-Based</h3>
+                        <p>We prioritize scientifically-validated approaches over trends, ensuring our recommendations are grounded in research and proven effectiveness.</p>
+                    </div>
+                    
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Inclusivity</h3>
+                        <p>Health is for everyone. We create content and tools that are accessible to people of all fitness levels, backgrounds, and capabilities.</p>
+                    </div>
+                    
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <h3>Balance</h3>
+                        <p>We promote sustainable approaches to health that fit into real life, acknowledging that true wellness encompasses physical, mental, and emotional wellbeing.</p>
+                    </div>
+                    
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <h3>Innovation</h3>
+                        <p>We continuously evolve our platform, incorporating new research and technologies to provide cutting-edge solutions to health challenges.</p>
+                    </div>
+                    
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Integrity</h3>
+                        <p>We maintain transparent relationships with our community, prioritizing honest information over commercial interests.</p>
+                    </div>
+                    
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3>Empowerment</h3>
+                        <p>We don't just provide information—we equip our users with the tools and confidence to take charge of their health journey.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Brand Column -->
+                <div class="footer-brand">
+                    <h3>WellnessWave</h3>
+                    <p>123 Fitness Street, Healthyville, HV 12345</p>
+                    <p>+1 (555) 123-4567</p>
+                </div>
+                
+                <!-- Information Column -->
+                <div class="footer-info">
+                    <h4>Information</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Resources Column (formerly Support) -->
+                <div class="footer-support">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="fitness.html">Fitness</a></li>
+                        <li><a href="meal-planner.html">Recipes</a></li>
+                        <li><a href="tips.html">Health Tips</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 WellnessWave. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/script.js"></script>
+    <script src="js/auth-ui.js"></script>
+    <script src="js/main.js"></script>
+    
+    <!-- Add navigation effect script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add active class handling for nav menu
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    // Remove active class from all links
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    
+                    // Add active class to clicked link
+                    this.classList.add('active');
+                });
+            });
+            
+            // Highlight current page
+            const currentPath = window.location.pathname;
+            const currentPage = currentPath.split('/').pop();
+            
+            navLinks.forEach(link => {
+                const linkHref = link.getAttribute('href');
+                if (linkHref === currentPage) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

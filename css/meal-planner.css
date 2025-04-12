@@ -23,7 +23,7 @@
 body {
   font-family: 'Montserrat', sans-serif;
   overflow-x: hidden;
-  background-color: var(--background-color);
+  background-color: #121212; /* Dark background for the entire page */
   color: var(--text-color);
 }
 
@@ -80,6 +80,23 @@ body {
 
 .nav-menu li a:hover {
   color: #FF6B35;
+}
+
+/* Ensure hover underline effect is present */
+.nav-menu a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #FF6B35; /* Match hover color */
+    transition: width 0.3s ease;
+}
+
+.nav-menu a:hover::after,
+.nav-menu a.active::after {
+    width: 100%;
 }
 
 .nav-buttons {
@@ -642,20 +659,39 @@ body {
   background-color: #2f2b32;
   color: #f0f0f0;
   padding: 60px 0 30px;
+  text-align: center;
+  width: 100%;
 }
 
-/* Fix for footer container width consistency */
+/* Footer container width consistency */
 .footer .container {
   width: 95%;
-  max-width: 1600px; /* More closely matches the index.html footer width */
+  max-width: 1600px;
   margin: 0 auto;
 }
 
-.footer-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Already fixed in previous update */
-  gap: 40px;
-  margin-bottom: 40px;
+/* Footer Grid Layout - Match with global styles */
+.footer .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
+    justify-content: center;
+}
+
+@media (max-width: 991px) {
+    .footer .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
+}
+
+@media (max-width: 576px) {
+    .footer .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        text-align: center;
+    }
 }
 
 .footer-brand h3 {
@@ -1190,4 +1226,9 @@ body {
   background-color: #c82333;
   transform: translateY(-3px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure nav link positioning for hover effect */
+.nav-menu a {
+  position: relative;
 } 
