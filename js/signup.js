@@ -60,7 +60,7 @@ function setupSignupForm() {
     const $loadingSpinner = $('#loadingSpinner');
     
     // Form submission handler
-    $form.on('submit', function(e) {
+    $form.on('submit', async function(e) {
         e.preventDefault();
         
         // Reset errors
@@ -72,40 +72,98 @@ function setupSignupForm() {
         }
         
         // Show loading spinner
-        $loadingSpinner.show();
+        if ($loadingSpinner) {
+            $loadingSpinner.addClass('active');
+        }
         
-        // Simulate API call with timeout
-        setTimeout(function() {
-            // Create user object
-            const user = {
-                firstName: $('#firstName').val().trim(),
-                lastName: $('#lastName').val().trim(),
-                email: $emailInput.val().trim(),
-                dateOfBirth: $('#dateOfBirth').val(),
-                password: $passwordInput.val() // In a real app, never store raw passwords
-            };
-            
-            // Generate fake auth token
-            const authToken = generateFakeToken();
-            
-            // Store in localStorage (In a real app, this would come from a server)
-            localStorage.setItem('authToken', authToken);
-            localStorage.setItem('currentUser', JSON.stringify({
-                firstName: user.firstName,
-                lastName: user.lastName,
-                email: user.email
-            }));
-            
-            // Hide spinner
-            $loadingSpinner.hide();
-            
-            // Show success message
-            alert('Account created successfully! You are now logged in.');
-            
-            // Redirect to index page or previous page
-            const redirectUrl = getRedirectUrl();
-            window.location.href = redirectUrl;
-        }, 1500);
+        // Create user object
+        const userData = {
+            firstName: $('#firstName').val().trim(),
+            lastName: $('#lastName').val().trim(),
+            email: $emailInput.val().trim(),
+            dateOfBirth: $('#dateOfBirth').val(),
+            password: $passwordInput.val()
+        };
+        
+        // Define the API endpoint
+        const registerApiUrl = 'http://localhost:3000/api/signup';
+        
+        try {
+            // Make the API call using fetch
+            const response = await fetch(registerApiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(userData),
+            });
+
+            const responseData = await response.json(); // Try to parse JSON response
+
+            if (response.ok) {
+                // Registration successful (e.g., status 200 or 201)
+                console.log('Registration successful:', responseData);
+                
+                // Store token and user data if provided by the backend
+                if (responseData.token) {
+                    localStorage.setItem('wellness_auth_token', responseData.token);
+                }
+                
+                if (responseData.user) {
+                    // Store user data (excluding sensitive info like password)
+                    localStorage.setItem('wellness_current_user', JSON.stringify({
+                        id: responseData.user.id,
+                        firstName: responseData.user.firstName,
+                        lastName: responseData.user.lastName,
+                        email: responseData.user.email,
+                        isLoggedIn: true
+                    }));
+                } else {
+                    // Fallback if user object isn't returned
+                    localStorage.setItem('wellness_current_user', JSON.stringify({
+                        firstName: userData.firstName,
+                        lastName: userData.lastName,
+                        email: userData.email,
+                        isLoggedIn: true
+                    }));
+                }
+                
+                // Hide loading spinner
+                if ($loadingSpinner) {
+                    $loadingSpinner.removeClass('active');
+                }
+                
+                // Show success message
+                alert('Registration successful! You are now logged in.');
+                
+                // Redirect to appropriate page
+                const redirectUrl = getRedirectUrl() || 'index.html';
+                window.location.href = redirectUrl;
+            } else {
+                // Registration failed (e.g., status 400, 409, 500)
+                console.error('Registration failed:', responseData);
+                let errorMessage = responseData.error || 'Registration failed. Please try again.';
+                
+                // Specific handling for email exists error (assuming backend sends a specific message)
+                if (response.status === 409 || (responseData.error && responseData.error.toLowerCase().includes('email already exists'))) {
+                    errorMessage = 'This email is already registered. Please use a different email or login.';
+                    $emailError.text(errorMessage);
+                    $emailError.css('display', 'block');
+                    $emailInput.addClass('error');
+                } else {
+                    // Show general error
+                    alert(errorMessage);
+                }
+            }
+        } catch (error) {
+            console.error('Network or other error during registration:', error);
+            alert('An error occurred during registration. Please check your connection and try again.');
+        } finally {
+            // Always hide loading spinner
+            if ($loadingSpinner) {
+                $loadingSpinner.removeClass('active');
+            }
+        }
     });
     
     // Input event listeners for real-time validation
@@ -135,15 +193,21 @@ function setupSignupForm() {
         
         if (!email) {
             $emailError.text('Email is required');
+            $emailError.css('display', 'block');
+            $emailInput.addClass('error');
             return false;
         }
         
         if (!emailRegex.test(email)) {
             $emailError.text('Please enter a valid email address');
+            $emailError.css('display', 'block');
+            $emailInput.addClass('error');
             return false;
         }
         
         $emailError.text('');
+        $emailError.css('display', 'none');
+        $emailInput.removeClass('error');
         return true;
     }
     
@@ -156,12 +220,16 @@ function setupSignupForm() {
         
         if (!password) {
             $passwordError.text('Password is required');
+            $passwordError.css('display', 'block');
+            $passwordInput.addClass('error');
             return false;
         }
         
         // Check password length
         if (password.length < 6) {
             $passwordError.text('Password must be at least 6 characters');
+            $passwordError.css('display', 'block');
+            $passwordInput.addClass('error');
             return false;
         }
         
@@ -173,10 +241,14 @@ function setupSignupForm() {
         
         if (!(hasUppercase && hasLowercase && hasNumber && hasSpecial)) {
             $passwordError.text('Password must include uppercase, lowercase, number, and special character');
+            $passwordError.css('display', 'block');
+            $passwordInput.addClass('error');
             return false;
         }
         
         $passwordError.text('');
+        $passwordError.css('display', 'none');
+        $passwordInput.removeClass('error');
         return true;
     }
     
@@ -190,15 +262,21 @@ function setupSignupForm() {
         
         if (!confirmPassword) {
             $confirmPasswordError.text('Please confirm your password');
+            $confirmPasswordError.css('display', 'block');
+            $confirmPasswordInput.addClass('error');
             return false;
         }
         
         if (password !== confirmPassword) {
             $confirmPasswordError.text('Passwords do not match');
+            $confirmPasswordError.css('display', 'block');
+            $confirmPasswordInput.addClass('error');
             return false;
         }
         
         $confirmPasswordError.text('');
+        $confirmPasswordError.css('display', 'none');
+        $confirmPasswordInput.removeClass('error');
         return true;
     }
     
@@ -207,8 +285,16 @@ function setupSignupForm() {
      */
     function resetErrors() {
         $emailError.text('');
+        $emailError.css('display', 'none');
+        $emailInput.removeClass('error');
+        
         $passwordError.text('');
+        $passwordError.css('display', 'none');
+        $passwordInput.removeClass('error');
+        
         $confirmPasswordError.text('');
+        $confirmPasswordError.css('display', 'none');
+        $confirmPasswordInput.removeClass('error');
     }
 }
 
@@ -217,7 +303,10 @@ function setupSignupForm() {
  * @returns {string} A random string token
  */
 function generateFakeToken() {
-    return 'auth_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    const header = btoa(JSON.stringify({ alg: 'fake', typ: 'JWT' }));
+    const payload = btoa(JSON.stringify({ sub: Date.now(), iat: Date.now(), exp: Date.now() + 86400000 }));
+    const signature = btoa('fakesignature');
+    return `${header}.${payload}.${signature}`;
 }
 
 /**

@@ -135,5 +135,55 @@
 
     <script src="js/login.js"></script>
     <script src="js/signup.js"></script>
+    
+    <!-- Backup inline script to ensure signup button works -->
+    <script>
+        // Ensure both external scripts have loaded
+        (function() {
+            console.log('Inline script for signup button fallback loaded');
+            
+            // Get necessary elements
+            const showSignupBtn = document.getElementById('showSignupBtn');
+            const signupModalOverlay = document.getElementById('signupModalOverlay');
+            const closeSignupModal = document.getElementById('closeSignupModal');
+            
+            // Backup event listener for signup button if the external script fails
+            if (showSignupBtn && signupModalOverlay) {
+                console.log('Adding backup click handler to signup button');
+                
+                showSignupBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('Signup button clicked (inline script)');
+                    signupModalOverlay.classList.add('active');
+                });
+            }
+            
+            // Backup event listener for close button
+            if (closeSignupModal && signupModalOverlay) {
+                closeSignupModal.addEventListener('click', function() {
+                    console.log('Closing signup modal (inline script)');
+                    signupModalOverlay.classList.remove('active');
+                });
+            }
+            
+            // Backup event listener for clicking outside modal
+            if (signupModalOverlay) {
+                signupModalOverlay.addEventListener('click', function(e) {
+                    if (e.target === signupModalOverlay) {
+                        signupModalOverlay.classList.remove('active');
+                    }
+                });
+            }
+            
+            // Check URL parameters for direct signup
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('signup') === 'true' && showSignupBtn) {
+                console.log('URL parameter detected - showing signup modal');
+                setTimeout(function() {
+                    showSignupBtn.click();
+                }, 500);
+            }
+        })();
+    </script>
 </body>
 </html> 

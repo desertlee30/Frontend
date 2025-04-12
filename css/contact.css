@@ -221,178 +221,236 @@ body {
     border-color: #FF6B35;
 }
 
-/* Simple phone input styling */
+/* Phone Dropdown Special Overrides - Complete Fix */
 .iti {
-    width: 100%;
-    position: relative;
-    display: block;
+    width: 100% !important;
+    position: relative !important;
+    display: block !important;
+    z-index: 200 !important;
 }
 
 .iti__flag-container {
-    z-index: 100;
-    position: absolute;
+    position: absolute !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    z-index: 220 !important;
+}
+
+.iti__selected-flag {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    height: 100% !important;
+    padding: 0 12px 0 15px !important;
+    z-index: 221 !important;
+    background-color: #1e1e1e !important;
+    color: #fff !important;
+    border-radius: 4px 0 0 4px !important;
+    cursor: pointer !important;
 }
 
 .iti__country-list {
     position: absolute !important;
-    z-index: 1000 !important;
-    list-style: none;
-    border-radius: 8px !important;
-    margin-top: 2px !important;
-    overflow-y: auto !important;
-    width: 260px !important;
-    background-color: #2a2a2a !important;
-    border: 1px solid #444 !important;
+    z-index: 9999 !important;
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 0 0 -1px !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4) !important;
+    background-color: #1e1e1e !important;
     color: #fff !important;
+    border: 1px solid #444 !important;
+    white-space: nowrap !important;
     max-height: 200px !important;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3) !important;
+    overflow-y: auto !important;
+    width: 300px !important;
+    margin-top: 2px !important;
+    left: 0 !important;
+    border-radius: 4px !important;
+    -webkit-overflow-scrolling: touch !important;
+}
+
+.iti__country-list--dropdown {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
 }
 
 .iti__country {
-    padding: 8px 10px !important;
-    transition: background-color 0.2s ease;
+    padding: 8px 12px !important;
+    display: flex !important;
+    align-items: center !important;
     cursor: pointer !important;
+    transition: background-color 0.2s !important;
 }
 
 .iti__country:hover {
-    background-color: #3a3a3a !important;
+    background-color: #333 !important;
 }
 
-/* Fix spacing for phone input */
-.form-group input[type="tel"] {
-    padding-left: 90px;
+.iti__country-name {
+    margin-left: 10px !important;
+    color: #fff !important;
 }
 
-/* Submit Button */
-.submit-btn {
-    width: 100%;
-    padding: 1rem;
-    margin-top: 1rem;
-    font-size: 1.1rem;
-    letter-spacing: 0.5px;
-    position: relative;
-    background-color: #FF6B35;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
+.iti__dial-code {
+    color: #aaa !important;
+    margin-left: 5px !important;
 }
 
-.submit-btn:hover {
-    background-color: #e65c2a;
+.iti__arrow {
+    border-left: 4px solid transparent !important;
+    border-right: 4px solid transparent !important;
+    border-top: 5px solid #fff !important;
+    margin-left: 10px !important;
 }
 
-/* Success Modal */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.85);
-    z-index: 1000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    visibility: hidden;
+#phone {
+    padding-left: 90px !important;
+    text-indent: 0 !important;
 }
 
-.modal-overlay.show {
-    opacity: 1;
-    visibility: visible;
+/* Fix for general layout on contact page */
+.contact-wrapper {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 40px !important;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 20px !important;
 }
 
-.success-modal {
-    background-color: #1e1e1e;
-    border-radius: 16px;
-    width: 90%;
-    max-width: 400px;
-    text-align: center;
-    padding: 2.5rem 2rem;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+.contact-form {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important;
 }
 
-.success-icon {
-    font-size: 5rem;
-    color: #4CAF50;
-    margin-bottom: 1.5rem;
+.input-group {
+    position: relative !important;
+    margin-bottom: 10px !important;
 }
 
-.success-modal h2 {
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
+/* Override any conflicting styles */
+.iti-container {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 9999 !important;
+    pointer-events: none !important;
 }
 
-.success-modal p {
-    color: #bbbbbb;
-    margin-bottom: 2rem;
+/* Page structure reinforcement */
+html, body {
+    min-height: 100% !important;
+    height: auto !important;
+    overflow-x: hidden !important;
+    background-color: #121212 !important;
 }
 
-.success-modal .btn {
-    min-width: 120px;
+body.contact-page {
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 100vh !important;
 }
 
-/* Hidden class */
-.hidden {
-    display: none;
+/* General fixes for consistent contact page display */
+.contact-page body {
+    min-height: 100vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    background-color: #121212 !important;
 }
 
-/* Error styles */
+.contact-container {
+    flex: 1 0 auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    padding-top: 120px !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+.contact-form {
+    padding: 30px !important;
+    background-color: rgba(255, 255, 255, 0.03) !important;
+    border-radius: 10px !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+}
+
+/* Modal Fix */
+.modal {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background-color: rgba(0, 0, 0, 0.7) !important;
+    display: none !important;
+    justify-content: center !important;
+    align-items: center !important;
+    z-index: 9999 !important;
+}
+
+.modal-content {
+    background-color: #1e1e1e !important;
+    padding: 40px !important;
+    border-radius: 10px !important;
+    text-align: center !important;
+    max-width: 400px !important;
+    width: 90% !important;
+    position: relative !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3) !important;
+    transform: scale(1) !important;
+    opacity: 1 !important;
+    transition: transform 0.3s, opacity 0.3s !important;
+}
+
+/* Overflow handling */
+html, body {
+    overflow-x: hidden !important;
+    width: 100% !important;
+}
+
+/* Fix for error messages */
 .error-message {
-    color: #e74c3c;
-    font-size: 0.85rem;
-    margin-top: 0.25rem;
+    color: #ff6b6b !important;
+    font-size: 12px !important;
+    margin-top: 5px !important;
     display: none;
 }
 
-.form-group input.error,
-.form-group textarea.error {
-    border-color: #e74c3c !important;
+input.error, textarea.error {
+    border-color: #ff6b6b !important;
 }
 
-.form-group input.error + .error-message,
-.form-group textarea.error + .error-message {
-    display: block;
+/* Focus states */
+input:focus, textarea:focus {
+    border-color: #5d9cec !important;
+    outline: none !important;
+    box-shadow: 0 0 0 2px rgba(93, 156, 236, 0.2) !important;
 }
 
-/* Responsive styles */
-@media (max-width: 992px) {
-    .contact-wrapper {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-    }
+/* Ensure form container fits properly */
+.contact-form-container {
+    width: 100% !important;
 }
 
-@media (max-width: 768px) {
-    .form-row {
-        grid-template-columns: 1fr;
-        gap: 0;
-    }
-    
-    .contact-form {
-        padding: 1.5rem;
-    }
-    
-    .contact-title {
-        font-size: 2rem;
-    }
-    
-    .contact-container {
-        padding: 1.5rem;
-        padding-top: 100px;
-    }
+/* Ensure form fields flex properly */
+.form-group {
+    margin-bottom: 20px !important;
+    display: flex !important;
+    flex-direction: column !important;
 }
 
-@media (max-width: 576px) {
-    .contact-container {
-        padding: 1rem;
-        padding-top: 90px;
-    }
-    
-    .contact-info {
-        padding: 1.5rem;
-    }
+.submit-btn {
+    margin-top: 10px !important;
 }
 
 /* Footer Grid Layout - Match with global styles */

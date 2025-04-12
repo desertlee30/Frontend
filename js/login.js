@@ -1,3 +1,29 @@
+// Window load event to ensure all elements are properly loaded
+window.addEventListener('load', function() {
+    console.log('Window fully loaded - initializing signup modal functionality');
+    
+    // Re-initialize signup modal elements
+    const showSignupBtn = document.getElementById('showSignupBtn');
+    const signupModalOverlay = document.getElementById('signupModalOverlay');
+    const closeSignupModal = document.getElementById('closeSignupModal');
+    
+    // Debug log to verify elements are found
+    console.log('Signup elements found:', {
+        showSignupBtn: !!showSignupBtn,
+        signupModalOverlay: !!signupModalOverlay,
+        closeSignupModal: !!closeSignupModal
+    });
+    
+    // Ensure showSignupBtn is properly attached with event listener
+    if (showSignupBtn && signupModalOverlay) {
+        showSignupBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('Showing signup modal');
+            signupModalOverlay.classList.add('active');
+        });
+    }
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     // API endpoint - updated to handle both local development and production
     const API_URL = window.location.hostname.includes('localhost') || window.location.hostname.includes('127.0.0.1') 
@@ -173,7 +199,122 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             showLoading();
             
-            // Send login request to API
+            // DEMO MODE: Check credentials against localStorage instead of backend API
+            setTimeout(() => {
+                // Get stored user from localStorage (if exists)
+                const storedUser = localStorage.getItem('currentUser');
+                const storedUsers = localStorage.getItem('demo_users');
+                // Get user.json data (simulated)
+                const userJsonData = localStorage.getItem('user_json_data');
+                
+                let isValid = false;
+                let userData = null;
+                
+                // First check user.json data (highest priority)
+                if (userJsonData) {
+                    try {
+                        const users = JSON.parse(userJsonData);
+                        console.log(`Checking login against ${users.length} users in user.json`);
+                        
+                        // Find user with matching email and password
+                        const matchedUser = users.find(user => 
+                            user.email === email && user.password === password
+                        );
+                        
+                        if (matchedUser) {
+                            console.log('Found matching user in user.json:', matchedUser.email);
+                            isValid = true;
+                            userData = {
+                                id: matchedUser.id,
+                                firstName: matchedUser.firstName,
+                                lastName: matchedUser.lastName,
+                                email: matchedUser.email,
+                                dateCreated: matchedUser.dateCreated
+                            };
+                        } else {
+                            console.log('No matching user found in user.json for email:', email);
+                        }
+                    } catch (e) {
+                        console.error('Error parsing user.json data', e);
+                    }
+                }
+                
+                // If not found in user.json, try demo_users
+                if (!isValid && storedUsers) {
+                    try {
+                        const users = JSON.parse(storedUsers);
+                        console.log(`Checking login against ${users.length} stored users in localStorage`);
+                        
+                        // Find user with matching email
+                        const matchedUser = users.find(user => user.email === email);
+                        
+                        if (matchedUser) {
+                            console.log('Found matching user in localStorage:', matchedUser.email);
+                            isValid = true;
+                            userData = matchedUser;
+                        } else {
+                            console.log('No matching user found in localStorage for email:', email);
+                        }
+                    } catch (e) {
+                        console.error('Error parsing stored users', e);
+                    }
+                } 
+                // Fallback to single user login if no multi-user list exists
+                else if (!isValid && storedUser) {
+                    try {
+                        userData = JSON.parse(storedUser);
+                        console.log('Checking against single stored user:', userData.email);
+                        isValid = userData.email === email;
+                    } catch (e) {
+                        console.error('Error parsing stored user data', e);
+                    }
+                } else if (!isValid) {
+                    // For demo purposes - auto-accept first login if no users exist
+                    console.log('No stored users found, accepting any login for demo');
+                    isValid = true;
+                    userData = {
+                        id: 'demo-' + Date.now(),
+                        firstName: 'Demo',
+                        lastName: 'User',
+                        email: email
+                    };
+                }
+                
+                if (isValid) {
+                    // Generate a fake token
+                    const authToken = 'demo_token_' + Math.random().toString(36).substring(2);
+                    
+                    // Store auth data
+                    localStorage.setItem('authToken', authToken);
+                    localStorage.setItem('currentUser', JSON.stringify(userData));
+                    
+                    // Reset form
+                    loginForm.reset();
+                    
+                    // Show success message
+                    alert('Login successful! Redirecting...');
+                    
+                    // Redirect to home page or previous page
+                    const redirectTarget = sessionStorage.getItem('redirectAfterAuth') || 'index.html';
+                    sessionStorage.removeItem('redirectAfterAuth'); // Clean up
+                    window.location.href = redirectTarget;
+                } else {
+                    // Show helpful error message for demo mode
+                    const errorMessage = `Invalid email or password. 
+
+DEMO MODE TIPS:
+• Did you sign up first? Try creating an account.
+• Your exact email address must match what you used during signup.
+• In this demo, passwords aren't actually verified (any password works).
+• You can create a new account with the same email if needed.`;
+                    
+                    alert(errorMessage);
+                }
+                
+                hideLoading();
+            }, 1000); // Add a delay to simulate network request
+            
+            /* COMMENTED OUT REAL API CALL
             $.ajax({
                 url: `${API_URL}/login`,
                 type: 'POST',
@@ -227,6 +368,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     hideLoading();
                 }
             });
+            */
             
         } catch (error) {
             console.error('Login error:', error);
@@ -248,8 +390,52 @@ document.addEventListener('DOMContentLoaded', () => {
     const googleBtn = document.querySelector('.google-btn');
     const facebookBtn = document.querySelector('.facebook-btn');
     
-    googleBtn.addEventListener('click', () => handleSocialLogin('Google'));
-    facebookBtn.addEventListener('click', () => handleSocialLogin('Facebook'));
+    if (googleBtn) googleBtn.addEventListener('click', () => handleSocialLogin('Google'));
+    if (facebookBtn) facebookBtn.addEventListener('click', () => handleSocialLogin('Facebook'));
+    
+    // Signup modal functionality
+    const showSignupBtn = document.getElementById('showSignupBtn');
+    const signupModalOverlay = document.getElementById('signupModalOverlay');
+    const closeSignupModal = document.getElementById('closeSignupModal');
+    
+    // Show signup modal when "Sign up" is clicked
+    if (showSignupBtn) {
+        showSignupBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (signupModalOverlay) {
+                signupModalOverlay.classList.add('active');
+                // Focus first form field for accessibility
+                const firstInput = document.querySelector('.signup-modal input');
+                if (firstInput) setTimeout(() => firstInput.focus(), 100);
+            }
+        });
+    }
+    
+    // Close signup modal when close button is clicked
+    if (closeSignupModal) {
+        closeSignupModal.addEventListener('click', () => {
+            if (signupModalOverlay) {
+                signupModalOverlay.classList.remove('active');
+            }
+        });
+    }
+    
+    // Close signup modal when clicking outside the modal content
+    if (signupModalOverlay) {
+        signupModalOverlay.addEventListener('click', (e) => {
+            // Only close if clicking the overlay itself, not the modal content
+            if (e.target === signupModalOverlay) {
+                signupModalOverlay.classList.remove('active');
+            }
+        });
+    }
+    
+    // Close signup modal when pressing Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && signupModalOverlay && signupModalOverlay.classList.contains('active')) {
+            signupModalOverlay.classList.remove('active');
+        }
+    });
     
     // Focus the email input when the page loads for better UX
     emailInput.focus();

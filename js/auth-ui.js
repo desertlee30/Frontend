@@ -4,142 +4,163 @@
  * across all pages of the application.
  */
 
-$(document).ready(function() {
+document.addEventListener('DOMContentLoaded', function() {
     console.log('Auth UI initialized');
     
     // Update UI based on authentication status
     updateAuthUI();
     
     // Add logout functionality
-    setupLogout();
+    setupLogoutHandler();
 });
 
 /**
  * Updates UI elements based on user authentication status
  */
 function updateAuthUI() {
-    // Check if user is logged in
-    const authToken = localStorage.getItem('authToken');
-    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
-    const isLoggedIn = authToken && currentUser && currentUser.lastName;
+    const isLoggedIn = checkIfLoggedIn();
     
     console.log('Auth status:', isLoggedIn ? 'Logged in' : 'Not logged in');
-    if (isLoggedIn) {
-        console.log('User:', currentUser);
-    }
+
+    // Elements to show when logged in
+    const loggedInElements = document.querySelectorAll('.show-when-logged-in');
     
-    // Get all login buttons across the site
-    const $loginBtn = $('.login-btn, .nav-login-btn');
-    const $loginLink = $('.login-link');
+    // Elements to hide when logged in
+    const loggedOutElements = document.querySelectorAll('.hide-when-logged-in');
     
-    // Get logout button
-    const $logoutBtn = $('.logout-btn');
-    
-    // Get side navigation buttons that should be disabled when logged in
-    const $sideButtons = $('.side-nav-disabled-when-logged-in');
+    // Elements to disable when logged in
+    const disableElements = document.querySelectorAll('.side-nav-disabled-when-logged-in');
     
     if (isLoggedIn) {
-        // User is logged in
-        
-        // Update login button text to show user's last name
-        if ($loginBtn.length) {
-            $loginBtn.text(currentUser.lastName);
-            $loginBtn.addClass('logged-in');
+        const userData = getUserData();
+        if (userData) {
+            console.log('User:', userData);
         }
         
-        // Update login link href to profile page (if it exists)
-        if ($loginLink.length) {
-            $loginLink.attr('href', 'profile.html');
-            $loginLink.attr('title', `Logged in as ${currentUser.firstName} ${currentUser.lastName}`);
+        // Show elements for logged in users
+        loggedInElements.forEach(el => {
+            el.style.display = '';
+            el.classList.remove('hidden');
+        });
+        
+        // Hide elements for logged out users
+        loggedOutElements.forEach(el => {
+            el.style.display = 'none';
+            el.classList.add('hidden');
+        });
+        
+        // Disable elements
+        disableElements.forEach(el => {
+            el.classList.add('disabled');
+            el.setAttribute('disabled', 'true'); // Ensure button is actually disabled
+            el.setAttribute('aria-disabled', 'true');
+        });
+        
+        // Update user-specific elements (like navbar login button text)
+        const loginLink = document.querySelector('.login-link'); // The main Login In button
+        if (loginLink && userData && userData.lastName) {
+            loginLink.textContent = userData.lastName; // Show last name
+            loginLink.href = '#'; // Change link behavior if needed, e.g., to profile page
+            loginLink.title = `Logged in as ${userData.firstName || ''} ${userData.lastName}`.trim();
         }
         
-        // Ensure logout button is visible using class
-        if ($logoutBtn.length) {
-            console.log('Making logout button visible via class');
-            $logoutBtn.removeClass('hidden');
-        }
-        
-        // Disable side buttons
-        if ($sideButtons.length) {
-            $sideButtons.addClass('disabled');
-            $sideButtons.attr('disabled', 'disabled');
-            $sideButtons.attr('aria-disabled', 'true');
-        }
-        
-        // Show elements that should only be visible when logged in using class
-        $('.show-when-logged-in').removeClass('hidden');
-        
-        // Hide elements that should be hidden when logged in using class
-        $('.hide-when-logged-in').addClass('hidden');
     } else {
-        // User is not logged in
+        // Hide elements for logged in users
+        loggedInElements.forEach(el => {
+            el.style.display = 'none';
+            el.classList.add('hidden');
+        });
         
-        // Ensure login button shows "Login"
-        if ($loginBtn.length) {
-            $loginBtn.text('Login');
-            $loginBtn.removeClass('logged-in');
+        // Show elements for logged out users
+        loggedOutElements.forEach(el => {
+            el.style.display = '';
+            el.classList.remove('hidden');
+        });
+        
+        // Enable elements
+        disableElements.forEach(el => {
+            el.classList.remove('disabled');
+            el.removeAttribute('disabled');
+            el.setAttribute('aria-disabled', 'false');
+        });
+
+        // Reset login button text and link
+        const loginLink = document.querySelector('.login-link');
+        if (loginLink) {
+            loginLink.textContent = 'Login In';
+            loginLink.href = 'login.html';
+            loginLink.title = 'Login to your account';
         }
-        
-        // Ensure login link goes to login page
-        if ($loginLink.length) {
-            $loginLink.attr('href', 'login.html');
-            $loginLink.attr('title', 'Login to your account');
-        }
-        
-        // Hide logout button using class
-        if ($logoutBtn.length) {
-            console.log('Hiding logout button via class');
-            $logoutBtn.addClass('hidden');
-        }
-        
-        // Enable side buttons
-        if ($sideButtons.length) {
-            $sideButtons.removeClass('disabled');
-            $sideButtons.removeAttr('disabled');
-            $sideButtons.attr('aria-disabled', 'false');
-        }
-        
-        // Hide elements that should only be visible when logged in using class
-        $('.show-when-logged-in').addClass('hidden');
-        
-        // Show elements that should be visible when logged out using class
-        $('.hide-when-logged-in').removeClass('hidden');
     }
 }
 
 /**
  * Sets up logout functionality 
  */
-function setupLogout() {
-    // Find all logout buttons
-    const $logoutBtn = $('.logout-btn');
+function setupLogoutHandler() {
+    const logoutBtn = document.querySelector('.logout-btn');
     
-    console.log('Setting up logout on', $logoutBtn.length, 'buttons');
-    
-    $logoutBtn.on('click', function(e) {
-        e.preventDefault();
-        
-        console.log('Logout clicked');
-        
-        // Clear authentication data
-        localStorage.removeItem('authToken');
-        localStorage.removeItem('currentUser');
-        
-        // Show confirmation
-        alert('You have been logged out successfully');
-        
-        // Update UI
-        updateAuthUI();
-        
-        // Redirect to home page if on a protected page
-        const currentPage = window.location.pathname.split('/').pop();
-        const protectedPages = ['profile.html', 'dashboard.html', 'settings.html'];
-        
-        if (protectedPages.includes(currentPage)) {
-            window.location.href = 'index.html';
-        } else {
-            // Just refresh the current page
-            location.reload();
+    if (logoutBtn) {
+        console.log('Setting up logout on logout button');
+        logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            console.log('Logout clicked');
+            
+            // Clear authentication data from localStorage using the correct keys
+            localStorage.removeItem('wellness_auth_token');
+            localStorage.removeItem('wellness_current_user');
+            localStorage.removeItem('wellness_users'); // Optional: Clear demo users too
+            
+            // Show confirmation
+            alert('You have been logged out successfully.');
+            
+            // Update UI immediately
+            updateAuthUI();
+            
+            // Redirect to home page or refresh
+            const currentPage = window.location.pathname.split('/').pop();
+            // Add any pages here that require login
+            const protectedPages = ['profile.html']; 
+            
+            if (protectedPages.includes(currentPage)) {
+                window.location.href = 'index.html';
+            } else {
+                // Refresh the current page to reflect logged-out state reliably
+                window.location.reload(); 
+            }
+        });
+    }
+}
+
+// Check if user is logged in using the correct keys
+function checkIfLoggedIn() {
+    const token = localStorage.getItem('wellness_auth_token');
+    const userData = localStorage.getItem('wellness_current_user');
+    return !!(token && userData);
+}
+
+// Get user data using the correct key
+function getUserData() {
+    const userDataString = localStorage.getItem('wellness_current_user');
+    if (userDataString) {
+        try {
+            return JSON.parse(userDataString);
+        } catch (error) {
+            console.error('Error parsing current user data:', error);
+            // Clear potentially corrupted data
+            localStorage.removeItem('wellness_current_user');
+            localStorage.removeItem('wellness_auth_token');
+            return null;
         }
-    });
-} 
+    }
+    return null;
+}
+
+// Re-check authentication status when the storage changes (e.g., in another tab)
+window.addEventListener('storage', function(e) {
+    if (e.key === 'wellness_auth_token' || e.key === 'wellness_current_user') {
+        console.log('Storage changed, updating Auth UI');
+        updateAuthUI();
+    }
+}); 
