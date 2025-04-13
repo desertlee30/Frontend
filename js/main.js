@@ -91,8 +91,26 @@ document.addEventListener('DOMContentLoaded', function() {
     initHeroParallax();
     initScrollArrow();
     initSectionParallax();
+    initHeroButtonScroll();
 });
 
+// Function to handle hero button smooth scroll
+function initHeroButtonScroll() {
+    const heroButton = document.querySelector('.hero-btn');
+    const targetSection = document.getElementById('main-content-start');
+
+    if (heroButton && targetSection) {
+        console.log('Initializing hero button scroll to #main-content-start');
+        heroButton.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent default button behavior if it's inside a form or is a link
+            console.log('Hero button clicked, scrolling to main content...');
+            targetSection.scrollIntoView({ behavior: 'smooth' });
+        });
+    } else {
+        if (!heroButton) console.warn('Hero button (.hero-btn) not found for scroll initialization.');
+        if (!targetSection) console.warn('Target section (#main-content-start) not found for scroll initialization.');
+    }
+}
 
 // Hero section parallax
 function initHeroParallax() {
