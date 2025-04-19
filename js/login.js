@@ -26,9 +26,9 @@ window.addEventListener('load', function() {
 
 document.addEventListener('DOMContentLoaded', () => {
     // API endpoint - updated to handle both local development and production
-    const API_URL = window.location.hostname.includes('localhost') || window.location.hostname.includes('127.0.0.1') 
-      ? 'http://localhost:3000/api'  // Local development
-      : '/api';                      // Production (relative URL)
+    const API_URL = window.location.hostname.includes('20.2.210.82') 
+      ? '/api'  // When accessing via VM IP (relative path)
+      : 'http://20.2.210.82:3000/api';  // Direct access to API with full URL
     
     // DOM elements
     const loginForm = document.getElementById('loginForm');
@@ -199,7 +199,65 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             showLoading();
             
-            // DEMO MODE: Check credentials against localStorage instead of backend API
+            // Make the API call to our VM server
+            $.ajax({
+                url: `${API_URL}/login`,
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ email, password }),
+                success: function(response) {
+                    console.log('Login successful:', response);
+                    
+                    // Store token in localStorage for future authenticated requests
+                    localStorage.setItem('authToken', response.token);
+                    
+                    // Store basic user info (no sensitive data)
+                    if (response.user) {
+                        localStorage.setItem('currentUser', JSON.stringify({
+                            id: response.user.id,
+                            firstName: response.user.firstName,
+                            lastName: response.user.lastName,
+                            email: response.user.email
+                        }));
+                    }
+                    
+                    // Reset form
+                    loginForm.reset();
+                    
+                    // Show success message
+                    alert('Login successful! Redirecting...');
+                    
+                    // Redirect to stored URL or home page after successful login
+                    const redirectTarget = sessionStorage.getItem('redirectAfterAuth') || 'index.html';
+                    sessionStorage.removeItem('redirectAfterAuth'); // Clean up
+                    window.location.href = redirectTarget;
+                },
+                error: function(xhr) {
+                    // Parse and display error message
+                    let errorMessage = 'Invalid email or password.';
+                    
+                    console.log('Login error status:', xhr.status);
+                    console.log('Response text:', xhr.responseText);
+                    
+                    try {
+                        const response = JSON.parse(xhr.responseText);
+                        if (response && response.error) {
+                            errorMessage = response.error;
+                            console.log('Parsed error:', response.error);
+                        }
+                    } catch (e) {
+                        console.error('Error parsing response:', e);
+                    }
+                    
+                    alert(errorMessage);
+                },
+                complete: function() {
+                    hideLoading();
+                }
+            });
+            
+            // DEMO MODE FALLBACK (commented out)
+            /*
             setTimeout(() => {
                 // Get stored user from localStorage (if exists)
                 const storedUser = localStorage.getItem('currentUser');
@@ -312,62 +370,7 @@ DEMO MODE TIPS:
                 }
                 
                 hideLoading();
-            }, 1000); // Add a delay to simulate network request
-            
-            /* COMMENTED OUT REAL API CALL
-            $.ajax({
-                url: `${API_URL}/login`,
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({ email, password }),
-                success: function(response) {
-                    // Store token in localStorage for future authenticated requests
-                    localStorage.setItem('authToken', response.token);
-                    
-                    // Store basic user info (no sensitive data)
-                    if (response.user) {
-                        localStorage.setItem('currentUser', JSON.stringify({
-                            id: response.user.id,
-                            firstName: response.user.firstName,
-                            lastName: response.user.lastName,
-                            email: response.user.email
-                        }));
-                    }
-                    
-                    // Reset form
-                    loginForm.reset();
-                    
-                    // Show success message and redirect (in a real app)
-                    alert('Login successful! Redirecting...');
-                    
-                    // Redirect to stored URL or home page after successful login
-                    const redirectTarget = sessionStorage.getItem('redirectAfterAuth') || 'index.html';
-                    sessionStorage.removeItem('redirectAfterAuth'); // Clean up
-                    window.location.href = redirectTarget;
-                },
-                error: function(xhr) {
-                    // Parse and display error message
-                    let errorMessage = 'Invalid email or password.';
-                    
-                    console.log('Login error status:', xhr.status);
-                    console.log('Response text:', xhr.responseText);
-                    
-                    try {
-                        const response = JSON.parse(xhr.responseText);
-                        if (response && response.error) {
-                            errorMessage = response.error;
-                            console.log('Parsed error:', response.error);
-                        }
-                    } catch (e) {
-                        console.error('Error parsing response:', e);
-                    }
-                    
-                    alert(errorMessage);
-                },
-                complete: function() {
-                    hideLoading();
-                }
-            });
+            }, 1000);
             */
             
         } catch (error) {

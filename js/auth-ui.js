@@ -123,8 +123,8 @@ function setupLogoutHandler() {
             console.log('Logout clicked');
             
             // Clear authentication data from localStorage using the correct keys
-            localStorage.removeItem('wellness_auth_token');
-            localStorage.removeItem('wellness_current_user');
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('currentUser');
             localStorage.removeItem('wellness_users'); // Optional: Clear demo users too
             
             // Show confirmation
@@ -150,22 +150,22 @@ function setupLogoutHandler() {
 
 // Check if user is logged in using the correct keys
 function checkIfLoggedIn() {
-    const token = localStorage.getItem('wellness_auth_token');
-    const userData = localStorage.getItem('wellness_current_user');
+    const token = localStorage.getItem('authToken');
+    const userData = localStorage.getItem('currentUser');
     return !!(token && userData);
 }
 
 // Get user data using the correct key
 function getUserData() {
-    const userDataString = localStorage.getItem('wellness_current_user');
+    const userDataString = localStorage.getItem('currentUser');
     if (userDataString) {
         try {
             return JSON.parse(userDataString);
         } catch (error) {
             console.error('Error parsing current user data:', error);
             // Clear potentially corrupted data
-            localStorage.removeItem('wellness_current_user');
-            localStorage.removeItem('wellness_auth_token');
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('authToken');
             return null;
         }
     }
@@ -174,7 +174,7 @@ function getUserData() {
 
 // Re-check authentication status when the storage changes (e.g., in another tab)
 window.addEventListener('storage', function(e) {
-    if (e.key === 'wellness_auth_token' || e.key === 'wellness_current_user') {
+    if (e.key === 'authToken' || e.key === 'currentUser') {
         console.log('Storage changed, updating Auth UI');
         updateAuthUI();
     }

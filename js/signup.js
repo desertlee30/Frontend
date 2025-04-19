@@ -86,15 +86,18 @@ function setupSignupForm() {
         };
         
         // Define the API endpoint
-        const registerApiUrl = 'http://localhost:3000/api/signup';
+        const registerApiUrl = 'http://20.2.210.82:3000/api/signup';
         
         try {
-            // Make the API call using fetch
+            // Make the API call using fetch with explicit CORS options
             const response = await fetch(registerApiUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Accept': 'application/json'
                 },
+                mode: 'cors', // Explicitly request CORS
+                credentials: 'same-origin', // Include credentials as needed
                 body: JSON.stringify(userData),
             });
 
@@ -106,12 +109,12 @@ function setupSignupForm() {
                 
                 // Store token and user data if provided by the backend
                 if (responseData.token) {
-                    localStorage.setItem('wellness_auth_token', responseData.token);
+                    localStorage.setItem('authToken', responseData.token);
                 }
                 
                 if (responseData.user) {
                     // Store user data (excluding sensitive info like password)
-                    localStorage.setItem('wellness_current_user', JSON.stringify({
+                    localStorage.setItem('currentUser', JSON.stringify({
                         id: responseData.user.id,
                         firstName: responseData.user.firstName,
                         lastName: responseData.user.lastName,
@@ -120,7 +123,7 @@ function setupSignupForm() {
                     }));
                 } else {
                     // Fallback if user object isn't returned
-                    localStorage.setItem('wellness_current_user', JSON.stringify({
+                    localStorage.setItem('currentUser', JSON.stringify({
                         firstName: userData.firstName,
                         lastName: userData.lastName,
                         email: userData.email,
@@ -157,7 +160,7 @@ function setupSignupForm() {
             }
         } catch (error) {
             console.error('Network or other error during registration:', error);
-            alert('An error occurred during registration. Please check your connection and try again.');
+            alert('An error occurred during registration. Please check your connection and try again.\n\nMake sure the backend server is running at ' + registerApiUrl);
         } finally {
             // Always hide loading spinner
             if ($loadingSpinner) {

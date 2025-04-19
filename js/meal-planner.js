@@ -6,8 +6,87 @@ const recipesGrid = document.getElementById('recipesGrid');
 const toastNotification = document.getElementById('toastNotification');
 const particlesContainer = document.getElementById('particlesContainer');
 
-// API URL for local development
-const API_URL = 'http://localhost:3000/api';
+// API URL for VM deployment
+const API_URL = 'http://20.2.210.82:3000/api';
+
+// Backup recipes data in case both API and local file fail
+const backupRecipes = {
+  "recipes": [
+    {
+      "id": 1,
+      "title": "Greek Yogurt Protein Bowl",
+      "image": "Receipt/GreekBowl.png",
+      "time": 15,
+      "calories": 320,
+      "tags": [
+        "High Protein",
+        "Low Carb",
+        "Quick Meals"
+      ],
+      "description": "A delicious protein packed breakfast bowl with Greek yogurt, berries, and nuts.",
+      "nutrition": {
+        "protein": 25,
+        "carbs": 20,
+        "fat": 12
+      },
+      "ingredients": [
+        "Greek yogurt",
+        "Mixed berries",
+        "Almonds",
+        "Honey"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Mediterranean Quinoa Salad",
+      "image": "Receipt/MediterraneanSalad.png",
+      "time": 25,
+      "calories": 410,
+      "tags": [
+        "Vegan",
+        "Family Friendly"
+      ],
+      "description": "A refreshing and colorful Mediterranean quinoa salad with fresh vegetables and herbs.",
+      "nutrition": {
+        "protein": 14,
+        "carbs": 45,
+        "fat": 18
+      },
+      "ingredients": [
+        "Quinoa",
+        "Cucumber",
+        "Tomatoes",
+        "Red onion",
+        "Olive oil",
+        "Lemon juice"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Avocado Chicken Salad",
+      "image": "Receipt/AvocadoChicken.png",
+      "time": 20,
+      "calories": 450,
+      "tags": [
+        "High Protein",
+        "Low Carb"
+      ],
+      "description": "A creamy and satisfying chicken salad with avocado dressing.",
+      "nutrition": {
+        "protein": 35,
+        "carbs": 12,
+        "fat": 28
+      },
+      "ingredients": [
+        "Chicken breast",
+        "Avocado",
+        "Greek yogurt",
+        "Lemon juice",
+        "Mixed greens"
+      ]
+    }
+  ]
+};
 
 // State
 const state = {
@@ -304,7 +383,7 @@ const saveRecipesToStorage = () => {
 
 // Load recipes using jQuery AJAX
 const loadRecipes = () => {
-  console.log('Loading recipes from API...');
+  console.log(`Loading recipes from API: ${API_URL}/recipes...`);
   
   $.ajax({
     url: `${API_URL}/recipes`,
@@ -327,7 +406,8 @@ const loadRecipes = () => {
       }
     },
     error: function(xhr, status, error) {
-      console.error('Error loading recipes:', status, error);
+      console.error(`Error loading recipes from ${API_URL}/recipes:`, status, error);
+      console.error(`Error details: ${xhr.statusText}`);
       
       // Try loading from local file as fallback
       fallbackToLocalData();
@@ -352,13 +432,22 @@ const fallbackToLocalData = () => {
       renderFilterTags();
       renderRecipeCards();
     },
-    error: function() {
+    error: function(xhr, status, error) {
       console.log('Local file load failed, using backup recipes data');
+      console.error(`Error details: ${xhr.statusText}`);
+      
       // Use the embedded backup data as last resort
-      state.recipes = backupRecipes.recipes;
-      extractAllTags();
-      renderFilterTags();
-      renderRecipeCards();
+      if (backupRecipes && backupRecipes.recipes) {
+        console.log('Using embedded backup recipes');
+        state.recipes = backupRecipes.recipes;
+        extractAllTags();
+        renderFilterTags();
+        renderRecipeCards();
+      } else {
+        console.error('No backup recipes available - please check the data sources');
+        // Show error message to user
+        alert('Unable to load recipe data. Please try again later.');
+      }
     }
   });
 };
